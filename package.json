@@ -1,0 +1,24 @@
+{
+  "name": "niidl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --exit && npm run lint",
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "lint": "eslint --fix --ext .js .",
+    "build-production": "npm install --production",
+    "build-development": "npm install",
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niidl/niidl-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niidl/niidl-server/issues"
+  },
+  "homepage": "https://github.com/niidl/niidl-server#readme"
+}
