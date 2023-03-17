@@ -1,6 +1,6 @@
-import express, { Express, Request, Response } from "express";
-import cors from "cors";
-import * as projectsController from "./projects/projects.controller";
+import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
+import * as projectsController from './projects/projects.controller';
 
 const server: Express = express();
 
@@ -10,15 +10,13 @@ server.use(cors());
 const serverEndpoints = () => {
   // USER
   // getEndpoints
-  server.get("/projects", (req: Request, res: Response) => {
-    projectsController.index(req, res);
-  });
+  server.get('/projects', projectsController.index);
 
-  server.get("/projects/:id", (req: Request, res: Response) => {
+  server.get('/projects/:id', (req: Request, res: Response) => {
     projectsController.view(req, res);
   });
 
-  server.post("/projects", (req: Request, res: Response) => {
+  server.post('/projects', (req: Request, res: Response) => {
     projectsController.save(req, res);
   });
 

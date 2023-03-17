@@ -30,7 +30,7 @@ export async function getById(id: number): Promise<Project | null> {
 
 export async function getByFilterTag(
   filterTag: number
-): Promise<Project | null> {
+): Promise<Project[] | null> {
   return db.projects.findMany({
     where: {
       project_id: filterTag,
