@@ -1,29 +1,31 @@
 import { db } from "../utils/db.server";
 
 type Project = {
-  project_id: number;
+  id: number;
   project_name: string;
   description: string;
-  repo_url: string;
-  owner: string;
+  github_url: string;
+  owner: number;
+  project_image: string;
 };
 
 export async function getAll(): Promise<Project[]> {
   return db.projects.findMany({
     select: {
-      project_id: true,
+      id: true,
       project_name: true,
       description: true,
-      repo_url: true,
+      github_url: true,
       owner: true,
+      project_image: true,
     },
   });
 }
 
-export async function getById(id: number): Promise<Project | null> {
+export async function getProjectById(id: number): Promise<Project | null> {
   return db.projects.findUnique({
     where: {
-      project_id: id,
+      id: id,
     },
   });
 }
@@ -33,22 +35,21 @@ export async function getByFilterTag(
 ): Promise<Project[] | null> {
   return db.projects.findMany({
     where: {
-      project_id: filterTag,
+      id: filterTag,
     },
   });
 }
 
-export async function create(
-  payload: Omit<Project, "project_id">
-): Promise<Project> {
+export async function create(payload: Omit<Project, "id">): Promise<Project> {
   return db.projects.create({
     data: payload,
     select: {
-      project_id: true,
+      id: true,
       project_name: true,
       description: true,
-      repo_url: true,
+      github_url: true,
       owner: true,
+      project_image: true,
     },
   });
 }

@@ -29,20 +29,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.serverEndpoints = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const projectsController = __importStar(require("./projects/projects.controller"));
+const projectController = __importStar(require("./project/project.controller"));
+const tagController = __importStar(require("./tag/tag.controller"));
+const messageController = __importStar(require("./message/message.controller"));
+const contributorController = __importStar(require("./contributor/contributor.controller"));
+const threadController = __importStar(require("./thread/thread.controller"));
 const server = (0, express_1.default)();
 server.use(express_1.default.json());
 server.use((0, cors_1.default)());
 const serverEndpoints = () => {
-    // USER
-    // getEndpoints
-    server.get('/projects', projectsController.index);
-    server.get('/projects/:id', (req, res) => {
-        projectsController.view(req, res);
-    });
-    server.post('/projects', (req, res) => {
-        projectsController.save(req, res);
-    });
+    server.get("/projects", projectController.index);
+    server.get("/projects/:projectId", projectController.view);
+    server.post("/newProject", projectController.save);
+    server.get("/tags/:projectId", tagController.view);
+    server.get("/filterProjects/:filterTag", tagController.filter);
+    server.post("/newTag", tagController.save);
+    server.get("/threads/:projectId", threadController.view);
+    server.post("/newThread", threadController.save);
+    server.get("/messages/:threadId", messageController.view);
+    server.post("/newMessage", messageController.save);
+    server.get("/contributors/:projectId", contributorController.view);
+    server.post("/newContributor", contributorController.save);
     return server;
 };
 exports.serverEndpoints = serverEndpoints;
