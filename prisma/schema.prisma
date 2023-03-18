@@ -10,10 +10,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Projects {
-  project_id   Int    @id @default(autoincrement())
-  project_name String
-  description  String
-  repo_url     String
-  owner        String
+model projects {
+  id            Int            @id @default(autoincrement())
+  threads       threads[]
+  tags          tags[]
+  contributor   contributors[]
+  project_name  String         @db.VarChar(64)
+  description   String         @db.VarChar(10000)
+  github_url    String         @db.VarChar(255)
+  owner         Int
+  user_acc      user_account   @relation(fields: [owner], references: [id])
+  project_image String         @db.VarChar(255)
+}
+
+model user_account {
+  id            Int            @id @default(autoincrement())
+  messages      messages[]
+  projects      projects[]
+  contributor   contributors[]
+  first_name    String         @db.VarChar(64)
+  last_name     String         @db.VarChar(64)
+  email         String         @unique
+  creation_date DateTime       @default(now())
+  github_url    String         @db.VarChar(255)
+  user_name     String         @db.VarChar(32)
+}
+
+model threads {
+  id            Int        @id @default(autoincrement())
+  message       messages[]
+  project_id    Int
+  project       projects   @relation(fields: [project_id], references: [id])
+  creation_time DateTime   @default(now())
+}
+
+model taglibrary {
+  id       Int    @id @default(autoincrement())
+  tag_name String @unique @db.VarChar(64)
+  tags     tags[]
+}
+
+model tags {
+  id         Int        @id @default(autoincrement())
+  tag_name   String
+  tag        taglibrary @relation(fields: [tag_name], references: [tag_name])
+  project_id Int
+  project    projects   @relation(fields: [project_id], references: [id])
+}
+
+model messages {
+  id            Int          @id @default(autoincrement())
+  content       String       @db.VarChar(10000)
+  creation_time DateTime
+  user_id       Int
+  user          user_account @relation(fields: [user_id], references: [id])
+  threads_id    Int
+  threads       threads      @relation(fields: [threads_id], references: [id])
+}
+
+model contributors {
+  id         Int          @id @default(autoincrement())
+  user_id    Int
+  user_acc   user_account @relation(fields: [user_id], references: [id])
+  project_id Int
+  project    projects     @relation(fields: [project_id], references: [id])
 }
