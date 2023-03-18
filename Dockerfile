@@ -17,10 +17,13 @@ COPY package*.json ./
 # Expose port 80 and 443 for external access
 EXPOSE 80
 
-  # Run the Knex database migrations
-  CMD npx prisma generate && \
-  # Seed the database with initial data
-  npx prisma db seed  && \
-  # Start the Express server
-  npm run start
+ENV POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+ENV POSTGRES_DB: ${POSTGRES_DB}
+ENV POSTGRES_USER: ${POSTGRES_USER}
 
+# Run the Knex database migrations
+
+  CMD npx prisma generate && \
+  npx prisma migrate dev --name init && \
+  npx prisma db seed  && \
+  npm run start
