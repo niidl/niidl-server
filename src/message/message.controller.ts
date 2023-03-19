@@ -1,5 +1,5 @@
-import * as messageModel from "./message.model";
-import { Request, Response } from "express";
+import * as messageModel from './message.model';
+import { Request, Response } from 'express';
 
 export async function view(req: Request, res: Response) {
   try {
@@ -15,12 +15,12 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { content, creation_time, user_id, threads_id } = req.body;
+    const { content, creation_time, user_id, thread_id } = req.body;
     const payload = {
       content,
       creation_time,
       user_id,
-      threads_id,
+      thread_id,
     };
 
     await messageModel.create(payload);

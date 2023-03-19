@@ -1,11 +1,11 @@
-import { db } from "../utils/db.server";
+import { db } from '../utils/db.server';
 
 type Message = {
   id: number;
   content: string;
   creation_time: Date;
   user_id: number;
-  threads_id: number;
+  thread_id: number;
 };
 
 export async function getMessagesByThreadId(
@@ -13,13 +13,13 @@ export async function getMessagesByThreadId(
 ): Promise<Message[] | null> {
   return db.messages.findMany({
     where: {
-      threads_id: id,
+      thread_id: id,
     },
     select: {
       id: true,
       content: true,
       user_id: true,
-      threads_id: true,
+      thread_id: true,
       creation_time: true,
       user: {
         select: {
@@ -30,7 +30,7 @@ export async function getMessagesByThreadId(
   });
 }
 
-export async function create(payload: Omit<Message, "id">): Promise<Message> {
+export async function create(payload: Omit<Message, 'id'>): Promise<Message> {
   return db.messages.create({
     data: payload,
     select: {
@@ -38,7 +38,7 @@ export async function create(payload: Omit<Message, "id">): Promise<Message> {
       content: true,
       creation_time: true,
       user_id: true,
-      threads_id: true,
+      thread_id: true,
     },
   });
 }
