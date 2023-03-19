@@ -1,5 +1,5 @@
-import * as projectModel from "./project.model";
-import { Request, Response } from "express";
+import * as projectModel from './project.model';
+import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
   try {
@@ -22,14 +22,21 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { project_name, description, github_url, owner, project_image } =
-      req.body;
+    const {
+      project_name,
+      description,
+      github_url,
+      owner,
+      project_image,
+      project_type,
+    } = req.body;
     const payload = {
       project_name,
       description,
       github_url,
       owner,
       project_image,
+      project_type,
     };
 
     await projectModel.create(payload);
