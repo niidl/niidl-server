@@ -1,38 +1,52 @@
 import { db } from "../utils/db.server";
 
-type Thread = {
+interface Thread {
   id: number;
-  // content: string;
-  // creation_time: Date;
+  content: string;
   project_id: number;
-  // title: string;
-  // user_id: number;
-};
+  user_id: number;
+  creation_time: Date;
+  title: string;
+}
 
 export async function getThreadsByProjectId(
   id: number
 ): Promise<Thread[] | null> {
   return db.threads.findMany({
-    where: {
-      project_id: id,
-    },
     select: {
       id: true,
+      content: true,
       project_id: true,
+      project: {
+        select: {
+          project_name: true,
+        },
+      },
+      user_id: true,
+      user: {
+        select: {
+          user_name: true,
+        },
+      },
+      creation_time: true,
+      title: true,
+    },
+    where: {
+      project_id: id,
     },
   });
 }
 
 export async function create(payload: Omit<Thread, "id">): Promise<Thread> {
   return db.threads.create({
-    data: payload,
     select: {
       id: true,
-      // content: true,
-      // creation_time: true,
+      content: true,
       project_id: true,
-      // title: true,
-      // user_id: true,
+      user_id: true,
+      creation_time: true,
+      title: true,
     },
+    data: payload,
   });
 }

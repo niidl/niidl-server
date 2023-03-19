@@ -16,11 +16,13 @@ model projects {
   tags          tags[]
   contributor   contributors[]
   project_name  String         @db.VarChar(64)
-  description   String         @db.VarChar(10000)
+  description   String         @db.VarChar(9999)
   github_url    String         @db.VarChar(255)
   owner         Int
   user_acc      user_account   @relation(fields: [owner], references: [id])
   project_image String         @db.VarChar(255)
+  project_type  String         @db.VarChar(64)
+  type          project_type   @relation(fields: [project_type], references: [type])
 }
 
 model user_account {
@@ -28,6 +30,7 @@ model user_account {
   messages      messages[]
   projects      projects[]
   contributor   contributors[]
+  threads       threads[]
   first_name    String         @db.VarChar(64)
   last_name     String         @db.VarChar(64)
   email         String         @unique
@@ -37,11 +40,15 @@ model user_account {
 }
 
 model threads {
-  id            Int        @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
+  content       String       @db.VarChar(9999)
   message       messages[]
   project_id    Int
-  project       projects   @relation(fields: [project_id], references: [id])
-  creation_time DateTime   @default(now())
+  project       projects     @relation(fields: [project_id], references: [id])
+  user_id       Int
+  user          user_account @relation(fields: [user_id], references: [id])
+  creation_time DateTime     @default(now())
+  title         String       @db.VarChar(64)
 }
 
 model taglibrary {
@@ -61,11 +68,11 @@ model tags {
 model messages {
   id            Int          @id @default(autoincrement())
   content       String       @db.VarChar(10000)
-  creation_time DateTime
+  creation_time DateTime     @default(now())
   user_id       Int
   user          user_account @relation(fields: [user_id], references: [id])
-  threads_id    Int
-  threads       threads      @relation(fields: [threads_id], references: [id])
+  thread_id     Int
+  thread        threads      @relation(fields: [thread_id], references: [id])
 }
 
 model contributors {
@@ -74,4 +81,10 @@ model contributors {
   user_acc   user_account @relation(fields: [user_id], references: [id])
   project_id Int
   project    projects     @relation(fields: [project_id], references: [id])
+}
+
+model project_type {
+  id       Int        @id @default(autoincrement())
+  type     String     @unique @db.VarChar(64)
+  projects projects[]
 }

@@ -7,6 +7,7 @@ type Project = {
   github_url: string;
   owner: number;
   project_image: string;
+  project_type: string;
 };
 
 export async function getAll(): Promise<Project[]> {
@@ -18,12 +19,25 @@ export async function getAll(): Promise<Project[]> {
       github_url: true,
       owner: true,
       project_image: true,
+      project_type: true,
     },
   });
 }
 
 export async function getProjectById(id: number): Promise<Project | null> {
   return db.projects.findUnique({
+    select: {
+      id: true,
+      project_name: true,
+      description: true,
+      github_url: true,
+      owner: true,
+      project_image: true,
+      project_type: true,
+      tags: true,
+      contributor: true,
+      threads: true,
+    },
     where: {
       id: id,
     },
@@ -50,6 +64,7 @@ export async function create(payload: Omit<Project, "id">): Promise<Project> {
       github_url: true,
       owner: true,
       project_image: true,
+      project_type: true,
     },
   });
 }
