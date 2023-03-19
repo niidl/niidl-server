@@ -7,6 +7,7 @@ type Project = {
   github_url: string;
   owner: number;
   project_image: string;
+  project_type: string;
 };
 
 type User = {
@@ -21,6 +22,9 @@ type User = {
 type Thread = {
   id: number;
   project_id: number;
+  user_id: number;
+  title: string;
+  content: string;
 };
 
 type Tag = {
@@ -33,7 +37,7 @@ type Message = {
   id: number;
   content: string;
   user_id: number;
-  threads_id: number;
+  thread_id: number;
   creation_time: Date;
 };
 
@@ -87,6 +91,7 @@ async function seed() {
           github_url: project.github_url,
           owner: project.owner,
           project_image: project.project_image,
+          project_type: project.project_type,
         },
       });
     })
@@ -98,6 +103,9 @@ async function seed() {
         data: {
           id: thread.id,
           project_id: thread.project_id,
+          user_id: thread.user_id,
+          title: thread.title,
+          content: thread.content,
         },
       });
     })
@@ -122,7 +130,7 @@ async function seed() {
           id: message.id,
           content: message.content,
           user_id: message.user_id,
-          threads_id: message.threads_id,
+          thread_id: message.thread_id,
           creation_time: message.creation_time,
         },
       });
@@ -153,6 +161,7 @@ function getProjects(): Array<Project> {
       github_url: "repo",
       owner: -1,
       project_image: "image1",
+      project_type: "Web FullStack*",
     },
     {
       id: -2,
@@ -161,6 +170,7 @@ function getProjects(): Array<Project> {
       github_url: "any",
       owner: -2,
       project_image: "",
+      project_type: "*",
     },
   ];
 }
@@ -215,14 +225,23 @@ function getThreads(): Array<Thread> {
     {
       id: -1,
       project_id: -1,
+      content: "Once upon a time...",
+      user_id: -1,
+      title: "Title1",
     },
     {
       id: -2,
       project_id: -1,
+      content: "Once upon a time...",
+      user_id: -5,
+      title: "Title2",
     },
     {
       id: -3,
       project_id: -2,
+      content: "Once upon a time...",
+      user_id: -3,
+      title: "Title3",
     },
   ];
 }
@@ -268,21 +287,21 @@ function getMessages(): Array<Message> {
       id: -1,
       content: "new message",
       user_id: -3,
-      threads_id: -2,
+      thread_id: -2,
       creation_time: new Date(),
     },
     {
       id: -2,
       content: "message about project",
       user_id: -4,
-      threads_id: -3,
+      thread_id: -3,
       creation_time: new Date(),
     },
     {
       id: -3,
       content: "one more message about project",
       user_id: -5,
-      threads_id: -1,
+      thread_id: -1,
       creation_time: new Date(),
     },
   ];
