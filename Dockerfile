@@ -24,6 +24,6 @@ ENV POSTGRES_USER: ${POSTGRES_USER}
 # Run the Knex database migrations
 
   CMD npx prisma generate && \
-  npx prisma migrate deploy && \
+  npx prisma migrate dev --name init && \
   npx prisma db seed  && \
   npm run start
