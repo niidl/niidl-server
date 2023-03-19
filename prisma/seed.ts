@@ -55,6 +55,17 @@ async function seed() {
   await db.threads.deleteMany({});
   await db.projects.deleteMany({});
   await db.user_account.deleteMany({});
+  await db.project_type.deleteMany({});
+
+  await Promise.all(
+    getProjectTypes().map((projectType) => {
+      return db.project_type.create({
+        data: {
+          type: projectType,
+        },
+      });
+    })
+  );
 
   await Promise.all(
     getUsers().map((user) => {
@@ -161,7 +172,7 @@ function getProjects(): Array<Project> {
       github_url: 'repo',
       owner: -1,
       project_image: 'image1',
-      project_type: 'Web FullStack*',
+      project_type: 'Web Full Stack',
     },
     {
       id: -2,
@@ -170,7 +181,7 @@ function getProjects(): Array<Project> {
       github_url: 'any',
       owner: -2,
       project_image: '',
-      project_type: '*',
+      project_type: 'Mobile',
     },
   ];
 }
@@ -361,4 +372,8 @@ function getContributors(): Array<Contributor> {
 
 function getTagNames(): Array<string> {
   return ['React', 'Java', 'Python', 'Health', 'Next', 'Education'];
+}
+
+function getProjectTypes(): Array<string> {
+  return ['Web Full Stack', 'Mobile'];
 }
