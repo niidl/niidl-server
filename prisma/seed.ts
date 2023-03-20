@@ -261,7 +261,7 @@ function getTags(): Array<Tag> {
   return [
     {
       id: -1,
-      tag_name: 'Javascript',
+      tag_name: 'JavaScript',
       project_id: -1,
     },
     {
