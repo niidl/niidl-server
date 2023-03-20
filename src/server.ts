@@ -6,6 +6,7 @@ import * as messageController from './message/message.controller';
 import * as contributorController from './contributor/contributor.controller';
 import * as threadController from './thread/thread.controller';
 import * as tagNamesController from './tagNames/tagName.controller';
+import * as userController from './user/user.controller';
 
 const server: Express = express();
 
@@ -13,6 +14,8 @@ server.use(express.json());
 server.use(cors());
 
 const serverEndpoints = () => {
+  server.post('/userAuth', userController.view);
+
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
   server.post('/projects/newProject', projectController.save);

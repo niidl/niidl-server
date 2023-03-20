@@ -1,11 +1,11 @@
-import { db } from "../utils/db.server";
+import { db } from '../utils/db.server';
 
 type Project = {
   id: number;
   project_name: string;
   description: string;
   github_url: string;
-  owner: number;
+  owner: string;
   project_image: string;
   project_type: string;
 };
@@ -54,7 +54,7 @@ export async function getByFilterTag(
   });
 }
 
-export async function create(payload: Omit<Project, "id">): Promise<Project> {
+export async function create(payload: Omit<Project, 'id'>): Promise<Project> {
   return db.projects.create({
     data: payload,
     select: {

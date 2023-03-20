@@ -18,7 +18,7 @@ model projects {
   project_name  String         @db.VarChar(64)
   description   String         @db.VarChar(9999)
   github_url    String         @db.VarChar(255)
-  owner         Int
+  owner         String
   user_acc      user_account   @relation(fields: [owner], references: [id])
   project_image String         @db.VarChar(255)
   project_type  String         @db.VarChar(64)
@@ -26,7 +26,7 @@ model projects {
 }
 
 model user_account {
-  id            Int            @id @default(autoincrement())
+  id            String         @id
   messages      messages[]
   projects      projects[]
   contributor   contributors[]
@@ -45,7 +45,7 @@ model threads {
   message       messages[]
   project_id    Int
   project       projects     @relation(fields: [project_id], references: [id])
-  user_id       Int
+  user_id       String
   user          user_account @relation(fields: [user_id], references: [id])
   creation_time DateTime     @default(now())
   title         String       @db.VarChar(64)
@@ -69,7 +69,7 @@ model messages {
   id            Int          @id @default(autoincrement())
   content       String       @db.VarChar(10000)
   creation_time DateTime     @default(now())
-  user_id       Int
+  user_id       String
   user          user_account @relation(fields: [user_id], references: [id])
   thread_id     Int
   thread        threads      @relation(fields: [thread_id], references: [id])
@@ -77,7 +77,7 @@ model messages {
 
 model contributors {
   id         Int          @id @default(autoincrement())
-  user_id    Int
+  user_id    String
   user_acc   user_account @relation(fields: [user_id], references: [id])
   project_id Int
   project    projects     @relation(fields: [project_id], references: [id])

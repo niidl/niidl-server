@@ -4,7 +4,7 @@ interface Thread {
   id: number;
   content: string;
   project_id: number;
-  user_id: number;
+  user_id: string;
   creation_time: Date;
   title: string;
 }
