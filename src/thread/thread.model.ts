@@ -1,4 +1,4 @@
-import { db } from "../utils/db.server";
+import { db } from '../utils/db.server';
 
 interface Thread {
   id: number;
@@ -37,7 +37,15 @@ export async function getThreadsByProjectId(
   });
 }
 
-export async function create(payload: Omit<Thread, "id">): Promise<Thread> {
+export async function getSpecificThread(id: number): Promise<Thread | null> {
+  return db.threads.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function create(payload: Omit<Thread, 'id'>): Promise<Thread> {
   return db.threads.create({
     select: {
       id: true,
