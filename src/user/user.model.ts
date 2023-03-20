@@ -20,7 +20,7 @@ export async function getUser(uid: string): Promise<object | null> {
   });
 }
 
-export async function create(payload: Omit<User, 'id'>): Promise<object> {
+export async function create(payload: User): Promise<object> {
   return db.user_account.create({
     select: {
       id: true,
