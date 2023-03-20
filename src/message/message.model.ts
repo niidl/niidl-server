@@ -30,6 +30,14 @@ export async function getMessagesByThreadId(
   });
 }
 
+export async function getSpecificMessage(id: number): Promise<Message | null> {
+  return db.messages.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export async function create(payload: Omit<Message, 'id'>): Promise<Message> {
   return db.messages.create({
     data: payload,

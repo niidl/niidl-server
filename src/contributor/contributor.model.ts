@@ -1,4 +1,4 @@
-import { db } from "../utils/db.server";
+import { db } from '../utils/db.server';
 
 type Contributor = {
   id: number;
@@ -26,8 +26,18 @@ export async function getContributorsByProjectId(
   });
 }
 
+export async function getSpecificContributor(
+  id: number
+): Promise<Contributor | null> {
+  return db.contributors.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export async function create(
-  payload: Omit<Contributor, "id">
+  payload: Omit<Contributor, 'id'>
 ): Promise<Contributor> {
   return db.contributors.create({
     data: payload,

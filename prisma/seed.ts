@@ -261,7 +261,7 @@ function getTags(): Array<Tag> {
   return [
     {
       id: -1,
-      tag_name: 'React',
+      tag_name: 'Javascript',
       project_id: -1,
     },
     {
@@ -276,12 +276,12 @@ function getTags(): Array<Tag> {
     },
     {
       id: -4,
-      tag_name: 'Java',
+      tag_name: 'Business',
       project_id: -2,
     },
     {
       id: -5,
-      tag_name: 'Next',
+      tag_name: 'Travel',
       project_id: -2,
     },
     {
@@ -371,7 +371,22 @@ function getContributors(): Array<Contributor> {
 }
 
 function getTagNames(): Array<string> {
-  return ['React', 'Java', 'Python', 'Health', 'Next', 'Education'];
+  return [
+    'Beginner-friendly',
+    'Education',
+    'Environment',
+    'Health',
+    'Fitness',
+    'Food',
+    'Entertainment',
+    'Travel',
+    'Science',
+    'Business',
+    'JavaScript',
+    'Python',
+    'Ruby',
+    'C#',
+  ];
 }
 
 function getProjectTypes(): Array<string> {
