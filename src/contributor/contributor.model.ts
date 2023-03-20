@@ -2,7 +2,7 @@ import { db } from '../utils/db.server';
 
 type Contributor = {
   id: number;
-  user_id: number;
+  user_id: string;
   project_id: number;
 };
 

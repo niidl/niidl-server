@@ -4,7 +4,7 @@ type Message = {
   id: number;
   content: string;
   creation_time: Date;
-  user_id: number;
+  user_id: string;
   thread_id: number;
 };
 
