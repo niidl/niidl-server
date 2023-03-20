@@ -10,21 +10,17 @@ type Project = {
   project_type: string;
 };
 
-export async function getAll(): Promise<Project[]> {
+export async function getAll(): Promise<object[]> {
   return db.projects.findMany({
     select: {
       id: true,
       project_name: true,
-      description: true,
-      github_url: true,
-      owner: true,
-      project_image: true,
-      project_type: true,
+      tags: true,
     },
   });
 }
 
-export async function getProjectById(id: number): Promise<Project | null> {
+export async function getProjectById(id: number): Promise<any> {
   return db.projects.findUnique({
     select: {
       id: true,
