@@ -46,7 +46,7 @@ export async function view(req: Request, res: Response) {
       issues: res_issues.data,
       contributors: response.data,
       directory: res_directory.data,
-      specificProject: specificProject,
+      ...specificProject,
     };
     ///////////////////
     res.status(200).send(allProjectInfo);

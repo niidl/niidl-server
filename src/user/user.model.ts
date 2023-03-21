@@ -13,6 +13,11 @@ export async function getUser(uid: string): Promise<object | null> {
   return db.user_account.findUnique({
     select: {
       id: true,
+      first_name: true,
+      last_name: true,
+      github_url: true,
+      email: true,
+      user_name: true,
     },
     where: {
       id: uid,

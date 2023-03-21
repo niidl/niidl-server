@@ -3,6 +3,16 @@ import { Request, Response } from 'express';
 
 export async function view(req: Request, res: Response) {
   try {
+    const uid = req.params.userId;
+    const user = await userModel.getUser(uid);
+    res.status(200).send(user);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function save(req: Request, res: Response) {
+  try {
     const { ghuid, displayName, email } = req.body;
     const splitName = displayName.split(' ');
     const firstName = splitName[0];
