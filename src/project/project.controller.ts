@@ -26,7 +26,7 @@ export async function view(req: Request, res: Response) {
     GitAPI.projectName = temp[temp.length - 1];
     GitAPI.user = temp[temp.length - 2];
 
-    const apiLink =
+    const apiLink_contributors =
       GitAPI.root +
       GitAPI.user +
       '/' +
@@ -38,28 +38,34 @@ export async function view(req: Request, res: Response) {
     const apiLink_issues =
       GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'issues';
 
-    const response = await axios.get(apiLink);
+    const res_contributor = await axios.get(apiLink_contributors);
     const res_directory = await axios.get(apiLink_directory);
-    const data_issues = await axios.get(apiLink_issues);
+    const res_issues = await axios.get(apiLink_issues);
 
-    const res_contributors = {
-      contributor_id: response.data.id,
-      username: response.data.login,
-    };
+    const data_contributors: any = [];
+    res_contributor.data.map((elem: any) => {
+      data_contributors.push({
+        contributor_id: elem.id,
+        username: elem.login,
+      });
+    });
 
-    const res_issues = {
-      issue_id: data_issues.data.id,
-      html_url: data_issues.data.html_url,
-      title: data_issues.data.title,
-      created_at: data_issues.data.created_at,
-      issue_author: data_issues.data.user.login,
-      author_id: data_issues.data.user.id,
-    };
+    const data_issues: any = [];
+    res_issues.data.map((elem: any) => {
+      data_issues.push({
+        issue_id: elem.id,
+        html_url: elem.html_url,
+        title: elem.title,
+        created_at: elem.created_at,
+        issue_author: elem.user.login,
+        author_id: elem.user.id,
+      });
+    });
 
     const allProjectInfo = {
-      issues: res_issues,
-      contributors: res_contributors,
-      directory: apiLink_issues,
+      issues: data_issues,
+      contributors: data_contributors,
+      directory: apiLink_directory,
       ...specificProject,
     };
     ///////////////////
