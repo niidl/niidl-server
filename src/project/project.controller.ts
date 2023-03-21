@@ -1,6 +1,6 @@
-import * as projectModel from "./project.model";
-import { Request, Response } from "express";
-import axios from "axios";
+import * as projectModel from './project.model';
+import { Request, Response } from 'express';
+import axios from 'axios';
 
 export async function index(req: Request, res: Response) {
   try {
@@ -18,25 +18,25 @@ export async function view(req: Request, res: Response) {
     ///////////////////
     const gitAccount = specificProject.github_url; //This url is fetched from the ServerSide github URL
     const GitAPI = {
-      root: "https://api.github.com/repos/",
-      projectName: "",
-      user: "",
+      root: 'https://api.github.com/repos/',
+      projectName: '',
+      user: '',
     };
-    const temp = gitAccount.split("/");
+    const temp = gitAccount.split('/');
     GitAPI.projectName = temp[temp.length - 1];
     GitAPI.user = temp[temp.length - 2];
 
     const apiLink_contributors =
       GitAPI.root +
       GitAPI.user +
-      "/" +
+      '/' +
       GitAPI.projectName +
-      "/" +
-      "contributors";
+      '/' +
+      'contributors';
     const apiLink_directory =
-      GitAPI.root + GitAPI.user + "/" + GitAPI.projectName + "/" + "contents";
+      GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'contents';
     const apiLink_issues =
-      GitAPI.root + GitAPI.user + "/" + GitAPI.projectName + "/" + "issues";
+      GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'issues';
 
     const res_contributor = await axios.get(apiLink_contributors);
     const res_directory = await axios.get(apiLink_directory);
