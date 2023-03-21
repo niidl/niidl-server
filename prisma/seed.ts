@@ -1,4 +1,4 @@
-import { db } from '../src/utils/db.server';
+import { db } from "../src/utils/db.server";
 
 type Project = {
   id: number;
@@ -167,21 +167,30 @@ function getProjects(): Array<Project> {
   return [
     {
       id: -1,
-      project_name: 'hikeable',
-      description: 'great app',
-      github_url: 'repo',
-      owner: 'qwe',
-      project_image: 'image1',
-      project_type: 'Web Full Stack',
+      project_name: "hikeable",
+      description: "great app",
+      github_url: "repo",
+      owner: "qwe",
+      project_image: "image1",
+      project_type: "Web Full Stack",
     },
     {
       id: -2,
-      project_name: 'any',
-      description: 'any',
-      github_url: 'any',
-      owner: 'asd',
-      project_image: '',
-      project_type: 'Mobile',
+      project_name: "any",
+      description: "any",
+      github_url: "any",
+      owner: "asd",
+      project_image: "",
+      project_type: "Mobile",
+    },
+    {
+      id: -3,
+      project_name: "any",
+      description: "any",
+      github_url: "https://github.com/acheong08/EdgeGPT",
+      owner: "asd",
+      project_image: "",
+      project_type: "Mobile",
     },
   ];
 }
@@ -189,44 +198,44 @@ function getProjects(): Array<Project> {
 function getUsers(): Array<User> {
   return [
     {
-      id: 'qwe',
-      first_name: 'John',
-      last_name: 'Smith',
-      email: 'johnsmith@gmail.com',
-      github_url: 'github.com/johnsmith',
-      user_name: 'johnsmith2',
+      id: "qwe",
+      first_name: "John",
+      last_name: "Smith",
+      email: "johnsmith@gmail.com",
+      github_url: "github.com/johnsmith",
+      user_name: "johnsmith2",
     },
     {
-      id: 'asd',
-      first_name: 'Mary',
-      last_name: 'Johnson',
-      email: 'maryjohnson@gmail.com',
-      github_url: 'github.com/maryjohnson',
-      user_name: 'maryjohnson10',
+      id: "asd",
+      first_name: "Mary",
+      last_name: "Johnson",
+      email: "maryjohnson@gmail.com",
+      github_url: "github.com/maryjohnson",
+      user_name: "maryjohnson10",
     },
     {
-      id: 'zxc',
-      first_name: 'Amanda',
-      last_name: 'Jones',
-      email: 'amandajones@gmail.com',
-      github_url: 'github.com/amandajones',
-      user_name: 'amandajones10',
+      id: "zxc",
+      first_name: "Amanda",
+      last_name: "Jones",
+      email: "amandajones@gmail.com",
+      github_url: "github.com/amandajones",
+      user_name: "amandajones10",
     },
     {
-      id: '123',
-      first_name: 'James',
-      last_name: 'Miller',
-      email: 'jamesmiller@gmail.com',
-      github_url: 'github.com/jamesmiller',
-      user_name: 'jamesmiller123',
+      id: "123",
+      first_name: "James",
+      last_name: "Miller",
+      email: "jamesmiller@gmail.com",
+      github_url: "github.com/jamesmiller",
+      user_name: "jamesmiller123",
     },
     {
-      id: '456',
-      first_name: 'Robert',
-      last_name: 'Willson',
-      email: 'robertwillson@gmail.com',
-      github_url: 'github.com/robertwillson',
-      user_name: 'robertwillson',
+      id: "456",
+      first_name: "Robert",
+      last_name: "Willson",
+      email: "robertwillson@gmail.com",
+      github_url: "github.com/robertwillson",
+      user_name: "robertwillson",
     },
   ];
 }
@@ -236,23 +245,23 @@ function getThreads(): Array<Thread> {
     {
       id: -1,
       project_id: -1,
-      content: 'Once upon a time...',
-      user_id: 'qwe',
-      title: 'Title1',
+      content: "Once upon a time...",
+      user_id: "qwe",
+      title: "Title1",
     },
     {
       id: -2,
       project_id: -1,
-      content: 'Once upon a time...',
-      user_id: '456',
-      title: 'Title2',
+      content: "Once upon a time...",
+      user_id: "456",
+      title: "Title2",
     },
     {
       id: -3,
       project_id: -2,
-      content: 'Once upon a time...',
-      user_id: 'zxc',
-      title: 'Title3',
+      content: "Once upon a time...",
+      user_id: "zxc",
+      title: "Title3",
     },
   ];
 }
@@ -261,32 +270,32 @@ function getTags(): Array<Tag> {
   return [
     {
       id: -1,
-      tag_name: 'JavaScript',
+      tag_name: "JavaScript",
       project_id: -1,
     },
     {
       id: -2,
-      tag_name: 'Python',
+      tag_name: "Python",
       project_id: -1,
     },
     {
       id: -3,
-      tag_name: 'Health',
+      tag_name: "Health",
       project_id: -1,
     },
     {
       id: -4,
-      tag_name: 'Business',
+      tag_name: "Business",
       project_id: -2,
     },
     {
       id: -5,
-      tag_name: 'Travel',
+      tag_name: "Travel",
       project_id: -2,
     },
     {
       id: -6,
-      tag_name: 'Education',
+      tag_name: "Education",
       project_id: -2,
     },
   ];
@@ -296,22 +305,22 @@ function getMessages(): Array<Message> {
   return [
     {
       id: -1,
-      content: 'new message',
-      user_id: 'zxc',
+      content: "new message",
+      user_id: "zxc",
       thread_id: -2,
       creation_time: new Date(),
     },
     {
       id: -2,
-      content: 'message about project',
-      user_id: 'asd',
+      content: "message about project",
+      user_id: "asd",
       thread_id: -3,
       creation_time: new Date(),
     },
     {
       id: -3,
-      content: 'one more message about project',
-      user_id: 'qwe',
+      content: "one more message about project",
+      user_id: "qwe",
       thread_id: -1,
       creation_time: new Date(),
     },
@@ -319,7 +328,7 @@ function getMessages(): Array<Message> {
       id: -4,
       content:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      user_id: 'asd',
+      user_id: "asd",
       thread_id: -1,
       creation_time: new Date(),
     },
@@ -327,23 +336,23 @@ function getMessages(): Array<Message> {
       id: -5,
       content:
         "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-      user_id: 'zxc',
+      user_id: "zxc",
       thread_id: -1,
       creation_time: new Date(),
     },
     {
       id: -6,
       content:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.',
-      user_id: '123',
+        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+      user_id: "123",
       thread_id: -1,
       creation_time: new Date(),
     },
     {
       id: -7,
       content:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.',
-      user_id: '456',
+        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of de Finibus Bonorum et Malorum (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, Lorem ipsum dolor sit amet.., comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
+      user_id: "456",
       thread_id: -1,
       creation_time: new Date(),
     },
@@ -354,17 +363,17 @@ function getContributors(): Array<Contributor> {
   return [
     {
       id: -1,
-      user_id: 'zxc',
+      user_id: "zxc",
       project_id: -1,
     },
     {
       id: -2,
-      user_id: '123',
+      user_id: "123",
       project_id: -1,
     },
     {
       id: -3,
-      user_id: '456',
+      user_id: "456",
       project_id: -2,
     },
   ];
@@ -372,23 +381,23 @@ function getContributors(): Array<Contributor> {
 
 function getTagNames(): Array<string> {
   return [
-    'Beginner-friendly',
-    'Education',
-    'Environment',
-    'Health',
-    'Fitness',
-    'Food',
-    'Entertainment',
-    'Travel',
-    'Science',
-    'Business',
-    'JavaScript',
-    'Python',
-    'Ruby',
-    'C#',
+    "Beginner-friendly",
+    "Education",
+    "Environment",
+    "Health",
+    "Fitness",
+    "Food",
+    "Entertainment",
+    "Travel",
+    "Science",
+    "Business",
+    "JavaScript",
+    "Python",
+    "Ruby",
+    "C#",
   ];
 }
 
 function getProjectTypes(): Array<string> {
-  return ['Web Full Stack', 'Mobile'];
+  return ["Web Full Stack", "Mobile"];
 }
