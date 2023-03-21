@@ -30,7 +30,11 @@ export async function getProjectById(id: number): Promise<any> {
       owner: true,
       project_image: true,
       project_type: true,
-      tags: true,
+      tags: {
+        select: {
+          tag_name: true,
+        },
+      },
       contributor: true,
       threads: true,
     },
