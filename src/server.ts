@@ -14,6 +14,7 @@ server.use(express.json());
 server.use(cors());
 
 const serverEndpoints = () => {
+  server.get('/users', userController.index);
   server.get('/users/:userId', userController.view);
   server.post('/userAuth', userController.save);
 
