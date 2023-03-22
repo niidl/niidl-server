@@ -1,6 +1,15 @@
 import * as userModel from './user.model';
 import { Request, Response } from 'express';
 
+export async function index(req: Request, res: Response) {
+  try {
+    const users = await userModel.getAllUsers();
+    res.status(200).send(users);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
 export async function view(req: Request, res: Response) {
   try {
     const uid = req.params.userId;
@@ -14,9 +23,15 @@ export async function view(req: Request, res: Response) {
 export async function save(req: Request, res: Response) {
   try {
     const { ghuid, displayName, email } = req.body;
-    const splitName = displayName.split(' ');
-    const firstName = splitName[0];
-    const lastName = splitName[1];
+    let firstName;
+    let lastName;
+
+    if (displayName) {
+      const splitName = displayName.split(' ');
+      firstName = splitName[0];
+      lastName = splitName[1];
+    }
+
     const user = await userModel.getUser(ghuid);
     const userInfoJson = await fetch('https://api.github.com/user/' + ghuid);
     const userInfo = await userInfoJson.json();

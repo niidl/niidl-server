@@ -9,6 +9,19 @@ type User = {
   user_name: string;
 };
 
+export async function getAllUsers(): Promise<object[]> {
+  return db.user_account.findMany({
+    select: {
+      id: true,
+      first_name: true,
+      last_name: true,
+      github_url: true,
+      email: true,
+      user_name: true,
+    },
+  });
+}
+
 export async function getUser(uid: string): Promise<object | null> {
   return db.user_account.findUnique({
     select: {
