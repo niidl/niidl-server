@@ -1,5 +1,7 @@
 import express, { Express, Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import csurf from 'csurf';
 import * as projectController from './project/project.controller';
 import * as tagController from './tag/tag.controller';
 import * as messageController from './message/message.controller';
@@ -10,15 +12,18 @@ import * as userController from './user/user.controller';
 import * as repositoryController from './repository/repository.controller';
 
 const server: Express = express();
-
+const csrfProtection = csurf({ cookie: { httpOnly: true } });
+//to add for csrf protection to specific routes
 server.use(express.json());
-server.use(cors());
+server.use(cors({ origin: true, credentials: true }));
+server.use(cookieParser());
 
 const serverEndpoints = () => {
   server.get('/users', userController.index);
   server.get('/users/:userId', userController.view);
   server.get('/users/:userId/messages', userController.messages);
   server.post('/userAuth', userController.save);
+  server.post('/logout', userController.logout);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);

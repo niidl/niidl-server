@@ -7,6 +7,7 @@ type User = {
   github_url: string;
   email: string;
   user_name: string;
+  session_id: string;
 };
 
 export async function getAllUsers(): Promise<object[]> {
@@ -65,3 +66,28 @@ export async function create(payload: User): Promise<object> {
     data: payload,
   });
 }
+
+export async function saveSessionId(
+  sessionId: string,
+  uid: string
+): Promise<object> {
+  return db.user_account.update({
+    where: {
+      id: uid,
+    },
+    data: {
+      session_id: sessionId,
+    },
+  });
+}
+
+// export async function endSession(sessionId:string):Promise<object>{
+//   return db.user_account.update({
+//     where: {
+//       session_id: sessionId,
+//     },
+//     data: {
+//       id: '',
+//     },
+//   });
+// }

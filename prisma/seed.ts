@@ -218,7 +218,7 @@ function getUsers(): Array<User> {
       email: 'MicrosoftSmith@realInformation.com',
       github_url: 'https://github.com/microsoft',
       user_name: 'microsoft',
-      session_id: '',
+      session_id: '5d3e44e353342f86',
     },
     {
       id: '119411466',
@@ -227,7 +227,7 @@ function getUsers(): Array<User> {
       email: 'ChadGrover@realInformation.com',
       github_url: 'https://github.com/chadgrover',
       user_name: 'chadgrover',
-      session_id: '',
+      session_id: '300d61c5d56b2b4f',
     },
     {
       id: '68039033',
@@ -236,7 +236,7 @@ function getUsers(): Array<User> {
       email: 'fabiohidekihirose@gmail.com',
       github_url: 'https://github.com/fabiohidekihirose',
       user_name: 'fabiohidekihirose',
-      session_id: '',
+      session_id: '286897d496cf647a',
     },
     {
       id: '114232631',
@@ -245,7 +245,7 @@ function getUsers(): Array<User> {
       email: 'bn.cendales10@gmail.com',
       github_url: 'https://github.com/MrBCendales',
       user_name: 'MrBCendales',
-      session_id: '',
+      session_id: '65ab84f6fc6b60cd',
     },
     {
       id: 'qwe',
@@ -254,7 +254,7 @@ function getUsers(): Array<User> {
       email: 'johnsmith@gmail.com',
       github_url: 'github.com/johnsmith',
       user_name: 'johnsmith2',
-      session_id: '',
+      session_id: 'a6fae06ac50f2bc3',
     },
     {
       id: 'asd',
@@ -263,7 +263,7 @@ function getUsers(): Array<User> {
       email: 'maryjohnson@gmail.com',
       github_url: 'github.com/maryjohnson',
       user_name: 'maryjohnson10',
-      session_id: '',
+      session_id: 'c37794e2114dfb3a',
     },
     {
       id: 'zxc',
@@ -272,7 +272,7 @@ function getUsers(): Array<User> {
       email: 'amandajones@gmail.com',
       github_url: 'github.com/amandajones',
       user_name: 'amandajones10',
-      session_id: '',
+      session_id: '14c56be4a935bd88',
     },
     {
       id: '123',
@@ -281,7 +281,7 @@ function getUsers(): Array<User> {
       email: 'jamesmiller@gmail.com',
       github_url: 'github.com/jamesmiller',
       user_name: 'jamesmiller123',
-      session_id: '',
+      session_id: 'c1e170c3398691d0',
     },
     {
       id: '456',
@@ -290,7 +290,7 @@ function getUsers(): Array<User> {
       email: 'robertwillson@gmail.com',
       github_url: 'github.com/robertwillson',
       user_name: 'robertwillson',
-      session_id: '',
+      session_id: 'c1e170c3398691d0',
     },
   ];
 }
