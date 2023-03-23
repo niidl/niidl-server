@@ -2,6 +2,8 @@ import * as userModel from './user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
 
+const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
+
 export async function index(req: Request, res: Response) {
   try {
     const users = await userModel.getAllUsers();
@@ -44,7 +46,11 @@ export async function save(req: Request, res: Response) {
     }
 
     const user = await userModel.getUser(ghuid);
-    const userInfo = await axios.get('https://api.github.com/user/' + ghuid);
+    const userInfo = await axios.get('https://api.github.com/user/' + ghuid, {
+      headers: {
+        Authorization: 'token ' + gitApiAuth,
+      },
+    });
 
     const payload = {
       id: ghuid,

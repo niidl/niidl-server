@@ -1,5 +1,11 @@
+const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
+
 export async function getFolder(url: string) {
-  const folderJson = await fetch(url);
+  const folderJson = await fetch(url, {
+    headers: {
+      Authorization: 'token ' + gitApiAuth,
+    },
+  });
   const folderData = await folderJson.json();
 
   return folderData;
