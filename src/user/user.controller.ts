@@ -1,5 +1,6 @@
 import * as userModel from './user.model';
 import { Request, Response } from 'express';
+import axios from 'axios';
 
 export async function index(req: Request, res: Response) {
   try {
@@ -43,16 +44,15 @@ export async function save(req: Request, res: Response) {
     }
 
     const user = await userModel.getUser(ghuid);
-    const userInfoJson = await fetch('https://api.github.com/user/' + ghuid);
-    const userInfo = await userInfoJson.json();
+    const userInfo = await axios.get('https://api.github.com/user/' + ghuid);
 
     const payload = {
       id: ghuid,
       email,
       first_name: firstName,
       last_name: lastName,
-      user_name: userInfo.login,
-      github_url: userInfo.html_url,
+      user_name: userInfo.data.login,
+      github_url: userInfo.data.html_url,
     };
 
     if (!user) {
