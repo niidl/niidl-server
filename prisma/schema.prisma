@@ -37,6 +37,7 @@ model user_account {
   creation_date DateTime       @default(now())
   github_url    String         @db.VarChar(255)
   user_name     String         @db.VarChar(32)
+  session_id    String         @db.VarChar(16)
 }
 
 model threads {
