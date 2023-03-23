@@ -22,6 +22,25 @@ export async function getAllUsers(): Promise<object[]> {
   });
 }
 
+export async function getAllMessagesByUser(
+  uid: string
+): Promise<object[] | null> {
+  return db.messages.findMany({
+    select: {
+      content: true,
+      creation_time: true,
+      thread: {
+        select: {
+          title: true,
+        },
+      },
+    },
+    where: {
+      user_id: uid,
+    },
+  });
+}
+
 export async function getUser(uid: string): Promise<object | null> {
   return db.user_account.findUnique({
     select: {

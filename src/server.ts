@@ -7,6 +7,7 @@ import * as contributorController from './contributor/contributor.controller';
 import * as threadController from './thread/thread.controller';
 import * as tagNamesController from './tagNames/tagName.controller';
 import * as userController from './user/user.controller';
+import * as repositoryController from './repository/repository.controller';
 
 const server: Express = express();
 
@@ -16,6 +17,7 @@ server.use(cors());
 const serverEndpoints = () => {
   server.get('/users', userController.index);
   server.get('/users/:userId', userController.view);
+  server.get('/users/:userId/messages', userController.messages);
   server.post('/userAuth', userController.save);
 
   server.get('/projects', projectController.index);
@@ -53,6 +55,9 @@ const serverEndpoints = () => {
     '/projects/:projectId/newContributor',
     contributorController.save
   );
+
+  server.post('/repository/folder', repositoryController.folder);
+  server.post('/repository/file', repositoryController.file);
 
   server.get('/tagNames', tagNamesController.index);
 

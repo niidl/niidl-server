@@ -20,6 +20,16 @@ export async function view(req: Request, res: Response) {
   }
 }
 
+export async function messages(req: Request, res: Response) {
+  try {
+    const uid = req.params.userId;
+    const allMessages = await userModel.getAllMessagesByUser(uid);
+    res.status(200).send(allMessages);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
 export async function save(req: Request, res: Response) {
   try {
     const { ghuid, displayName, email } = req.body;
@@ -48,7 +58,7 @@ export async function save(req: Request, res: Response) {
     if (!user) {
       await userModel.create(payload);
     }
-    res.status(200).send(payload);
+    res.status(200).send(payload.user_name);
   } catch (error: any) {
     res.status(500).send(error.message);
   }
