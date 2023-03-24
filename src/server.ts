@@ -25,19 +25,28 @@ const serverEndpoints = () => {
   server.get('/users/:userId/messages', userController.messages);
   server.post('/userAuth', userController.save);
   server.post('/logout', userController.logout);
+  server.delete('/users/:userId', userController.remove);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
   server.post('/projects/newProject', projectController.save);
+  server.put('/projects/:projectId', projectController.edit);
+  server.delete('/projects/:projectId', projectController.remove);
 
   server.get('/projects/:projectId/tags', tagController.index);
   server.get('/filterProjects/:filterTag', tagController.filter);
   server.get('/projects/:projectId/tags/:tagId', tagController.view);
   server.post('/projects/:projectId/newTag', tagController.save);
+  server.delete('/projects/:projectId/tags/:tagId', tagController.remove);
 
   server.get('/projects/:projectId/threads', threadController.index);
   server.get('/projects/:projectId/threads/:threadId', threadController.view);
   server.post('/projects/:projectId/newThread', threadController.save);
+  server.put('/projects/:projectId/threads/:threadId', threadController.edit);
+  server.delete(
+    '/projects/:projectId/threads/:threadId',
+    threadController.remove
+  );
 
   server.get(
     '/projects/:projectId/threads/:threadId/messages',

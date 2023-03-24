@@ -68,3 +68,29 @@ export async function create(payload: Omit<Project, 'id'>): Promise<Project> {
     },
   });
 }
+
+export async function update(payload: object, id: number): Promise<Project> {
+  return db.projects.update({
+    data: payload,
+    select: {
+      id: true,
+      project_name: true,
+      description: true,
+      github_url: true,
+      owner: true,
+      project_image: true,
+      project_type: true,
+    },
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function deleteById(id: number): Promise<Project> {
+  return db.projects.delete({
+    where: {
+      id: id,
+    },
+  });
+}

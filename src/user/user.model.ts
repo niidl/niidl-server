@@ -81,6 +81,14 @@ export async function saveSessionId(
   });
 }
 
+export async function deleteById(id: string): Promise<User> {
+  return db.user_account.delete({
+    where: {
+      id: id,
+    },
+  });
+}
+
 // export async function endSession(sessionId:string):Promise<object>{
 //   return db.user_account.update({
 //     where: {

@@ -109,3 +109,32 @@ export async function save(req: Request, res: Response) {
     res.status(500).send(error.message);
   }
 }
+
+export async function edit(req: Request, res: Response) {
+  try {
+    const { project_name, project_image, project_type, description } = req.body;
+    const projectId = parseInt(req.params.projectId);
+    const payload = {
+      project_name,
+      project_image,
+      project_type,
+      description,
+    };
+
+    await projectModel.update(payload, projectId);
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const projectId = parseInt(req.params.projectId);
+    await projectModel.deleteById(projectId);
+
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}

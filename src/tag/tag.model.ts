@@ -51,3 +51,11 @@ export async function create(payload: Omit<Tag, 'id'>): Promise<Tag> {
     },
   });
 }
+
+export async function deleteById(id: number): Promise<Tag> {
+  return db.tags.delete({
+    where: {
+      id: id,
+    },
+  });
+}

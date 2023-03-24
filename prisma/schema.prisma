@@ -19,10 +19,10 @@ model projects {
   description   String         @db.VarChar(9999)
   github_url    String         @db.VarChar(255)
   owner         String
-  user_acc      user_account   @relation(fields: [owner], references: [id])
+  user_acc      user_account   @relation(fields: [owner], references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_image String         @db.VarChar(255)
   project_type  String         @db.VarChar(64)
-  type          project_type   @relation(fields: [project_type], references: [type])
+  type          project_type   @relation(fields: [project_type], references: [type], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model user_account {
@@ -45,13 +45,13 @@ model threads {
   content         String       @db.VarChar(9999)
   message         messages[]
   project_id      Int
-  project         projects     @relation(fields: [project_id], references: [id])
+  project         projects     @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user_id         String
-  user            user_account @relation(fields: [user_id], references: [id])
+  user            user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   creation_time   DateTime     @default(now())
   title           String       @db.VarChar(255)
   thread_tag      String       @db.VarChar(32)
-  thread_tag_name thread_tags  @relation(fields: [thread_tag], references: [thread_tag_name])
+  thread_tag_name thread_tags  @relation(fields: [thread_tag], references: [thread_tag_name], onDelete: Cascade, onUpdate: Cascade)
   upvotes         Int
   isPinned        Boolean
 }
@@ -71,9 +71,9 @@ model taglibrary {
 model tags {
   id         Int        @id @default(autoincrement())
   tag_name   String
-  tag        taglibrary @relation(fields: [tag_name], references: [tag_name])
+  tag        taglibrary @relation(fields: [tag_name], references: [tag_name], onDelete: Cascade, onUpdate: Cascade)
   project_id Int
-  project    projects   @relation(fields: [project_id], references: [id])
+  project    projects   @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model messages {
@@ -81,17 +81,17 @@ model messages {
   content       String       @db.VarChar(10000)
   creation_time DateTime     @default(now())
   user_id       String
-  user          user_account @relation(fields: [user_id], references: [id])
+  user          user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   thread_id     Int
-  thread        threads      @relation(fields: [thread_id], references: [id])
+  thread        threads      @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model contributors {
   id         Int          @id @default(autoincrement())
   user_id    String
-  user_acc   user_account @relation(fields: [user_id], references: [id])
+  user_acc   user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_id Int
-  project    projects     @relation(fields: [project_id], references: [id])
+  project    projects     @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model project_type {

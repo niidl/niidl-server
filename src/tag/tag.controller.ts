@@ -45,3 +45,14 @@ export async function save(req: Request, res: Response) {
     res.status(500).send(error.message);
   }
 }
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const tagId = parseInt(req.params.tagId);
+    await tagModel.deleteById(tagId);
+
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
