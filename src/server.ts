@@ -55,6 +55,10 @@ const serverEndpoints = () => {
     '/projects/:projectId/threads/:threadId/messages/:messageId',
     messageController.edit
   );
+  server.delete(
+    '/projects/:projectId/threads/:threadId/messages/:messageId',
+    messageController.remove
+  );
 
   server.get('/projects/:projectId/contributors', contributorController.index);
   server.get(

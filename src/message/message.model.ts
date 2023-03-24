@@ -66,3 +66,11 @@ export async function update(payload: object, id: number): Promise<Message> {
     },
   });
 }
+
+export async function deleteById(id: number): Promise<Message> {
+  return db.messages.delete({
+    where: {
+      id: id,
+    },
+  });
+}
