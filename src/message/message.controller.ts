@@ -39,3 +39,18 @@ export async function save(req: Request, res: Response) {
     res.status(500).send(error.message);
   }
 }
+
+export async function edit(req: Request, res: Response) {
+  try {
+    const { content } = req.body;
+    const messageId = parseInt(req.params.messageId);
+    const payload = {
+      content,
+    };
+
+    await messageModel.update(payload, messageId);
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}

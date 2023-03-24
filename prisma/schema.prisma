@@ -37,18 +37,29 @@ model user_account {
   creation_date DateTime       @default(now())
   github_url    String         @db.VarChar(255)
   user_name     String         @db.VarChar(32)
+  session_id    String         @unique @db.VarChar(16)
 }
 
 model threads {
-  id            Int          @id @default(autoincrement())
-  content       String       @db.VarChar(9999)
-  message       messages[]
-  project_id    Int
-  project       projects     @relation(fields: [project_id], references: [id])
-  user_id       String
-  user          user_account @relation(fields: [user_id], references: [id])
-  creation_time DateTime     @default(now())
-  title         String       @db.VarChar(64)
+  id              Int          @id @default(autoincrement())
+  content         String       @db.VarChar(9999)
+  message         messages[]
+  project_id      Int
+  project         projects     @relation(fields: [project_id], references: [id])
+  user_id         String
+  user            user_account @relation(fields: [user_id], references: [id])
+  creation_time   DateTime     @default(now())
+  title           String       @db.VarChar(255)
+  thread_tag      String       @db.VarChar(32)
+  thread_tag_name thread_tags  @relation(fields: [thread_tag], references: [thread_tag_name])
+  upvotes         Int
+  isPinned        Boolean
+}
+
+model thread_tags {
+  id              Int       @id @default(autoincrement())
+  thread_tag_name String    @unique @db.VarChar(32)
+  thread_tags     threads[]
 }
 
 model taglibrary {
