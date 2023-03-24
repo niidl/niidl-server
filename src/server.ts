@@ -10,6 +10,7 @@ import * as threadController from './thread/thread.controller';
 import * as tagNamesController from './tagNames/tagName.controller';
 import * as userController from './user/user.controller';
 import * as repositoryController from './repository/repository.controller';
+import * as threadTagNamesController from './threadTagNames/threadTagNames.controller';
 
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
@@ -50,6 +51,10 @@ const serverEndpoints = () => {
     '/projects/:projectId/threads/:threadId/newMessage',
     messageController.save
   );
+  server.put(
+    '/projects/:projectId/threads/:threadId/messages/:messageId',
+    messageController.edit
+  );
 
   server.get('/projects/:projectId/contributors', contributorController.index);
   server.get(
@@ -65,6 +70,8 @@ const serverEndpoints = () => {
   server.post('/repository/file', repositoryController.file);
 
   server.get('/tagNames', tagNamesController.index);
+
+  server.get('/threadTagNames', threadTagNamesController.index);
 
   return server;
 };

@@ -26,6 +26,9 @@ type Thread = {
   user_id: string;
   title: string;
   content: string;
+  thread_tag: string;
+  upvotes: number;
+  isPinned: boolean;
 };
 
 type Tag = {
@@ -57,12 +60,23 @@ async function seed() {
   await db.projects.deleteMany({});
   await db.user_account.deleteMany({});
   await db.project_type.deleteMany({});
+  await db.thread_tags.deleteMany({});
 
   await Promise.all(
     getProjectTypes().map((projectType) => {
       return db.project_type.create({
         data: {
           type: projectType,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
+    getThreadTags().map((threadTagName) => {
+      return db.thread_tags.create({
+        data: {
+          thread_tag_name: threadTagName,
         },
       });
     })
@@ -119,6 +133,9 @@ async function seed() {
           user_id: thread.user_id,
           title: thread.title,
           content: thread.content,
+          thread_tag: thread.thread_tag,
+          isPinned: thread.isPinned,
+          upvotes: thread.upvotes,
         },
       });
     })
@@ -232,7 +249,7 @@ function getUsers(): Array<User> {
     {
       id: '68039033',
       first_name: 'Fabio',
-      last_name: 'HHirose',
+      last_name: 'Hirose',
       email: 'fabiohidekihirose@gmail.com',
       github_url: 'https://github.com/fabiohidekihirose',
       user_name: 'fabiohidekihirose',
@@ -290,7 +307,7 @@ function getUsers(): Array<User> {
       email: 'robertwillson@gmail.com',
       github_url: 'github.com/robertwillson',
       user_name: 'robertwillson',
-      session_id: 'c1e170c3398691d0',
+      session_id: 'c9e170c3398691d0',
     },
   ];
 }
@@ -302,21 +319,83 @@ function getThreads(): Array<Thread> {
       project_id: -1,
       content: 'Once upon a time...',
       user_id: 'qwe',
-      title: 'Title1',
+      thread_tag: 'general-discussion',
+      isPinned: true,
+      upvotes: 10,
+      title:
+        'Why is processing a sorted array faster than processing an unsorted array?',
     },
     {
       id: -2,
       project_id: -1,
       content: 'Once upon a time...',
       user_id: '456',
-      title: 'Title2',
+      thread_tag: 'general-discussion',
+      isPinned: true,
+      upvotes: 1000,
+      title: 'How do I undo the most recent local commits in Git?',
     },
     {
       id: -3,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: '6154722',
+      thread_tag: 'general-discussion',
+      isPinned: false,
+      upvotes: 0,
+      title: 'What is the difference between git pull and git fetch?',
+    },
+    {
+      id: -4,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: '119411466',
+      thread_tag: 'general-discussion',
+      isPinned: false,
+      upvotes: 0,
+      title: 'How can I remove a specific item from an array in JavaScript?',
+    },
+    {
+      id: -5,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: '114232631',
+      thread_tag: 'general-discussion',
+      isPinned: false,
+      upvotes: 0,
+      title: 'How do I check if an element is hidden in jQuery?',
+    },
+    {
+      id: -6,
       project_id: -2,
       content: 'Once upon a time...',
       user_id: 'zxc',
-      title: 'Title3',
+      thread_tag: 'newest',
+      isPinned: false,
+      upvotes: 0,
+      title:
+        'How do I remove local (untracked) files from the current Git working tree?',
+    },
+    {
+      id: -7,
+      project_id: -2,
+      content: 'Once upon a time...',
+      user_id: 'zxc',
+      thread_tag: 'hot-topics',
+      isPinned: false,
+      upvotes: 0,
+      title:
+        'How do I make Git forget about a file that was tracked, but is now in .gitignore?',
+    },
+    {
+      id: -8,
+      project_id: -2,
+      content: 'Once upon a time...',
+      user_id: 'zxc',
+      thread_tag: 'new-ideas',
+      isPinned: false,
+      upvotes: 100,
+      title: 'Does Python have a ternary conditional operator?',
     },
   ];
 }
@@ -480,4 +559,8 @@ function getTagNames(): Array<string> {
 
 function getProjectTypes(): Array<string> {
   return ['Web Full Stack', 'Mobile'];
+}
+
+function getThreadTags(): Array<string> {
+  return ['newest', 'hot-topics', 'general-discussion', 'new-ideas'];
 }

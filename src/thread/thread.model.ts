@@ -7,6 +7,9 @@ interface Thread {
   user_id: string;
   creation_time: Date;
   title: string;
+  thread_tag: string;
+  upvotes: number;
+  isPinned: boolean;
 }
 
 export async function getThreadsByProjectId(
@@ -30,6 +33,9 @@ export async function getThreadsByProjectId(
       },
       creation_time: true,
       title: true,
+      thread_tag: true,
+      isPinned: true,
+      upvotes: true,
     },
     where: {
       project_id: id,
@@ -51,6 +57,9 @@ export async function getSpecificThread(id: number): Promise<Thread | null> {
       },
       creation_time: true,
       title: true,
+      thread_tag: true,
+      isPinned: true,
+      upvotes: true,
     },
     where: {
       id: id,
@@ -67,6 +76,9 @@ export async function create(payload: Omit<Thread, 'id'>): Promise<Thread> {
       user_id: true,
       creation_time: true,
       title: true,
+      thread_tag: true,
+      isPinned: true,
+      upvotes: true,
     },
     data: payload,
   });

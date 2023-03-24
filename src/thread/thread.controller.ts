@@ -25,13 +25,17 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { content, creation_time, project_id, title, user_id } = req.body;
+    const { content, creation_time, project_id, title, user_id, thread_tag } =
+      req.body;
     const payload = {
       content,
       creation_time,
       project_id,
       title,
       user_id,
+      thread_tag,
+      isPinned: false,
+      upvotes: 0,
     };
 
     await threadModel.create(payload);
