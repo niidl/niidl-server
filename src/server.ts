@@ -14,9 +14,19 @@ import * as repositoryController from './repository/repository.controller';
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
 //to add for csrf protection to specific routes
-server.use(express.json());
-server.use(cors({ origin: true, credentials: true }));
+server.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE, PUT');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 server.use(cookieParser());
+server.use(express.json());
+const allowList:Array<string> = [`http://localhost:3000/`]
+
+//server.use(cors({ origin: 'http://localhost:3000', allowedHeaders: 'Accept,Accept-Language,Content-Language,Content-Type,Authorization,Cookie,X-Requested-With,Origin,Host', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
+
 
 const serverEndpoints = () => {
   server.get('/users', userController.index);
@@ -24,19 +34,28 @@ const serverEndpoints = () => {
   server.get('/users/:userId/messages', userController.messages);
   server.post('/userAuth', userController.save);
   server.post('/logout', userController.logout);
+  server.delete('/users/:userId', userController.remove);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
   server.post('/projects/newProject', projectController.save);
+  server.put('/projects/:projectId', projectController.edit);
+  server.delete('/projects/:projectId', projectController.remove);
 
   server.get('/projects/:projectId/tags', tagController.index);
   server.get('/filterProjects/:filterTag', tagController.filter);
   server.get('/projects/:projectId/tags/:tagId', tagController.view);
   server.post('/projects/:projectId/newTag', tagController.save);
+  server.delete('/projects/:projectId/tags/:tagId', tagController.remove);
 
   server.get('/projects/:projectId/threads', threadController.index);
   server.get('/projects/:projectId/threads/:threadId', threadController.view);
   server.post('/projects/:projectId/newThread', threadController.save);
+  server.put('/projects/:projectId/threads/:threadId', threadController.edit);
+  server.delete(
+    '/projects/:projectId/threads/:threadId',
+    threadController.remove
+  );
 
   server.get(
     '/projects/:projectId/threads/:threadId/messages',

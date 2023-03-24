@@ -290,7 +290,7 @@ function getUsers(): Array<User> {
       email: 'robertwillson@gmail.com',
       github_url: 'github.com/robertwillson',
       user_name: 'robertwillson',
-      session_id: 'c1e170c3398691d0',
+      session_id: 'zde170c3398691d0',
     },
   ];
 }

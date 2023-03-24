@@ -75,19 +75,27 @@ export async function saveSessionId(
     where: {
       id: uid,
     },
-    data: {
+    data:{
+      session_id: sessionId
+    }
+  });
+}
+
+export async function endSession(sessionId:string, modifiedSession: string):Promise<object>{
+  return db.user_account.update({
+    where: {
       session_id: sessionId,
+    },
+    data: {
+      session_id: modifiedSession,
     },
   });
 }
 
-// export async function endSession(sessionId:string):Promise<object>{
-//   return db.user_account.update({
-//     where: {
-//       session_id: sessionId,
-//     },
-//     data: {
-//       id: '',
-//     },
-//   });
-// }
+export async function deleteById(id: string): Promise<User> {
+  return db.user_account.delete({
+    where: {
+      id: id,
+    },
+  });
+}
