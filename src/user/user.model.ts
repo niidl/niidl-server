@@ -75,13 +75,16 @@ export async function saveSessionId(
     where: {
       id: uid,
     },
-    data:{
-      session_id: sessionId
-    }
+    data: {
+      session_id: sessionId,
+    },
   });
 }
 
-export async function endSession(sessionId:string, modifiedSession: string):Promise<object>{
+export async function endSession(
+  sessionId: string,
+  modifiedSession: string
+): Promise<object> {
   return db.user_account.update({
     where: {
       session_id: sessionId,

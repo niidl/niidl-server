@@ -5,8 +5,8 @@ import { randomBytes } from 'crypto';
 
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
-export interface sessionCookie{
-  sessionId: string
+export interface sessionCookie {
+  sessionId: string;
 }
 
 export async function index(req: Request, res: Response) {
@@ -73,10 +73,10 @@ export async function save(req: Request, res: Response) {
     if (!user) {
       await userModel.create(payload);
     }
-    res.cookie('sessionToken', sessionId,{
-      
+    res.cookie('sessionToken', sessionId, {
+      httpOnly: true,
     });
-    console.log(payload)
+    res.cookie('userName', payload.user_name, {});
     res.send(payload.user_name);
   } catch (error: any) {
     res.status(500).send(error.message);
@@ -84,17 +84,20 @@ export async function save(req: Request, res: Response) {
 }
 
 export async function logout(req: Request, res: Response) {
-  console.log('in logout')
   try {
-    console.log(req)
-    const cookieObj:{sessionToken:string} = req.cookies;
-    const cookie:string = cookieObj.sessionToken
-    const logoutCookie:string = cookie.substring(2)
-    const sessionEndId = await userModel.endSession(cookie, logoutCookie)
-    res.clearCookie('sessionToken');
-    res.status(200).send('');
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const cookie: string = cookieObj.sessionToken;
+    try {
+      const logoutCookie: string = cookie.substring(2);
+      const sessionEndId = await userModel.endSession(cookie, logoutCookie);
+      res.clearCookie('sessionToken');
+      res.clearCookie('userName');
+      res.status(200).send('');
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
   } catch (error: any) {
-    res.status(500).send(error.message);
+    res.status(404).send(error.message);
   }
 }
 

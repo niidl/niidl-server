@@ -25,17 +25,28 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { content, creation_time, user_id, thread_id } = req.body;
-    const payload = {
-      content,
-      creation_time,
-      user_id,
-      thread_id,
-    };
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await messageModel.validateUser(sessionId);
 
-    await messageModel.create(payload);
-    res.status(201);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const { content, creation_time, thread_id } = req.body;
+      const payload = {
+        content,
+        creation_time,
+        user_id: ghuid.id,
+        thread_id,
+      };
+      console.log(payload);
+      await messageModel.create(payload);
+      res.status(201).send('');
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
   } catch (error: any) {
-    res.status(500).send(error.message);
+    res.status(404).send(error.message);
   }
 }
