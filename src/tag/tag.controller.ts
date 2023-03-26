@@ -33,11 +33,7 @@ export async function filter(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { tag_name, github_url } = req.body;
-    const payload = {
-      tag_name,
-      github_url,
-    };
+    const payload = req.body;
 
     await tagModel.create(payload);
     res.status(201);
