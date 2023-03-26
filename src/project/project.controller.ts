@@ -88,9 +88,13 @@ export async function upvote(req: Request, res: Response) {
   try {
     const username = req.params.username;
     const projectId = parseInt(req.params.projectId);
-    const userUpvotes = await projectModel.getUpvotes(projectId, username);
-    if (userUpvotes[0]) {
-      res.status(200).send(userUpvotes[0].upvotes);
+    const allUpvotes = await projectModel.getUpvotes(projectId);
+
+    if (allUpvotes[0]) {
+      const userUpvotes = allUpvotes[0].upvotes.filter(
+        (upvote: any) => upvote.user_name === username
+      );
+      res.status(200).send(userUpvotes);
     } else {
       res.status(200).send([]);
     }
@@ -117,6 +121,8 @@ export async function save(req: Request, res: Response) {
       project_image,
       project_type,
     };
+
+    console.log(payload);
 
     await projectModel.create(payload);
     res.status(201);

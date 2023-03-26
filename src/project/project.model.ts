@@ -44,7 +44,7 @@ export async function getProjectById(id: number): Promise<any> {
   });
 }
 
-export async function getUpvotes(id: number, username: string): Promise<any> {
+export async function getUpvotes(id: number): Promise<any> {
   return db.projects.findMany({
     select: {
       upvotes: {
@@ -56,11 +56,6 @@ export async function getUpvotes(id: number, username: string): Promise<any> {
     },
     where: {
       id: id,
-      upvotes: {
-        some: {
-          user_name: username,
-        },
-      },
     },
   });
 }

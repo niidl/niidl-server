@@ -41,8 +41,8 @@ export async function getAllProjectsByTag(tag: string): Promise<Tag[]> {
   });
 }
 
-export async function create(payload: Omit<Tag, 'id'>): Promise<Tag> {
-  return db.tags.create({
+export async function create(payload: any): Promise<any> {
+  return db.tags.createMany({
     data: payload,
     select: {
       id: true,
