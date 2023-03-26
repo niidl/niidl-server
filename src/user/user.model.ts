@@ -81,13 +81,24 @@ export async function saveSessionId(
   });
 }
 
-// export async function endSession(sessionId:string):Promise<object>{
-//   return db.user_account.update({
-//     where: {
-//       session_id: sessionId,
-//     },
-//     data: {
-//       id: '',
-//     },
-//   });
-// }
+export async function endSession(
+  sessionId: string,
+  modifiedSession: string
+): Promise<object> {
+  return db.user_account.update({
+    where: {
+      session_id: sessionId,
+    },
+    data: {
+      session_id: modifiedSession,
+    },
+  });
+}
+
+export async function deleteById(id: string): Promise<User> {
+  return db.user_account.delete({
+    where: {
+      id: id,
+    },
+  });
+}
