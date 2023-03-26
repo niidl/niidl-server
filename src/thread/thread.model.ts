@@ -83,3 +83,31 @@ export async function create(payload: Omit<Thread, 'id'>): Promise<Thread> {
     data: payload,
   });
 }
+
+export async function update(payload: object, id: number): Promise<Thread> {
+  return db.threads.update({
+    data: payload,
+    select: {
+      id: true,
+      content: true,
+      project_id: true,
+      user_id: true,
+      creation_time: true,
+      title: true,
+      thread_tag: true,
+      isPinned: true,
+      upvotes: true,
+    },
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function deleteById(id: number): Promise<Thread> {
+  return db.threads.delete({
+    where: {
+      id: id,
+    },
+  });
+}

@@ -17,6 +17,7 @@ type User = {
   email: string;
   github_url: string;
   user_name: string;
+  github_profile_picture: string;
   session_id: string;
 };
 
@@ -34,7 +35,7 @@ type Thread = {
 type Tag = {
   id: number;
   tag_name: string;
-  project_id: number;
+  github_url: string;
 };
 
 type Message = {
@@ -51,6 +52,13 @@ type Contributor = {
   project_id: number;
 };
 
+type Upvote = {
+  id: number;
+  thread_id: number;
+  project_id: number;
+  user_name: string;
+};
+
 async function seed() {
   await db.contributors.deleteMany({});
   await db.messages.deleteMany({});
@@ -59,6 +67,7 @@ async function seed() {
   await db.threads.deleteMany({});
   await db.projects.deleteMany({});
   await db.user_account.deleteMany({});
+  await db.upvotes.deleteMany({});
   await db.project_type.deleteMany({});
   await db.thread_tags.deleteMany({});
 
@@ -93,6 +102,7 @@ async function seed() {
           github_url: user.github_url,
           user_name: user.user_name,
           session_id: user.session_id,
+          github_profile_picture: user.github_profile_picture,
         },
       });
     })
@@ -142,12 +152,25 @@ async function seed() {
   );
 
   await Promise.all(
+    getUpvotes().map((upvote) => {
+      return db.upvotes.create({
+        data: {
+          id: upvote.id,
+          project_id: upvote.project_id,
+          user_name: upvote.user_name,
+          thread_id: upvote.thread_id,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
     getTags().map((tag) => {
       return db.tags.create({
         data: {
           id: tag.id,
           tag_name: tag.tag_name,
-          project_id: tag.project_id,
+          github_url: tag.github_url,
         },
       });
     })
@@ -236,6 +259,7 @@ function getUsers(): Array<User> {
       github_url: 'https://github.com/microsoft',
       user_name: 'microsoft',
       session_id: '5d3e44e353342f86',
+      github_profile_picture: '',
     },
     {
       id: '119411466',
@@ -245,6 +269,7 @@ function getUsers(): Array<User> {
       github_url: 'https://github.com/chadgrover',
       user_name: 'chadgrover',
       session_id: '300d61c5d56b2b4f',
+      github_profile_picture: '',
     },
     {
       id: '68039033',
@@ -254,6 +279,7 @@ function getUsers(): Array<User> {
       github_url: 'https://github.com/fabiohidekihirose',
       user_name: 'fabiohidekihirose',
       session_id: '286897d496cf647a',
+      github_profile_picture: '',
     },
     {
       id: '114232631',
@@ -263,6 +289,7 @@ function getUsers(): Array<User> {
       github_url: 'https://github.com/MrBCendales',
       user_name: 'MrBCendales',
       session_id: '65ab84f6fc6b60cd',
+      github_profile_picture: '',
     },
     {
       id: 'qwe',
@@ -272,6 +299,7 @@ function getUsers(): Array<User> {
       github_url: 'github.com/johnsmith',
       user_name: 'johnsmith2',
       session_id: 'a6fae06ac50f2bc3',
+      github_profile_picture: '',
     },
     {
       id: 'asd',
@@ -281,6 +309,7 @@ function getUsers(): Array<User> {
       github_url: 'github.com/maryjohnson',
       user_name: 'maryjohnson10',
       session_id: 'c37794e2114dfb3a',
+      github_profile_picture: '',
     },
     {
       id: 'zxc',
@@ -290,6 +319,7 @@ function getUsers(): Array<User> {
       github_url: 'github.com/amandajones',
       user_name: 'amandajones10',
       session_id: '14c56be4a935bd88',
+      github_profile_picture: '',
     },
     {
       id: '123',
@@ -299,6 +329,7 @@ function getUsers(): Array<User> {
       github_url: 'github.com/jamesmiller',
       user_name: 'jamesmiller123',
       session_id: 'c1e170c3398691d0',
+      github_profile_picture: '',
     },
     {
       id: '456',
@@ -307,9 +338,8 @@ function getUsers(): Array<User> {
       email: 'robertwillson@gmail.com',
       github_url: 'github.com/robertwillson',
       user_name: 'robertwillson',
-
       session_id: 'zde170c3398691d0',
-
+      github_profile_picture: '',
     },
   ];
 }
@@ -364,7 +394,7 @@ function getThreads(): Array<Thread> {
       user_id: '114232631',
       thread_tag: 'general-discussion',
       isPinned: false,
-      upvotes: 0,
+      upvotes: 1,
       title: 'How do I check if an element is hidden in jQuery?',
     },
     {
@@ -372,7 +402,7 @@ function getThreads(): Array<Thread> {
       project_id: -2,
       content: 'Once upon a time...',
       user_id: 'zxc',
-      thread_tag: 'newest',
+      thread_tag: 'general-discussion',
       isPinned: false,
       upvotes: 0,
       title:
@@ -383,7 +413,7 @@ function getThreads(): Array<Thread> {
       project_id: -2,
       content: 'Once upon a time...',
       user_id: 'zxc',
-      thread_tag: 'hot-topics',
+      thread_tag: 'new-ideas',
       isPinned: false,
       upvotes: 0,
       title:
@@ -399,6 +429,36 @@ function getThreads(): Array<Thread> {
       upvotes: 100,
       title: 'Does Python have a ternary conditional operator?',
     },
+    {
+      id: -9,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: 'zxc',
+      thread_tag: 'new-ideas',
+      isPinned: false,
+      upvotes: 100,
+      title: 'Does Python have a ternary conditional operator?',
+    },
+    {
+      id: -10,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: 'zxc',
+      thread_tag: 'new-ideas',
+      isPinned: false,
+      upvotes: 250,
+      title: 'Does Python have a ternary conditional operator?',
+    },
+    {
+      id: -11,
+      project_id: -1,
+      content: 'Once upon a time...',
+      user_id: 'zxc',
+      thread_tag: 'new-ideas',
+      isPinned: false,
+      upvotes: 19,
+      title: 'Does Python have a ternary conditional operator?',
+    },
   ];
 }
 
@@ -407,57 +467,59 @@ function getTags(): Array<Tag> {
     {
       id: -1,
       tag_name: 'JavaScript',
-      project_id: -1,
+      github_url: 'https://github.com/hikeable/hikeable-frontend',
     },
     {
       id: -2,
       tag_name: 'JavaScript',
-      project_id: -3,
+      github_url:
+        'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
     },
     {
       id: -3,
       tag_name: 'Education',
-      project_id: -4,
+      github_url: 'https://github.com/microsoft/semantic-kernel',
     },
     {
       id: -4,
       tag_name: 'Business',
-      project_id: -2,
+      github_url: 'https://github.com/MrBCendales/PokeDex',
     },
     {
       id: -5,
       tag_name: 'Travel',
-      project_id: -2,
+      github_url: 'https://github.com/MrBCendales/PokeDex',
     },
     {
       id: -6,
       tag_name: 'JavaScript',
-      project_id: -2,
+      github_url: 'https://github.com/MrBCendales/PokeDex',
     },
     {
       id: -7,
       tag_name: 'C#',
-      project_id: -4,
+      github_url: 'https://github.com/microsoft/semantic-kernel',
     },
     {
       id: -8,
       tag_name: 'Food',
-      project_id: -3,
+      github_url:
+        'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
     },
     {
       id: -9,
       tag_name: 'Science',
-      project_id: -2,
+      github_url: 'https://github.com/MrBCendales/PokeDex',
     },
     {
       id: -10,
       tag_name: 'Travel',
-      project_id: -1,
+      github_url: 'https://github.com/hikeable/hikeable-frontend',
     },
     {
       id: -11,
       tag_name: 'Python',
-      project_id: -1,
+      github_url: 'https://github.com/hikeable/hikeable-frontend',
     },
   ];
 }
@@ -536,6 +598,41 @@ function getContributors(): Array<Contributor> {
       id: -3,
       user_id: '456',
       project_id: -2,
+    },
+  ];
+}
+
+function getUpvotes(): Array<Upvote> {
+  return [
+    {
+      id: -1,
+      thread_id: -1,
+      project_id: -1,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -2,
+      thread_id: -5,
+      project_id: -1,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -3,
+      thread_id: -10,
+      project_id: -1,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -4,
+      thread_id: -8,
+      project_id: -2,
+      user_name: 'MrBCendales',
+    },
+    {
+      id: -5,
+      thread_id: -10,
+      project_id: -1,
+      user_name: 'robertwillson',
     },
   ];
 }

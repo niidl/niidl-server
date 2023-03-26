@@ -44,3 +44,26 @@ export async function save(req: Request, res: Response) {
     res.status(500).send(error.message);
   }
 }
+
+export async function edit(req: Request, res: Response) {
+  try {
+    const payload = req.body;
+    const threadId = parseInt(req.params.threadId);
+
+    await threadModel.update(payload, threadId);
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const threadId = parseInt(req.params.threadId);
+    await threadModel.deleteById(threadId);
+
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}

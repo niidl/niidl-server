@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
   try {
-    const projectId = parseInt(req.params.projectId);
-    const allTagsByProject = await tagModel.getAllTagsByProject(projectId);
+    const projectUrl = req.params.projectId;
+    const allTagsByProject = await tagModel.getAllTagsByProject(projectUrl);
     res.status(200).send(allTagsByProject);
   } catch (error: any) {
     res.status(500).send(error.message);
@@ -33,13 +33,24 @@ export async function filter(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const { tag_name, project_id } = req.body;
+    const { tag_name, github_url } = req.body;
     const payload = {
       tag_name,
-      project_id,
+      github_url,
     };
 
     await tagModel.create(payload);
+    res.status(201);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function remove(req: Request, res: Response) {
+  try {
+    const tagId = parseInt(req.params.tagId);
+    await tagModel.deleteById(tagId);
+
     res.status(201);
   } catch (error: any) {
     res.status(500).send(error.message);

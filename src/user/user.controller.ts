@@ -38,6 +38,16 @@ export async function messages(req: Request, res: Response) {
   }
 }
 
+export async function projects(req: Request, res: Response) {
+  try {
+    const uid = req.params.userId;
+    const allProjectsByUser = await userModel.getAllProjectsByUser(uid);
+    res.status(200).send(allProjectsByUser);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
 export async function save(req: Request, res: Response) {
   try {
     const sessionId: string = randomBytes(8).toString('hex');
@@ -68,7 +78,14 @@ export async function save(req: Request, res: Response) {
       user_name: userInfo.data.login,
       github_url: userInfo.data.html_url,
       session_id: sessionId,
+      github_profile_picture: '',
     };
+
+    if (user) {
+      await userModel.updateUsername(payload.id, {
+        user_name: payload.user_name,
+      });
+    }
 
     if (!user) {
       await userModel.create(payload);
