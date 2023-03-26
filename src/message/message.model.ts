@@ -65,3 +65,27 @@ export async function create(payload: Omit<Message, 'id'>): Promise<Message> {
     },
   });
 }
+
+export async function update(payload: object, id: number): Promise<Message> {
+  return db.messages.update({
+    data: payload,
+    select: {
+      id: true,
+      content: true,
+      creation_time: true,
+      user_id: true,
+      thread_id: true,
+    },
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function deleteById(id: number): Promise<Message> {
+  return db.messages.delete({
+    where: {
+      id: id,
+    },
+  });
+}
