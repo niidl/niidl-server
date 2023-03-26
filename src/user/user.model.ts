@@ -8,6 +8,7 @@ type User = {
   email: string;
   user_name: string;
   session_id: string;
+  github_profile_picture: string;
 };
 
 export async function getAllUsers(): Promise<object[]> {
@@ -19,6 +20,7 @@ export async function getAllUsers(): Promise<object[]> {
       github_url: true,
       email: true,
       user_name: true,
+      github_profile_picture: true,
     },
   });
 }
@@ -42,6 +44,21 @@ export async function getAllMessagesByUser(
   });
 }
 
+export async function getAllProjectsByUser(
+  uid: string
+): Promise<object[] | null> {
+  return db.projects.findMany({
+    select: {
+      id: true,
+      project_name: true,
+      project_image: true,
+    },
+    where: {
+      owner: uid,
+    },
+  });
+}
+
 export async function getUser(uid: string): Promise<object | null> {
   return db.user_account.findUnique({
     select: {
@@ -51,6 +68,7 @@ export async function getUser(uid: string): Promise<object | null> {
       github_url: true,
       email: true,
       user_name: true,
+      github_profile_picture: true,
     },
     where: {
       id: uid,
@@ -81,6 +99,20 @@ export async function saveSessionId(
   });
 }
 
+export async function endSession(
+  sessionId: string,
+  modifiedSession: string
+): Promise<object> {
+  return db.user_account.update({
+    where: {
+      session_id: sessionId,
+    },
+    data: {
+      session_id: modifiedSession,
+    },
+  });
+}
+
 export async function deleteById(id: string): Promise<User> {
   return db.user_account.delete({
     where: {
@@ -89,13 +121,14 @@ export async function deleteById(id: string): Promise<User> {
   });
 }
 
-// export async function endSession(sessionId:string):Promise<object>{
-//   return db.user_account.update({
-//     where: {
-//       session_id: sessionId,
-//     },
-//     data: {
-//       id: '',
-//     },
-//   });
-// }
+export async function updateUsername(
+  id: string,
+  username: object
+): Promise<User> {
+  return db.user_account.update({
+    data: username,
+    where: {
+      id: id,
+    },
+  });
+}

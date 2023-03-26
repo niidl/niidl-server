@@ -17,27 +17,39 @@ model projects {
   contributor   contributors[]
   project_name  String         @db.VarChar(64)
   description   String         @db.VarChar(9999)
-  github_url    String         @db.VarChar(255)
+  github_url    String         @unique @db.VarChar(255)
   owner         String
   user_acc      user_account   @relation(fields: [owner], references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_image String         @db.VarChar(255)
   project_type  String         @db.VarChar(64)
   type          project_type   @relation(fields: [project_type], references: [type], onDelete: Cascade, onUpdate: Cascade)
+  upvotes       upvotes[]
 }
 
 model user_account {
-  id            String         @id
-  messages      messages[]
-  projects      projects[]
-  contributor   contributors[]
-  threads       threads[]
-  first_name    String         @db.VarChar(64)
-  last_name     String         @db.VarChar(64)
-  email         String         @unique
-  creation_date DateTime       @default(now())
-  github_url    String         @db.VarChar(255)
-  user_name     String         @db.VarChar(32)
-  session_id    String         @unique @db.VarChar(16)
+  id                     String         @id
+  messages               messages[]
+  projects               projects[]
+  contributor            contributors[]
+  threads                threads[]
+  first_name             String         @db.VarChar(64)
+  last_name              String         @db.VarChar(64)
+  email                  String         @unique
+  creation_date          DateTime       @default(now())
+  github_url             String         @db.VarChar(255)
+  user_name              String         @unique @db.VarChar(32)
+  session_id             String         @unique @db.VarChar(16)
+  github_profile_picture String         @db.VarChar(64)
+  upvotes                upvotes[]
+  links                  links[]
+}
+
+model links {
+  id      Int          @id @default(autoincrement())
+  name    String       @db.VarChar(32)
+  url     String       @db.VarChar(64)
+  user_id String
+  user    user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model threads {
@@ -53,7 +65,18 @@ model threads {
   thread_tag      String       @db.VarChar(32)
   thread_tag_name thread_tags  @relation(fields: [thread_tag], references: [thread_tag_name], onDelete: Cascade, onUpdate: Cascade)
   upvotes         Int
+  all_upvotes     upvotes[]
   isPinned        Boolean
+}
+
+model upvotes {
+  id         Int          @id @default(autoincrement())
+  thread_id  Int
+  thread     threads      @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  project_id Int
+  project    projects     @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_name  String
+  user       user_account @relation(fields: [user_name], references: [user_name], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model thread_tags {
@@ -72,8 +95,8 @@ model tags {
   id         Int        @id @default(autoincrement())
   tag_name   String
   tag        taglibrary @relation(fields: [tag_name], references: [tag_name], onDelete: Cascade, onUpdate: Cascade)
-  project_id Int
-  project    projects   @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  github_url String
+  project    projects   @relation(fields: [github_url], references: [github_url], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model messages {

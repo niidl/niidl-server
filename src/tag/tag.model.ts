@@ -3,18 +3,18 @@ import { db } from '../utils/db.server';
 type Tag = {
   id: number;
   tag_name: string;
-  project_id: number;
+  github_url: string;
 };
 
-export async function getAllTagsByProject(id: number): Promise<Tag[]> {
+export async function getAllTagsByProject(github_url: string): Promise<Tag[]> {
   return db.tags.findMany({
     select: {
       id: true,
       tag_name: true,
-      project_id: true,
+      github_url: true,
     },
     where: {
-      project_id: id,
+      github_url: github_url,
     },
   });
 }
@@ -32,7 +32,7 @@ export async function getAllProjectsByTag(tag: string): Promise<Tag[]> {
     select: {
       id: true,
       tag_name: true,
-      project_id: true,
+      github_url: true,
       project: true,
     },
     where: {
@@ -47,7 +47,7 @@ export async function create(payload: Omit<Tag, 'id'>): Promise<Tag> {
     select: {
       id: true,
       tag_name: true,
-      project_id: true,
+      github_url: true,
     },
   });
 }

@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import csurf from 'csurf';
 import * as projectController from './project/project.controller';
 import * as tagController from './tag/tag.controller';
@@ -15,20 +14,37 @@ import * as threadTagNamesController from './threadTagNames/threadTagNames.contr
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
 //to add for csrf protection to specific routes
-server.use(express.json());
-server.use(cors({ origin: true, credentials: true }));
+server.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, DELETE, PUT'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-Requested-With,content-type'
+  );
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 server.use(cookieParser());
+server.use(express.json());
 
 const serverEndpoints = () => {
   server.get('/users', userController.index);
   server.get('/users/:userId', userController.view);
   server.get('/users/:userId/messages', userController.messages);
+  server.get('/users/:userId/projects', userController.projects);
   server.post('/userAuth', userController.save);
   server.post('/logout', userController.logout);
   server.delete('/users/:userId', userController.remove);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
+  server.get(
+    '/projects/:projectId/upvotes/:username',
+    projectController.upvote
+  );
   server.post('/projects/newProject', projectController.save);
   server.put('/projects/:projectId', projectController.edit);
   server.delete('/projects/:projectId', projectController.remove);
