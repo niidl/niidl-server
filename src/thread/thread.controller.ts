@@ -97,16 +97,22 @@ export async function remove(req: Request, res: Response) {
     try {
       const threadId = parseInt(req.params.threadId);
       await threadModel.deleteById(threadId, ghuid);
-
-      res.status(201);
+      res.status(204).send();
     } catch (error: any) {
       try {
         const threadId = parseInt(req.params.threadId);
-        const adminObj = await threadModel.confirmAdmin();
+        const projOwner = await threadModel.projOwnerFromThread(threadId);
+        if (projOwner === ghuid) {
+          await threadModel.deleteAsAdmin(threadId);
+          res.status(204).send();
+          return;
+        }
       } catch (error: any) {
         res.status(500).send(error.message);
+        return;
       }
       res.status(500).send(error.message);
+      return;
     }
   } catch (error: any) {
     res.status(404).send(error.message);

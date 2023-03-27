@@ -140,5 +140,5 @@ export async function projOwnerFromThread(threadId: number) {
   if (!owner) {
     return null;
   }
-  return owner;
+  return thread.project.owner;
 }
