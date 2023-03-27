@@ -12,9 +12,7 @@ interface Thread {
   isPinned: boolean;
 }
 
-export async function getThreadsByProjectId(
-  id: number
-): Promise<Thread[] | null> {
+export async function getThreadsByProjectId(id: number): Promise<Thread[]> {
   return db.threads.findMany({
     select: {
       id: true,
@@ -35,6 +33,7 @@ export async function getThreadsByProjectId(
       title: true,
       thread_tag: true,
       isPinned: true,
+      upvotes_threads: true,
       upvotes: true,
     },
     where: {

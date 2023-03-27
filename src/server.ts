@@ -10,6 +10,8 @@ import * as tagNamesController from './tagNames/tagName.controller';
 import * as userController from './user/user.controller';
 import * as repositoryController from './repository/repository.controller';
 import * as threadTagNamesController from './threadTagNames/threadTagNames.controller';
+import * as upvoteThreadController from './upvoteThread/upvoteThread.controller';
+import * as upvoteMessageController from './upvoteMessage/upvoteMessage.controller';
 
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
@@ -41,10 +43,6 @@ const serverEndpoints = () => {
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
-  server.get(
-    '/projects/:projectId/upvotes/:username',
-    projectController.upvote
-  );
   server.post('/projects/newProject', projectController.save);
   server.put('/projects/:projectId', projectController.edit);
   server.delete('/projects/:projectId', projectController.remove);
@@ -93,6 +91,32 @@ const serverEndpoints = () => {
   server.post(
     '/projects/:projectId/newContributor',
     contributorController.save
+  );
+
+  server.get(
+    '/projects/:projectId/upvotes/:username',
+    upvoteThreadController.index
+  );
+  server.post(
+    '/projects/:projectId/threads/:threadId/upvotes/:username',
+    upvoteThreadController.upvote
+  );
+  server.delete(
+    '/projects/:projectId/threads/:threadId/upvotes/:username',
+    upvoteThreadController.remove
+  );
+
+  server.get(
+    '/projects/:projectId/threads/:threadId/upvotes/:username',
+    upvoteMessageController.index
+  );
+  server.post(
+    '/projects/:projectId/threads/:threadId/messages/:messageId/upvotes/:username',
+    upvoteMessageController.upvote
+  );
+  server.delete(
+    '/projects/:projectId/threads/:threadId/messages/:messageId/upvotes/:username',
+    upvoteMessageController.remove
   );
 
   server.post('/repository/folder', repositoryController.folder);

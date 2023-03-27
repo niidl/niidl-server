@@ -44,6 +44,7 @@ type Message = {
   user_id: string;
   thread_id: number;
   creation_time: Date;
+  upvotes: number;
 };
 
 type Contributor = {
@@ -52,10 +53,17 @@ type Contributor = {
   project_id: number;
 };
 
-type Upvote = {
+type upvoteThread = {
   id: number;
   thread_id: number;
   project_id: number;
+  user_name: string;
+};
+
+type upvoteMessage = {
+  id: number;
+  thread_id: number;
+  message_id: number;
   user_name: string;
 };
 
@@ -67,7 +75,8 @@ async function seed() {
   await db.threads.deleteMany({});
   await db.projects.deleteMany({});
   await db.user_account.deleteMany({});
-  await db.upvotes.deleteMany({});
+  await db.upvotes_threads.deleteMany({});
+  await db.upvotes_messages.deleteMany({});
   await db.project_type.deleteMany({});
   await db.thread_tags.deleteMany({});
 
@@ -152,8 +161,8 @@ async function seed() {
   );
 
   await Promise.all(
-    getUpvotes().map((upvote) => {
-      return db.upvotes.create({
+    getUpvotesThread().map((upvote) => {
+      return db.upvotes_threads.create({
         data: {
           id: upvote.id,
           project_id: upvote.project_id,
@@ -185,6 +194,20 @@ async function seed() {
           user_id: message.user_id,
           thread_id: message.thread_id,
           creation_time: message.creation_time,
+          upvotes: message.upvotes,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
+    getUpvotesMessage().map((upvote) => {
+      return db.upvotes_messages.create({
+        data: {
+          id: upvote.id,
+          message_id: upvote.message_id,
+          user_name: upvote.user_name,
+          thread_id: upvote.thread_id,
         },
       });
     })
@@ -532,6 +555,7 @@ function getMessages(): Array<Message> {
       user_id: 'zxc',
       thread_id: -2,
       creation_time: new Date(),
+      upvotes: 10,
     },
     {
       id: -2,
@@ -539,6 +563,7 @@ function getMessages(): Array<Message> {
       user_id: 'asd',
       thread_id: -3,
       creation_time: new Date(),
+      upvotes: 0,
     },
     {
       id: -3,
@@ -546,6 +571,7 @@ function getMessages(): Array<Message> {
       user_id: 'qwe',
       thread_id: -1,
       creation_time: new Date(),
+      upvotes: 5,
     },
     {
       id: -4,
@@ -554,6 +580,7 @@ function getMessages(): Array<Message> {
       user_id: 'asd',
       thread_id: -1,
       creation_time: new Date(),
+      upvotes: 3,
     },
     {
       id: -5,
@@ -562,6 +589,7 @@ function getMessages(): Array<Message> {
       user_id: 'zxc',
       thread_id: -3,
       creation_time: new Date(),
+      upvotes: 7,
     },
     {
       id: -6,
@@ -570,6 +598,7 @@ function getMessages(): Array<Message> {
       user_id: '123',
       thread_id: -2,
       creation_time: new Date(),
+      upvotes: 0,
     },
     {
       id: -7,
@@ -578,6 +607,7 @@ function getMessages(): Array<Message> {
       user_id: '456',
       thread_id: -1,
       creation_time: new Date(),
+      upvotes: 4,
     },
   ];
 }
@@ -602,7 +632,7 @@ function getContributors(): Array<Contributor> {
   ];
 }
 
-function getUpvotes(): Array<Upvote> {
+function getUpvotesThread(): Array<upvoteThread> {
   return [
     {
       id: -1,
@@ -632,6 +662,41 @@ function getUpvotes(): Array<Upvote> {
       id: -5,
       thread_id: -10,
       project_id: -1,
+      user_name: 'robertwillson',
+    },
+  ];
+}
+
+function getUpvotesMessage(): Array<upvoteMessage> {
+  return [
+    {
+      id: -1,
+      thread_id: -1,
+      message_id: -3,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -2,
+      thread_id: -1,
+      message_id: -4,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -3,
+      thread_id: -1,
+      message_id: -7,
+      user_name: 'amandajones10',
+    },
+    {
+      id: -4,
+      thread_id: -1,
+      message_id: -7,
+      user_name: 'MrBCendales',
+    },
+    {
+      id: -5,
+      thread_id: -1,
+      message_id: -3,
       user_name: 'robertwillson',
     },
   ];
