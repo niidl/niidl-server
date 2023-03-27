@@ -84,25 +84,6 @@ export async function view(req: Request, res: Response) {
   }
 }
 
-export async function upvote(req: Request, res: Response) {
-  try {
-    const username = req.params.username;
-    const projectId = parseInt(req.params.projectId);
-    const allUpvotes = await projectModel.getUpvotes(projectId);
-
-    if (allUpvotes[0]) {
-      const userUpvotes = allUpvotes[0].upvotes.filter(
-        (upvote: any) => upvote.user_name === username
-      );
-      res.status(200).send(userUpvotes);
-    } else {
-      res.status(200).send([]);
-    }
-  } catch (error: any) {
-    res.status(500).send(error.message);
-  }
-}
-
 export async function save(req: Request, res: Response) {
   try {
     const {

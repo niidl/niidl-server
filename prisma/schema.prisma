@@ -11,37 +11,38 @@ datasource db {
 }
 
 model projects {
-  id            Int            @id @default(autoincrement())
-  threads       threads[]
-  tags          tags[]
-  contributor   contributors[]
-  project_name  String         @db.VarChar(64)
-  description   String         @db.VarChar(9999)
-  github_url    String         @unique @db.VarChar(255)
-  owner         String
-  user_acc      user_account   @relation(fields: [owner], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  project_image String         @db.VarChar(255)
-  project_type  String         @db.VarChar(64)
-  type          project_type   @relation(fields: [project_type], references: [type], onDelete: Cascade, onUpdate: Cascade)
-  upvotes       upvotes[]
+  id              Int               @id @default(autoincrement())
+  threads         threads[]
+  tags            tags[]
+  contributor     contributors[]
+  project_name    String            @db.VarChar(64)
+  description     String            @db.VarChar(9999)
+  github_url      String            @unique @db.VarChar(255)
+  owner           String
+  user_acc        user_account      @relation(fields: [owner], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  project_image   String            @db.VarChar(255)
+  project_type    String            @db.VarChar(64)
+  type            project_type      @relation(fields: [project_type], references: [type], onDelete: Cascade, onUpdate: Cascade)
+  upvotes_threads upvotes_threads[]
 }
 
 model user_account {
-  id                     String         @id
+  id                     String             @id
   messages               messages[]
   projects               projects[]
   contributor            contributors[]
   threads                threads[]
-  first_name             String         @db.VarChar(64)
-  last_name              String         @db.VarChar(64)
-  email                  String         @unique
-  creation_date          DateTime       @default(now())
-  github_url             String         @db.VarChar(255)
-  user_name              String         @unique @db.VarChar(32)
-  session_id             String         @unique @db.VarChar(16)
-  github_profile_picture String         @db.VarChar(64)
-  upvotes                upvotes[]
+  first_name             String             @db.VarChar(64)
+  last_name              String             @db.VarChar(64)
+  email                  String             @unique
+  creation_date          DateTime           @default(now())
+  github_url             String             @db.VarChar(255)
+  user_name              String             @unique @db.VarChar(32)
+  session_id             String             @unique @db.VarChar(16)
+  github_profile_picture String             @db.VarChar(64)
+  upvotes                upvotes_threads[]
   links                  links[]
+  upvotes_messages       upvotes_messages[]
 }
 
 model links {
@@ -53,28 +54,39 @@ model links {
 }
 
 model threads {
-  id              Int          @id @default(autoincrement())
-  content         String       @db.VarChar(9999)
-  message         messages[]
-  project_id      Int
-  project         projects     @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user_id         String
-  user            user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  creation_time   DateTime     @default(now())
-  title           String       @db.VarChar(255)
-  thread_tag      String       @db.VarChar(32)
-  thread_tag_name thread_tags  @relation(fields: [thread_tag], references: [thread_tag_name], onDelete: Cascade, onUpdate: Cascade)
-  upvotes         Int
-  all_upvotes     upvotes[]
-  isPinned        Boolean
+  id               Int                @id @default(autoincrement())
+  content          String             @db.VarChar(9999)
+  message          messages[]
+  project_id       Int
+  project          projects           @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id          String
+  user             user_account       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  creation_time    DateTime           @default(now())
+  title            String             @db.VarChar(255)
+  thread_tag       String             @db.VarChar(32)
+  thread_tag_name  thread_tags        @relation(fields: [thread_tag], references: [thread_tag_name], onDelete: Cascade, onUpdate: Cascade)
+  upvotes          Int
+  upvotes_threads  upvotes_threads[]
+  isPinned         Boolean
+  upvotes_messages upvotes_messages[]
 }
 
-model upvotes {
+model upvotes_threads {
   id         Int          @id @default(autoincrement())
   thread_id  Int
   thread     threads      @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_id Int
   project    projects     @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_name  String
+  user       user_account @relation(fields: [user_name], references: [user_name], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model upvotes_messages {
+  id         Int          @id @default(autoincrement())
+  thread_id  Int
+  thread     threads      @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  message_id Int
+  message    messages     @relation(fields: [message_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user_name  String
   user       user_account @relation(fields: [user_name], references: [user_name], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -100,13 +112,15 @@ model tags {
 }
 
 model messages {
-  id            Int          @id @default(autoincrement())
-  content       String       @db.VarChar(10000)
-  creation_time DateTime     @default(now())
-  user_id       String
-  user          user_account @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  thread_id     Int
-  thread        threads      @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id               Int                @id @default(autoincrement())
+  content          String             @db.VarChar(10000)
+  creation_time    DateTime           @default(now())
+  user_id          String
+  user             user_account       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  thread_id        Int
+  thread           threads            @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  upvotes          Int
+  upvotes_messages upvotes_messages[]
 }
 
 model contributors {

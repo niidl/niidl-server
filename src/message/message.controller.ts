@@ -7,6 +7,10 @@ export async function index(req: Request, res: Response) {
     const allMessagesByThreadId = await messageModel.getMessagesByThreadId(
       threadId
     );
+    allMessagesByThreadId.forEach((message: any) => {
+      message.upvotes_messages = message.upvotes_messages.length;
+    });
+
     res.status(200).send(allMessagesByThreadId);
   } catch (error: any) {
     res.status(500).send(error.message);
@@ -39,8 +43,8 @@ export async function save(req: Request, res: Response) {
         creation_time,
         user_id: ghuid.id,
         thread_id,
+        upvotes: 0,
       };
-      console.log(payload);
       await messageModel.create(payload);
       res.status(201).send('');
     } catch (error: any) {
@@ -60,7 +64,7 @@ export async function edit(req: Request, res: Response) {
     };
 
     await messageModel.update(payload, messageId);
-    res.status(201);
+    res.status(201).send('');
   } catch (error: any) {
     res.status(500).send(error.message);
   }
