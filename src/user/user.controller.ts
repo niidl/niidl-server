@@ -40,7 +40,7 @@ export async function view(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const uid = req.params.userId;
+      const uid = ghuid.id;
       const user = await userModel.getUser(uid);
       res.status(200).send(user);
     } catch (error: any) {

@@ -37,8 +37,8 @@ server.use(express.json());
 
 const serverEndpoints = () => {
   server.get('/users', userController.index);//
-  server.get('/users/:userId', userController.view);//
-  server.get('/users/:userId/messages', userController.messages);//
+  server.get('/users/data', userController.view);//
+  server.get('/users/messages', userController.messages);//
   server.get('/users/:userId/projects', userController.projects);//
   server.post('/userAuth', userController.save);//
   server.post('/logout', userController.logout);//
