@@ -1,4 +1,5 @@
 import * as userModel from './user.model';
+import * as authModel from '../auth/auth.model'
 import { Request, Response } from 'express';
 import axios from 'axios';
 import { randomBytes } from 'crypto';
@@ -11,40 +12,84 @@ export interface sessionCookie {
 
 export async function index(req: Request, res: Response) {
   try {
-    const users = await userModel.getAllUsers();
-    res.status(200).send(users);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
+
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const users = await userModel.getAllUsers();
+      res.status(200).send(users);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function view(req: Request, res: Response) {
   try {
-    const uid = req.params.userId;
-    const user = await userModel.getUser(uid);
-    res.status(200).send(user);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
+
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const uid = req.params.userId;
+      const user = await userModel.getUser(uid);
+      res.status(200).send(user);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function messages(req: Request, res: Response) {
   try {
-    const uid = req.params.userId;
-    const allMessages = await userModel.getAllMessagesByUser(uid);
-    res.status(200).send(allMessages);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
+
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const uid = req.params.userId;
+      const allMessages = await userModel.getAllMessagesByUser(uid);
+      res.status(200).send(allMessages);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function projects(req: Request, res: Response) {
   try {
-    const uid = req.params.userId;
-    const allProjectsByUser = await userModel.getAllProjectsByUser(uid);
-    res.status(200).send(allProjectsByUser);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
+
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const uid = req.params.userId;
+      const allProjectsByUser = await userModel.getAllProjectsByUser(uid);
+      res.status(200).send(allProjectsByUser);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
@@ -120,11 +165,22 @@ export async function logout(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    const userId = req.params.userId;
-    await userModel.deleteById(userId);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const userId = req.params.userId;
+      await userModel.deleteById(userId);
+
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }

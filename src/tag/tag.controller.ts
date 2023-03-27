@@ -1,4 +1,5 @@
 import * as tagModel from './tag.model';
+import * as authModel from '../auth/auth.model'
 import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
@@ -33,22 +34,44 @@ export async function filter(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const payload = req.body;
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    await tagModel.create(payload);
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const payload = req.body;
+
+      await tagModel.create(payload);
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function remove(req: Request, res: Response) {
   try {
-    const tagId = parseInt(req.params.tagId);
-    await tagModel.deleteById(tagId);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const tagId = parseInt(req.params.tagId);
+      await tagModel.deleteById(tagId);
+
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }

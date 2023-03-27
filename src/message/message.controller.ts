@@ -1,4 +1,5 @@
 import * as messageModel from './message.model';
+import * as authModel from '../auth/auth.model'
 import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
@@ -27,11 +28,11 @@ export async function save(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await messageModel.validateUser(sessionId);
+    const ghuid = await authModel.validateUser(sessionId);
 
     if (!ghuid) {
       return res.status(404).send('Invalid Access Token');
-    }
+    } 
     try {
       const { content, creation_time, thread_id } = req.body;
       const payload = {
@@ -53,26 +54,48 @@ export async function save(req: Request, res: Response) {
 
 export async function edit(req: Request, res: Response) {
   try {
-    const { content } = req.body;
-    const messageId = parseInt(req.params.messageId);
-    const payload = {
-      content,
-    };
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    await messageModel.update(payload, messageId);
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const { content } = req.body;
+      const messageId = parseInt(req.params.messageId);
+      const payload = {
+        content,
+      };
+
+      await messageModel.update(payload, messageId);
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function remove(req: Request, res: Response) {
   try {
-    const messageId = parseInt(req.params.messageId);
-    await messageModel.deleteById(messageId);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const messageId = parseInt(req.params.messageId);
+      await messageModel.deleteById(messageId);
+
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
