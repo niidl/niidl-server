@@ -33,10 +33,14 @@ export async function create(payload: Upvote): Promise<any> {
   });
 }
 
-export async function deleteById(upvoteId: number): Promise<Upvote> {
-  return db.upvotes_messages.delete({
+export async function deleteById(
+  username: string,
+  messageId: number
+): Promise<any> {
+  return db.upvotes_messages.deleteMany({
     where: {
-      id: upvoteId,
+      user_name: username,
+      message_id: messageId,
     },
   });
 }
