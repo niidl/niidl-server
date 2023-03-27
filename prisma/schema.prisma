@@ -121,6 +121,9 @@ model messages {
   thread           threads            @relation(fields: [thread_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   upvotes          Int
   upvotes_messages upvotes_messages[]
+
+  @@unique([id, user_id], name: "composite_user_id")
+
 }
 
 model contributors {

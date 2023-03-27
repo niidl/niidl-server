@@ -13,6 +13,11 @@ type UserId = {
   id: string;
 };
 
+type ProjAdmin = {
+  projectId: number;
+  userId: string;
+};
+
 export async function validateUser(sessionId: string): Promise<UserId | null> {
   return db.user_account.findUnique({
     where: {
@@ -85,10 +90,56 @@ export async function update(payload: object, id: number): Promise<Message> {
   });
 }
 
-export async function deleteById(id: number): Promise<Message> {
+export async function deleteById(
+  messageId: number,
+  ghuid: string
+): Promise<Message> {
   return db.messages.delete({
     where: {
-      id: id,
+      composite_user_id: {
+        id: messageId,
+        user_id: ghuid,
+      },
     },
   });
+}
+
+export async function deleteAsAdmin(messageId: number): Promise<Message> {
+  return db.messages.delete({
+    where: {
+      id: messageId,
+    },
+  });
+}
+
+export async function confirmAdmin(
+  messageId: number
+): Promise<ProjAdmin | null> {
+  const thread = await db.threads.findFirst({
+    where: {
+      message: {
+        some: {
+          id: messageId,
+        },
+      },
+    },
+    include: {
+      message: true,
+    },
+  });
+
+  if (!thread) {
+    return null;
+  }
+
+  const message = thread.message.find((msg) => msg.id === messageId);
+
+  if (!message) {
+    return null;
+  }
+
+  return {
+    projectId: thread.project_id,
+    userId: message.user_id,
+  };
 }
