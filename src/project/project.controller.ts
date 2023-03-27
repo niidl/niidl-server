@@ -1,4 +1,5 @@
 import * as projectModel from './project.model';
+import * as authModel from '../auth/auth.model'
 import { Request, Response } from 'express';
 import axios from 'axios';
 
@@ -86,57 +87,90 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const {
-      project_name,
-      description,
-      github_url,
-      owner,
-      project_image,
-      project_type,
-    } = req.body;
-    const payload = {
-      project_name,
-      description,
-      github_url,
-      owner,
-      project_image,
-      project_type,
-    };
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    console.log(payload);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const {
+        project_name,
+        description,
+        github_url,
+        owner,
+        project_image,
+        project_type,
+      } = req.body;
+      const payload = {
+        project_name,
+        description,
+        github_url,
+        owner,
+        project_image,
+        project_type,
+      };
 
-    await projectModel.create(payload);
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+      console.log(payload);
+
+      await projectModel.create(payload);
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function edit(req: Request, res: Response) {
   try {
-    const { project_name, project_image, project_type, description } = req.body;
-    const projectId = parseInt(req.params.projectId);
-    const payload = {
-      project_name,
-      project_image,
-      project_type,
-      description,
-    };
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    await projectModel.update(payload, projectId);
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const { project_name, project_image, project_type, description } = req.body;
+      const projectId = parseInt(req.params.projectId);
+      const payload = {
+        project_name,
+        project_image,
+        project_type,
+        description,
+      };
+
+      await projectModel.update(payload, projectId);
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }
 
 export async function remove(req: Request, res: Response) {
   try {
-    const projectId = parseInt(req.params.projectId);
-    await projectModel.deleteById(projectId);
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const ghuid = await authModel.validateUser(sessionId);
 
-    res.status(201);
-  } catch (error: any) {
-    res.status(500).send(error.message);
+    if (!ghuid) {
+      return res.status(404).send('Invalid Access Token');
+    }
+    try {
+      const projectId = parseInt(req.params.projectId);
+      await projectModel.deleteById(projectId);
+
+      res.status(201);
+    } catch (error: any) {
+      res.status(500).send(error.message);
+    }
+  }catch (error: any) {
+    res.status(404).send(error.message);
   }
 }

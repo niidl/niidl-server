@@ -59,7 +59,7 @@ export async function getAllProjectsByUser(
   });
 }
 
-export async function getUser(uid: string): Promise<object | null> {
+export async function getUser(ghuid: string): Promise<object | null> {
   return db.user_account.findUnique({
     select: {
       id: true,
@@ -69,9 +69,10 @@ export async function getUser(uid: string): Promise<object | null> {
       email: true,
       user_name: true,
       github_profile_picture: true,
+      links: true
     },
     where: {
-      id: uid,
+      id: ghuid,
     },
   });
 }
