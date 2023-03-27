@@ -104,42 +104,17 @@ export async function deleteById(
   });
 }
 
+export async function projOwnerFromMsg(messageId: number) {
+  return await db.messages.findUnique({
+    where: { id: messageId },
+    include: { thread: { include: { project: true } }, user: true },
+  });
+}
+
 export async function deleteAsAdmin(messageId: number): Promise<Message> {
   return db.messages.delete({
     where: {
       id: messageId,
     },
   });
-}
-
-export async function confirmAdmin(
-  messageId: number
-): Promise<ProjAdmin | null> {
-  const thread = await db.threads.findFirst({
-    where: {
-      message: {
-        some: {
-          id: messageId,
-        },
-      },
-    },
-    include: {
-      message: true,
-    },
-  });
-
-  if (!thread) {
-    return null;
-  }
-
-  const message = thread.message.find((msg) => msg.id === messageId);
-
-  if (!message) {
-    return null;
-  }
-
-  return {
-    projectId: thread.project_id,
-    userId: message.user_id,
-  };
 }

@@ -95,16 +95,20 @@ export async function remove(req: Request, res: Response) {
     try {
       const messageId = parseInt(req.params.messageId);
       await messageModel.deleteById(messageId, ghuid);
-      res.status(201);
+      res.status(204).send();
     } catch (error: any) {
       try {
         const messageId = parseInt(req.params.messageId);
-        const adminObj = await messageModel.confirmAdmin(messageId);
-        if (adminObj?.projectId === adminObj?.userId) {
+        const projOwnerFromMsg = await messageModel.projOwnerFromMsg(messageId);
+        const projOwner = projOwnerFromMsg?.thread.project.owner;
+        if (projOwner === ghuid) {
           await messageModel.deleteAsAdmin(messageId);
+          res.status(204).send();
+          return;
         }
       } catch (error: any) {
         res.status(500).send(error.message);
+        return;
       }
       res.status(500).send(error.message);
     }

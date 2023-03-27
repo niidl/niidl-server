@@ -69,6 +69,8 @@ model threads {
   upvotes_threads  upvotes_threads[]
   isPinned         Boolean
   upvotes_messages upvotes_messages[]
+
+  @@unique([id, user_id], name: "composite_user_id")
 }
 
 model upvotes_threads {
