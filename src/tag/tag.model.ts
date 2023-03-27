@@ -44,11 +44,6 @@ export async function getAllProjectsByTag(tag: string): Promise<Tag[]> {
 export async function create(payload: any): Promise<any> {
   return db.tags.createMany({
     data: payload,
-    select: {
-      id: true,
-      tag_name: true,
-      github_url: true,
-    },
   });
 }
 
