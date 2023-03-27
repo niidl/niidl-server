@@ -33,10 +33,14 @@ export async function create(payload: Upvote): Promise<any> {
   });
 }
 
-export async function deleteById(upvoteId: number): Promise<Upvote> {
-  return db.upvotes_threads.delete({
+export async function deleteById(
+  username: string,
+  threadId: number
+): Promise<any> {
+  return db.upvotes_threads.deleteMany({
     where: {
-      id: upvoteId,
+      user_name: username,
+      thread_id: threadId,
     },
   });
 }

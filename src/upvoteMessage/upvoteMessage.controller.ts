@@ -40,8 +40,9 @@ export async function upvote(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    const upvoteId = parseInt(req.body.upvoteId);
-    await upvoteMessageModel.deleteById(upvoteId);
+    const username = req.params.username;
+    const messageId = parseInt(req.params.messageId);
+    await upvoteMessageModel.deleteById(username, messageId);
 
     res.status(200).send('');
   } catch (error: any) {
