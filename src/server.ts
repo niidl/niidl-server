@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
 import * as projectController from './project/project.controller';
+import * as projectGHController from './project_github/project_github.controller';
 import * as tagController from './tag/tag.controller';
 import * as messageController from './message/message.controller';
 import * as contributorController from './contributor/contributor.controller';
@@ -45,6 +46,9 @@ const serverEndpoints = () => {
   server.post('/userAuth', userController.save);//
   server.post('/logout', userController.logout);//
   server.delete('/users/:userId', userController.remove);//
+
+  server.get('/githubProjects', projectGHController.index);
+  server.get('/githubProjects/:projectId', projectGHController.view);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
