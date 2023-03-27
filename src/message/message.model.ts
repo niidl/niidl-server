@@ -6,6 +6,7 @@ type Message = {
   creation_time: Date;
   user_id: string;
   thread_id: number;
+  upvotes: number;
 };
 
 type UserId = {
@@ -23,9 +24,7 @@ export async function validateUser(sessionId: string): Promise<UserId | null> {
   });
 }
 
-export async function getMessagesByThreadId(
-  id: number
-): Promise<Message[] | null> {
+export async function getMessagesByThreadId(id: number): Promise<any> {
   return db.messages.findMany({
     where: {
       thread_id: id,
@@ -41,6 +40,8 @@ export async function getMessagesByThreadId(
           user_name: true,
         },
       },
+      upvotes: true,
+      upvotes_messages: true,
     },
   });
 }
@@ -62,6 +63,7 @@ export async function create(payload: Omit<Message, 'id'>): Promise<Message> {
       creation_time: true,
       user_id: true,
       thread_id: true,
+      upvotes: true,
     },
   });
 }
@@ -75,6 +77,7 @@ export async function update(payload: object, id: number): Promise<Message> {
       creation_time: true,
       user_id: true,
       thread_id: true,
+      upvotes: true,
     },
     where: {
       id: id,

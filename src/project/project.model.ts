@@ -44,22 +44,6 @@ export async function getProjectById(id: number): Promise<any> {
   });
 }
 
-export async function getUpvotes(id: number): Promise<any> {
-  return db.projects.findMany({
-    select: {
-      upvotes: {
-        select: {
-          user_name: true,
-          thread_id: true,
-        },
-      },
-    },
-    where: {
-      id: id,
-    },
-  });
-}
-
 export async function getByFilterTag(
   filterTag: number
 ): Promise<Project[] | null> {

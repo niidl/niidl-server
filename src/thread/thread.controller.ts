@@ -8,6 +8,10 @@ export async function index(req: Request, res: Response) {
     const allThreadsByProjectId = await threadModel.getThreadsByProjectId(
       projectId
     );
+
+    allThreadsByProjectId.forEach((thread: any) => {
+      thread.upvotes_threads = thread.upvotes_threads.length;
+    });
     res.status(200).send(allThreadsByProjectId);
   } catch (error: any) {
     res.status(500).send(error.message);
