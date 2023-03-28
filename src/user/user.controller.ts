@@ -1,5 +1,5 @@
 import * as userModel from './user.model';
-import * as authModel from '../auth/auth.model'
+import * as authModel from '../auth/auth.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
 import { randomBytes } from 'crypto';
@@ -25,7 +25,7 @@ export async function index(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -46,7 +46,7 @@ export async function view(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -67,7 +67,7 @@ export async function messages(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -88,7 +88,7 @@ export async function projects(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -149,6 +149,7 @@ export async function logout(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const cookie: string = cookieObj.sessionToken;
+    console.log('ghuid logout', cookie);
     try {
       const logoutCookie: string = cookie.substring(2);
       const sessionEndId = await userModel.endSession(cookie, logoutCookie);
@@ -180,7 +181,7 @@ export async function remove(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
