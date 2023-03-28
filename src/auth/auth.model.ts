@@ -1,30 +1,27 @@
 import { db } from '../utils/db.server';
 
-
 type UserId = {
-    id: string;
-  };
+  id: string;
+};
 
 export async function validateUser(sessionId: string): Promise<UserId | null> {
-    return db.user_account.findUnique({
-      where: {
-        session_id: sessionId,
-      },
-      select: {
-        id: true,
-      },
-    });
-  }
-
-export async function validateProject(projectId:number) {
-  return db.projects.findUnique({
+  return db.user_account.findUnique({
     where: {
-      id: projectId,
+      session_id: sessionId,
     },
     select: {
-      owner: true
-    }
-  })
+      id: true,
+    },
+  });
+}
+
+export async function validateProject(projectId: number, username: string) {
+  return db.projects.findMany({
+    where: {
+      id: projectId,
+      owner: username,
+    },
+  });
 }
 
 /* Controller side template
