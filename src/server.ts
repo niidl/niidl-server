@@ -13,8 +13,9 @@ import * as repositoryController from './repository/repository.controller';
 import * as threadTagNamesController from './threadTagNames/threadTagNames.controller';
 import * as upvoteThreadController from './upvoteThread/upvoteThread.controller';
 import * as upvoteMessageController from './upvoteMessage/upvoteMessage.controller';
+import * as projectTypesController from './projectTypes/projectTypes.controller';
 
-import cors from 'cors'
+import cors from 'cors';
 
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
@@ -39,13 +40,13 @@ server.use(express.json());
 // dentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
 
 const serverEndpoints = () => {
-  server.get('/users', userController.index);//
-  server.get('/users/data', userController.view);//
-  server.get('/users/messages', userController.messages);//
-  server.get('/users/projects', userController.projects);//
-  server.post('/userAuth', userController.save);//
-  server.post('/logout', userController.logout);//
-  server.delete('/users/:userId', userController.remove);//
+  server.get('/users', userController.index); //
+  server.get('/users/data', userController.view); //
+  server.get('/users/messages', userController.messages); //
+  server.get('/users/projects', userController.projects); //
+  server.post('/userAuth', userController.save); //
+  server.post('/logout', userController.logout); //
+  server.delete('/users/:userId', userController.remove); //
 
   server.get('/githubProjects', projectGHController.index);
   server.get('/githubProjects/:projectId', projectGHController.view);
@@ -59,17 +60,17 @@ const serverEndpoints = () => {
   server.get('/projects/:projectId/tags', tagController.index);
   server.get('/filterProjects/:filterTag', tagController.filter);
   server.get('/projects/:projectId/tags/:tagId', tagController.view);
-  server.post('/projects/:projectId/newTag', tagController.save);//
-  server.delete('/projects/:projectId/tags/:tagId', tagController.remove);//
+  server.post('/projects/:projectId/newTag', tagController.save); //
+  server.delete('/projects/:projectId/tags/:tagId', tagController.remove); //
 
   server.get('/projects/:projectId/threads', threadController.index);
   server.get('/projects/:projectId/threads/:threadId', threadController.view);
-  server.post('/projects/:projectId/newThread', threadController.save);//
-  server.put('/projects/:projectId/threads/:threadId', threadController.edit);//
+  server.post('/projects/:projectId/newThread', threadController.save); //
+  server.put('/projects/:projectId/threads/:threadId', threadController.edit); //
   server.delete(
     '/projects/:projectId/threads/:threadId',
     threadController.remove
-  );//
+  ); //
 
   server.get(
     '/projects/:projectId/threads/:threadId/messages',
@@ -82,15 +83,15 @@ const serverEndpoints = () => {
   server.post(
     '/projects/:projectId/threads/:threadId/newMessage',
     messageController.save
-  );//
+  ); //
   server.put(
     '/projects/:projectId/threads/:threadId/messages/:messageId',
     messageController.edit
-  );//
+  ); //
   server.delete(
     '/projects/:projectId/threads/:threadId/messages/:messageId',
     messageController.remove
-  );//
+  ); //
 
   server.get('/projects/:projectId/contributors', contributorController.index);
   server.get(
@@ -100,7 +101,7 @@ const serverEndpoints = () => {
   server.post(
     '/projects/:projectId/newContributor',
     contributorController.save
-  );//
+  ); //
 
   server.get(
     '/projects/:projectId/upvotes/:username',
@@ -134,6 +135,8 @@ const serverEndpoints = () => {
   server.get('/tagNames', tagNamesController.index);
 
   server.get('/threadTagNames', threadTagNamesController.index);
+
+  server.get('/projectTypes', projectTypesController.index);
 
   return server;
 };
