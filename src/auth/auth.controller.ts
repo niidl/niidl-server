@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export async function projectToOwner(req: Request, res: Response) {
     try {
-      const projectId = req.body
+      const projectId = parseInt(req.params.projectId)
       const cookieObj: { sessionToken: string } = req.cookies;
       const sessionId: string = cookieObj.sessionToken;
       const ghuid = await authModel.validateUser(sessionId); 
