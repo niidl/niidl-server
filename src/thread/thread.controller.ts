@@ -37,8 +37,10 @@ export async function save(req: Request, res: Response) {
     if (!ghuid) {
       return res.status(404).send('Invalid Access Token');
     }
+    
     try {
-      const { content, creation_time, project_id, title, user_id, thread_tag } =
+      const user_id = ghuid.id
+      const { content, creation_time, project_id, title, thread_tag } =
         req.body;
       const payload = {
         content,
@@ -50,14 +52,16 @@ export async function save(req: Request, res: Response) {
         isPinned: false,
         upvotes: 0,
       };
-
+      console.log(payload)
       await threadModel.create(payload);
       res.status(201);
+      return
     } catch (error: any) {
-      res.status(500).send(error.message);
+      res.status(401).send(error.message);
+      return
     }
   } catch (error: any) {
-    res.status(404).send(error.message);
+    res.status(403).send(error.message);
   }
 }
 
