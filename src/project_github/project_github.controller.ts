@@ -22,32 +22,38 @@ interface allInfo {
   tags: Array<object>;
 }
 
-async function getAllData() {
+async function fetchTagData(tag: string) {
   const TOTAL_GITHUB_ELEMENTS: number = 2;
-  const allGithubProjects: Array<object> = [];
-  const projTags: Array<string> = [
+  const githubProjects = await axios.get(
+    `https://api.github.com/search/repositories?q=${tag}&sort=stars&order=desc&per_page=${TOTAL_GITHUB_ELEMENTS}`,
+    {
+      headers: {
+        Authorization: 'token ' + gitApiAuth,
+      },
+    }
+  );
+  return githubProjects.data.items;
+}
+
+async function getAllData() {
+  const rawGithubProjectsData: Array<any> = [];
+  const allGithubProjects: Array<SingleProject> = [];
+  const projectTags: Array<string> = [
     'Environment',
     'Business',
     'Fitness',
     'Health',
-    'Travel',
   ];
-
-  for (let i = 0; i < TOTAL_GITHUB_ELEMENTS; i++) {
-    let count: number = 0;
-    if (count > 4) {
-      count = 0;
-    }
-    const githubProjects = await axios.get(
-      `https://api.github.com/search/repositories?q=${projTags[count]}`,
-      {
-        headers: {
-          Authorization: 'token ' + gitApiAuth,
-        },
-      }
-    );
+  for (let i = 0; i < projectTags.length; i++) {
+    const dataTag1 = await fetchTagData(projectTags[i]);
+    dataTag1.map((project: any) => {
+      project['projectMainTag'] = projectTags[i];
+      rawGithubProjectsData.push(project);
+    });
+  }
+  for (let i = 0; i < rawGithubProjectsData.length; i++) {
     const tempLanguages = await axios.get(
-      githubProjects.data.items[i].languages_url,
+      rawGithubProjectsData[i].languages_url,
       {
         headers: {
           Authorization: 'token ' + gitApiAuth,
@@ -56,18 +62,18 @@ async function getAllData() {
     );
     const projectTags = Object.keys(tempLanguages.data);
     projectTags.push('Based on Github');
-    projectTags.push(`${projTags[count]}`);
+    projectTags.push(`${rawGithubProjectsData[i].projectMainTag}`);
     const tagsArr: Array<object> = [];
     //4th grade time complexity WARNING
     projectTags.map((tag) => {
       tagsArr.push({
         tag_name: tag,
-        project_id: githubProjects.data.items[i].html_url,
+        project_id: rawGithubProjectsData[i].html_url,
       });
     });
     /// Issues
     const data_issues: any = [];
-    const link_issues = `${githubProjects.data.items[i].url}/issues`;
+    const link_issues = `${rawGithubProjectsData[i].url}/issues`;
     const res_issues = await axios.get(link_issues, {
       headers: {
         Authorization: 'token ' + gitApiAuth,
@@ -85,20 +91,18 @@ async function getAllData() {
     });
     /// End issues
     const tempProject: SingleProject = {
-      id: githubProjects.data.items[i].id * -1,
-      project_name: githubProjects.data.items[i].name,
-      description: 'A gitHub App, please check the URL to get to this project',
-      github_url: githubProjects.data.items[i].html_url,
-      owner: githubProjects.data.items[i].owner.login,
-      project_image: githubProjects.data.items[i].owner.avatar_url,
+      id: rawGithubProjectsData[i].id * -1,
+      project_name: rawGithubProjectsData[i].name,
+      description: rawGithubProjectsData[i].description,
+      github_url: rawGithubProjectsData[i].html_url,
+      owner: rawGithubProjectsData[i].owner.login,
+      project_image: rawGithubProjectsData[i].owner.avatar_url,
       project_type: 'Web Full Stack',
       tags: tagsArr,
       issues: data_issues,
     };
-    count++;
     allGithubProjects.push(tempProject);
   }
-
   return allGithubProjects;
 }
 

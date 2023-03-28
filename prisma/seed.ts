@@ -718,6 +718,7 @@ function getTagNames(): Array<string> {
     'Python',
     'Ruby',
     'C#',
+    'Based on Github',
   ];
 }
 
