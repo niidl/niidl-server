@@ -138,7 +138,7 @@ const serverEndpoints = () => {
 
   server.get('/projectTypes', projectTypesController.index);
 
-  server.get('/checkOwner', authController.projectToOwner)
+  server.get('/projects/:projectId/owner', authController.projectToOwner)
 
   return server;
 };
