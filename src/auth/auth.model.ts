@@ -16,6 +16,17 @@ export async function validateUser(sessionId: string): Promise<UserId | null> {
     });
   }
 
+export async function validateProject(projectId:number) {
+  return db.projects.findUnique({
+    where: {
+      id: projectId,
+    },
+    select: {
+      owner: true
+    }
+  })
+}
+
 /* Controller side template
     try {
         const cookieObj: { sessionToken: string } = req.cookies;

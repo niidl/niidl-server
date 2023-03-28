@@ -14,7 +14,7 @@ import * as threadTagNamesController from './threadTagNames/threadTagNames.contr
 import * as upvoteThreadController from './upvoteThread/upvoteThread.controller';
 import * as upvoteMessageController from './upvoteMessage/upvoteMessage.controller';
 import * as projectTypesController from './projectTypes/projectTypes.controller';
-
+import * as authController from './auth/auth.controller'
 import cors from 'cors';
 
 const server: Express = express();
@@ -137,6 +137,8 @@ const serverEndpoints = () => {
   server.get('/threadTagNames', threadTagNamesController.index);
 
   server.get('/projectTypes', projectTypesController.index);
+
+  server.get('/checkOwner', authController.projectToOwner)
 
   return server;
 };

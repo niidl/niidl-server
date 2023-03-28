@@ -46,6 +46,7 @@ export async function save(req: Request, res: Response) {
         thread_id,
         upvotes: 0,
       };
+      console.log(payload)
       await messageModel.create(payload);
       res.status(201).send('');
     } catch (error: any) {
