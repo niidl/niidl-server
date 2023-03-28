@@ -1,12 +1,14 @@
+import axios from 'axios';
+
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
 export async function getFolder(url: string) {
-  const folderJson = await fetch(url, {
+  const folderJson = await axios.get(url, {
     headers: {
       Authorization: 'token ' + gitApiAuth,
     },
   });
-  const folderData = await folderJson.json();
+  const folderData = folderJson.data;
 
   return folderData;
 }
