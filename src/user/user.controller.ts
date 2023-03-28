@@ -31,8 +31,8 @@ export async function index(req: Request, res: Response) {
 }
 
 export async function view(req: Request, res: Response) {
-  console.log('in View')
-
+  console.log('in View');
+  console.log(req.params.username);
   // try {
 
   //   const cookieObj: { sessionToken: string } = req.cookies;
@@ -41,21 +41,21 @@ export async function view(req: Request, res: Response) {
 
   //   if (!ghuid) {
   //     return res.status(404).send('Invalid Access Token');
-      
+
   //   }
-    // console.log('ghuid',ghuid)
-    try {
-      const test:number = 84596103
-      const uid = test.toString();
-    //const uid = ghuid.id
-      const user = await userModel.getUser(uid);
-      console.log('user', user)
+  // console.log('ghuid',ghuid)
+  try {
+    const username = req.params.username;
+    const ghuid = await userModel.getIdWithUsername(username);
+    if (ghuid) {
+      const user = await userModel.getUser(ghuid.id);
       res.status(203).send(user);
-      return
-    } catch (error: any) {
-      res.status(500).send(error.message);
-      return
+      return;
     }
+  } catch (error: any) {
+    res.status(500).send(error.message);
+    return;
+  }
   // } catch (error: any) {
   //   res.status(401).send(error.message);
   // }
@@ -70,20 +70,21 @@ export async function messages(req: Request, res: Response) {
   //   if (!ghuid) {
   //     return res.status(404).send('Invalid Access Token');
   //   }
-    try {
-      const uid = req.params.userId;
-      const allMessages = await userModel.getAllMessagesByUser(uid);
-      res.status(200).send(allMessages);
-    } catch (error: any) {
-      res.status(500).send(error.message);
-    }
+
+  try {
+    const username = req.params.username;
+
+    const allMessages = await userModel.getAllMessagesByUser(username);
+    res.status(200).send(allMessages);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
   // } catch (error: any) {
   //   res.status(404).send(error.message);
   // }
 }
 
 export async function projects(req: Request, res: Response) {
-
   // try {
   //   const cookieObj: { sessionToken: string } = req.cookies;
   //   const sessionId: string = cookieObj.sessionToken;
@@ -92,21 +93,20 @@ export async function projects(req: Request, res: Response) {
   //   if (!ghuid) {
   //     return res.status(404).send('Invalid Access Token');
   //   }
-    try {
-      const test:number = 84596103
-      const uid = test.toString();
-      //const uid = ghuid.id
-      const allProjectsByUser = await userModel.getAllProjectsByUser(uid);
-      res.status(200).send(allProjectsByUser);
-    } catch (error: any) {
-      res.status(500).send(error.message);
-    }
+  try {
+    const username = req.params.username;
+    const allProjectsByUser = await userModel.getAllProjectsByUser(username);
+    res.status(200).send(allProjectsByUser);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
   // } catch (error: any) {
   //   res.status(404).send(error.message);
   // }
 }
 
 export async function save(req: Request, res: Response) {
+  console.log(req.body);
   try {
     const sessionId: string = randomBytes(8).toString('hex');
     const { ghuid, displayName, email } = req.body;
@@ -120,6 +120,7 @@ export async function save(req: Request, res: Response) {
 
     const user = await userModel.getUser(ghuid);
     if (user) {
+      console.log('inuser', user);
       await userModel.saveSessionId(sessionId, ghuid);
     }
 
@@ -149,18 +150,18 @@ export async function save(req: Request, res: Response) {
       await userModel.create(payload);
     }
 
-    if (process.env.PRODUCTION){
+    if (process.env.PRODUCTION) {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
         sameSite: 'none',
-        secure: true
+        secure: true,
       });
       res.cookie('userName', payload.user_name, {
         sameSite: 'none',
-        secure: true
+        secure: true,
       });
       res.send(payload.user_name);
-      return
+      return;
     } else {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
@@ -168,7 +169,6 @@ export async function save(req: Request, res: Response) {
       res.cookie('userName', payload.user_name, {});
       res.send(payload.user_name);
     }
-
   } catch (error: any) {
     res.status(500).send(error.message);
   }

@@ -32,6 +32,7 @@ export async function getProjectById(id: number): Promise<any> {
       project_type: true,
       tags: {
         select: {
+          id: true,
           tag_name: true,
         },
       },

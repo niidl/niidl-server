@@ -24,7 +24,7 @@ server.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'GET, POST, OPTIONS, DELETE, PUT'
+    'GET, POST, OPTIONS, DELETE, PUT, PATCH'
   );
   res.setHeader(
     'Access-Control-Allow-Headers',
@@ -41,9 +41,9 @@ server.use(express.json());
 
 const serverEndpoints = () => {
   server.get('/users', userController.index); //
-  server.get('/users/data', userController.view); //
-  server.get('/users/messages', userController.messages); //
-  server.get('/users/projects', userController.projects); //
+  server.get('/users/data/:username', userController.view); //
+  server.get('/users/messages/:username', userController.messages); //
+  server.get('/users/projects/:username', userController.projects); //
   server.post('/userAuth', userController.save); //
   server.post('/logout', userController.logout); //
   server.delete('/users/:userId', userController.remove); //
@@ -54,7 +54,7 @@ const serverEndpoints = () => {
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
   server.post('/projects/newProject', projectController.save);
-  server.put('/projects/:projectId', projectController.edit);
+  server.patch('/projects/:projectId', projectController.edit);
   server.delete('/projects/:projectId', projectController.remove);
 
   server.get('/projects/:projectId/tags', tagController.index);

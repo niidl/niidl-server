@@ -1,5 +1,6 @@
 import * as projectModel from './project.model';
-import * as authModel from '../auth/auth.model'
+import * as authModel from '../auth/auth.model';
+import * as userModel from '../user/user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
 
@@ -86,20 +87,23 @@ export async function view(req: Request, res: Response) {
 }
 
 export async function save(req: Request, res: Response) {
+  console.log(req.body);
   try {
-    const cookieObj: { sessionToken: string } = req.cookies;
-    const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await authModel.validateUser(sessionId);
+    const owner = req.body.owner;
+    const ghuid = await userModel.getIdWithUsername(owner);
+    // const cookieObj: { sessionToken: string } = req.cookies;
+    // const sessionId: string = cookieObj.sessionToken;
+    // const ghuid = await authModel.validateUser(sessionId);
 
     if (!ghuid) {
       return res.status(404).send('Invalid Access Token');
     }
+    const id = ghuid.id;
     try {
       const {
         project_name,
         description,
         github_url,
-        owner,
         project_image,
         project_type,
       } = req.body;
@@ -107,19 +111,17 @@ export async function save(req: Request, res: Response) {
         project_name,
         description,
         github_url,
-        owner,
+        owner: id,
         project_image,
         project_type,
       };
 
-      console.log(payload);
-
       await projectModel.create(payload);
-      res.status(201);
+      res.status(201).send('');
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -134,7 +136,8 @@ export async function edit(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const { project_name, project_image, project_type, description } = req.body;
+      const { project_name, project_image, project_type, description } =
+        req.body;
       const projectId = parseInt(req.params.projectId);
       const payload = {
         project_name,
@@ -144,11 +147,11 @@ export async function edit(req: Request, res: Response) {
       };
 
       await projectModel.update(payload, projectId);
-      res.status(201);
+      res.status(201).send('');
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -166,11 +169,11 @@ export async function remove(req: Request, res: Response) {
       const projectId = parseInt(req.params.projectId);
       await projectModel.deleteById(projectId);
 
-      res.status(201);
+      res.status(201).send('');
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }

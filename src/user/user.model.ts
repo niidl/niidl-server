@@ -11,6 +11,10 @@ type User = {
   github_profile_picture: string;
 };
 
+type IdOnly = {
+  id: string;
+};
+
 export async function getAllUsers(): Promise<object[]> {
   return db.user_account.findMany({
     select: {
@@ -26,7 +30,7 @@ export async function getAllUsers(): Promise<object[]> {
 }
 
 export async function getAllMessagesByUser(
-  uid: string
+  username: string
 ): Promise<object[] | null> {
   return db.messages.findMany({
     select: {
@@ -39,13 +43,15 @@ export async function getAllMessagesByUser(
       },
     },
     where: {
-      user_id: uid,
+      user: {
+        user_name: username,
+      },
     },
   });
 }
 
 export async function getAllProjectsByUser(
-  uid: string
+  username: string
 ): Promise<object[] | null> {
   return db.projects.findMany({
     select: {
@@ -54,7 +60,9 @@ export async function getAllProjectsByUser(
       project_image: true,
     },
     where: {
-      owner: uid,
+      user_acc: {
+        user_name: username,
+      },
     },
   });
 }
@@ -69,10 +77,23 @@ export async function getUser(ghuid: string): Promise<object | null> {
       email: true,
       user_name: true,
       github_profile_picture: true,
-      links: true
+      links: true,
     },
     where: {
       id: ghuid,
+    },
+  });
+}
+
+export async function getIdWithUsername(
+  userName: string
+): Promise<IdOnly | null> {
+  return db.user_account.findUnique({
+    select: {
+      id: true,
+    },
+    where: {
+      user_name: userName,
     },
   });
 }
