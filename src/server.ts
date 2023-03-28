@@ -43,7 +43,7 @@ const serverEndpoints = () => {
   server.get('/users', userController.index); //
   server.get('/users/data', userController.view); //
   server.get('/users/messages', userController.messages); //
-  server.get('/users/:userId/projects', userController.projects); //
+  server.get('/users/projects', userController.projects); //
   server.post('/userAuth', userController.save); //
   server.post('/logout', userController.logout); //
   server.delete('/users/:userId', userController.remove); //
