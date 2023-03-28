@@ -13,9 +13,9 @@ export async function getAllTagsByProject(github_url: string): Promise<Tag[]> {
       tag_name: true,
       github_url: true,
     },
-    where: {
-      github_url: github_url,
-    },
+    // where: {
+    //   github_url: github_url,
+    // },
   });
 }
 
@@ -47,10 +47,12 @@ export async function create(payload: any): Promise<any> {
   });
 }
 
-export async function deleteById(id: number): Promise<Tag> {
-  return db.tags.delete({
+export async function deleteById(allIds: number[]): Promise<any> {
+  return db.tags.deleteMany({
     where: {
-      id: id,
+      id: {
+        in: allIds,
+      },
     },
   });
 }
