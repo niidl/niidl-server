@@ -1,5 +1,5 @@
 import * as threadModel from './thread.model';
-import * as authModel from '../auth/auth.model'
+import * as authModel from '../auth/auth.model';
 import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
@@ -56,7 +56,7 @@ export async function save(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -79,7 +79,7 @@ export async function edit(req: Request, res: Response) {
     } catch (error: any) {
       res.status(500).send(error.message);
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }
@@ -88,20 +88,33 @@ export async function remove(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await authModel.validateUser(sessionId);
+    const uid = await authModel.validateUser(sessionId);
 
-    if (!ghuid) {
+    if (!uid) {
       return res.status(404).send('Invalid Access Token');
     }
+    const ghuid = uid.id;
     try {
       const threadId = parseInt(req.params.threadId);
-      await threadModel.deleteById(threadId);
-
-      res.status(201);
+      await threadModel.deleteById(threadId, ghuid);
+      res.status(204).send();
     } catch (error: any) {
+      try {
+        const threadId = parseInt(req.params.threadId);
+        const projOwner = await threadModel.projOwnerFromThread(threadId);
+        if (projOwner === ghuid) {
+          await threadModel.deleteAsAdmin(threadId);
+          res.status(204).send();
+          return;
+        }
+      } catch (error: any) {
+        res.status(500).send(error.message);
+        return;
+      }
       res.status(500).send(error.message);
+      return;
     }
-  }catch (error: any) {
+  } catch (error: any) {
     res.status(404).send(error.message);
   }
 }

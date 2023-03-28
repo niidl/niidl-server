@@ -103,10 +103,42 @@ export async function update(payload: object, id: number): Promise<Thread> {
   });
 }
 
-export async function deleteById(id: number): Promise<Thread> {
+export async function deleteById(
+  threadId: number,
+  ghuid: string
+): Promise<Thread> {
   return db.threads.delete({
     where: {
-      id: id,
+      composite_user_id: {
+        id: threadId,
+        user_id: ghuid,
+      },
     },
   });
+}
+
+export async function deleteAsAdmin(threadId: number): Promise<Thread> {
+  return db.threads.delete({
+    where: {
+      id: threadId,
+    },
+  });
+}
+
+export async function projOwnerFromThread(threadId: number) {
+  const thread = await db.threads.findUnique({
+    where: { id: threadId },
+    include: { project: true },
+  });
+  if (!thread) {
+    return null;
+  }
+  const project = thread.project;
+  const owner = await db.user_account.findUnique({
+    where: { id: project.owner },
+  });
+  if (!owner) {
+    return null;
+  }
+  return thread.project.owner;
 }
