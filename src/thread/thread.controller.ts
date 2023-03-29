@@ -54,7 +54,7 @@ export async function save(req: Request, res: Response) {
       };
       console.log(payload)
       await threadModel.create(payload);
-      res.status(201);
+      res.status(201).send();
       return
     } catch (error: any) {
       res.status(401).send(error.message);
