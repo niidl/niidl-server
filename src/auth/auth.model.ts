@@ -19,7 +19,9 @@ export async function validateProject(projectId: number, username: string) {
   return db.projects.findMany({
     where: {
       id: projectId,
-      owner: username,
+      user_acc: {
+        user_name: username,
+      },
     },
   });
 }
