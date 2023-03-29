@@ -143,7 +143,7 @@ export async function deleteById(id: string): Promise<User> {
   });
 }
 
-export async function updateUsername(
+export async function updateUser(
   id: string,
   username: object
 ): Promise<User> {

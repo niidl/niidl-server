@@ -31,8 +31,6 @@ export async function index(req: Request, res: Response) {
 }
 
 export async function view(req: Request, res: Response) {
-  console.log('in View');
-  console.log(req.params.username);
   // try {
 
   //   const cookieObj: { sessionToken: string } = req.cookies;
@@ -120,7 +118,6 @@ export async function save(req: Request, res: Response) {
 
     const user = await userModel.getUser(ghuid);
     if (user) {
-      console.log('inuser', user);
       await userModel.saveSessionId(sessionId, ghuid);
     }
 
@@ -137,12 +134,15 @@ export async function save(req: Request, res: Response) {
       user_name: userInfo.data.login,
       github_url: userInfo.data.html_url,
       session_id: sessionId,
-      github_profile_picture: '',
+      github_profile_picture: userInfo.data.avatar_url,
     };
-
+    console.log('from GH API',userInfo)
+    console.log('expected payload', payload)
+  
     if (user) {
-      await userModel.updateUsername(payload.id, {
+      await userModel.updateUser(payload.id, {
         user_name: payload.user_name,
+        github_profile_picture: userInfo.data.avatar_url
       });
     }
 

@@ -68,6 +68,7 @@ export async function getSpecificThread(id: number): Promise<Thread | null> {
 
 export async function create(payload: Omit<Thread, 'id'>): Promise<Thread> {
   return db.threads.create({
+    data: payload,
     select: {
       id: true,
       content: true,
@@ -79,7 +80,6 @@ export async function create(payload: Omit<Thread, 'id'>): Promise<Thread> {
       isPinned: true,
       upvotes: true,
     },
-    data: payload,
   });
 }
 
