@@ -104,7 +104,6 @@ export async function projects(req: Request, res: Response) {
 }
 
 export async function save(req: Request, res: Response) {
-  console.log(req.body);
   try {
     const sessionId: string = randomBytes(8).toString('hex');
     const { ghuid, displayName, email } = req.body;
@@ -156,10 +155,10 @@ export async function save(req: Request, res: Response) {
         sameSite: 'none',
         secure: true,
       });
-      res.cookie('userName', payload.user_name, {
-        sameSite: 'none',
-        secure: true,
-      });
+      // res.cookie('userName', payload.user_name, {
+      //   sameSite: 'none',
+      //   secure: true,
+      // });
       res.send(payload.user_name);
       return;
     } else {
