@@ -20,6 +20,10 @@ import cors from 'cors';
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
 //to add for csrf protection to specific routes
+
+
+//server.use(cors({ origin: true, allowedHeaders: 'Accept,Accept-Language,Content-Language,Content-Type,Authorization,Cookie,X-Requested-With,Origin,Host', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
+
 server.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader(
@@ -33,11 +37,12 @@ server.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 });
+
+
 server.use(cookieParser());
 server.use(express.json());
 
-// server.use(cors({ origin: true, allowedHeaders: 'Accept,Accept-Language,Content-Language,Content-Type,Authorization,Cookie,X-Requested-With,Origin,Host', cre
-// dentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
+
 
 const serverEndpoints = () => {
   server.get('/users', userController.index); //
@@ -133,6 +138,8 @@ const serverEndpoints = () => {
   server.post('/repository/file', repositoryController.file);
 
   server.get('/tagNames', tagNamesController.index);
+  server.get('/tagNames/tagOnly', tagNamesController.tagIndex);
+  server.get('/tagNames/langOnly', tagNamesController.langIndex)
 
   server.get('/threadTagNames', threadTagNamesController.index);
 
