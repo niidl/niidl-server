@@ -14,7 +14,7 @@ import * as threadTagNamesController from './threadTagNames/threadTagNames.contr
 import * as upvoteThreadController from './upvoteThread/upvoteThread.controller';
 import * as upvoteMessageController from './upvoteMessage/upvoteMessage.controller';
 import * as projectTypesController from './projectTypes/projectTypes.controller';
-import * as authController from './auth/auth.controller'
+import * as authController from './auth/auth.controller';
 import cors from 'cors';
 
 const server: Express = express();
@@ -50,6 +50,8 @@ const serverEndpoints = () => {
 
   server.get('/githubProjects', projectGHController.index);
   server.get('/githubProjects/:projectId', projectGHController.view);
+  server.get('/githubProjectsDemo', projectGHController.demo);
+  server.get('/githubProjectsDemo/:id', projectGHController.demoView);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
@@ -138,7 +140,10 @@ const serverEndpoints = () => {
 
   server.get('/projectTypes', projectTypesController.index);
 
-  server.get('/projects/:projectId/owner/:username', authController.projectToOwner)
+  server.get(
+    '/projects/:projectId/owner/:username',
+    authController.projectToOwner
+  );
 
   return server;
 };
