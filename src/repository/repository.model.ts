@@ -20,8 +20,7 @@ export async function getFile(
 ): Promise<string> {
   const newUrl = newUrlFile + url.split(userRepo + '/')[1];
 
-  const filesContent = await fetch(newUrl);
-  const filesData = await filesContent.text();
+  const filesContent = await axios.get(newUrl);
 
-  return filesData;
+  return filesContent.data;
 }

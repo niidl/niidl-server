@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
-import { link } from 'fs';
+import { vimData } from './project_githubData';
 
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
@@ -39,10 +39,10 @@ async function getAllData() {
   const rawGithubProjectsData: Array<any> = [];
   const allGithubProjects: Array<SingleProject> = [];
   const projectTags: Array<string> = [
+    'Fitness',
     'Environment',
     'Business',
-    'Fitness',
-    'Health',
+    'Travel',
   ];
   for (let i = 0; i < projectTags.length; i++) {
     const dataTag1 = await fetchTagData(projectTags[i]);
@@ -127,6 +127,39 @@ export async function view(req: Request, res: Response) {
   try {
     const project_id = parseInt(req.params.projectId);
     const fetchedData: any = await getAllData();
+    const dataToClient: SingleProject[] = [];
+    for (let i = 0; i < fetchedData.length; i++) {
+      if (fetchedData[i].id === project_id) {
+        dataToClient.push(fetchedData[i]);
+      }
+    }
+    res.status(200).send(dataToClient[0]);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function demo(req: Request, res: Response) {
+  try {
+    const fetchedData: any = vimData;
+    const dataToMainPage: Array<allInfo> = [];
+    for (let i = 0; i < fetchedData.length; i++) {
+      dataToMainPage.push({
+        id: fetchedData[i].id,
+        project_name: fetchedData[i].project_name,
+        tags: fetchedData[i].tags,
+      });
+    }
+    res.status(200).send(dataToMainPage);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function demoView(req: Request, res: Response) {
+  try {
+    const project_id = parseInt(req.params.id);
+    const fetchedData: any = vimData;
     const dataToClient: SingleProject[] = [];
     for (let i = 0; i < fetchedData.length; i++) {
       if (fetchedData[i].id === project_id) {
