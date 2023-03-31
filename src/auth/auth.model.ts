@@ -15,6 +15,18 @@ export async function validateUser(sessionId: string): Promise<UserId | null> {
   });
 }
 
+export async function getIdWithToken(sessionId: string): Promise<{user_name:string, id: string} | null>{
+  return db.user_account.findUnique({
+    where: {
+      session_id: sessionId
+    },
+    select: {
+      user_name: true,
+      id: true
+    }
+  })
+}
+
 export async function validateProject(projectId: number, username: string) {
   return db.projects.findMany({
     where: {
