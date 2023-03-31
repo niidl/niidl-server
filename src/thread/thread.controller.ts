@@ -69,9 +69,13 @@ export async function edit(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await authModel.validateUser(sessionId);
+    const userNameObj: { userName: string } = req.cookies;
+    const userNameCookie: string = userNameObj.userName
 
-    if (!ghuid) {
+    const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    const authUsername = authUsernameObj?.user_name
+
+    if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
@@ -92,12 +96,19 @@ export async function remove(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const uid = await authModel.validateUser(sessionId);
+    const userNameObj: { userName: string } = req.cookies;
+    const userNameCookie: string = userNameObj.userName
 
-    if (!uid) {
+    const authObj = await authModel.getIdWithToken(sessionId);
+    const ghuid = authObj?.id
+    const authUsername = authObj?.user_name
+
+    if (!ghuid) {
       return res.status(404).send('Invalid Access Token');
     }
-    const ghuid = uid.id;
+    if (authUsername !== userNameCookie) {
+      return res.status(404).send('Invalid Access Token');
+    }
     try {
       const threadId = parseInt(req.params.threadId);
       await threadModel.deleteById(threadId, ghuid);

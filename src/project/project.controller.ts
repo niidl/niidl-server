@@ -94,12 +94,12 @@ export async function save(req: Request, res: Response) {
     
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const dbUser = await projectModel.getIdWithToken(sessionId);
+    const dbUser = await authModel.getIdWithToken(sessionId);
     const user = dbUser?.user_name
-    //const ghuid = await authModel.validateUser(sessionId);
+    
     const ownerId = dbUser?.id
     let ownerFixed: string
-    
+    //const ghuid = await authModel.validateUser(sessionId);
     if (user !== owner){
       res.status(401).send("Github user and URL do not match")
       return
@@ -142,9 +142,13 @@ export async function edit(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await authModel.validateUser(sessionId);
+    const userNameObj: { userName: string } = req.cookies;
+    const userNameCookie: string = userNameObj.userName
 
-    if (!ghuid) {
+    const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    const authUsername = authUsernameObj?.user_name
+
+    if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
@@ -172,9 +176,13 @@ export async function remove(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const ghuid = await authModel.validateUser(sessionId);
+    const userNameObj: { userName: string } = req.cookies;
+    const userNameCookie: string = userNameObj.userName
 
-    if (!ghuid) {
+    const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    const authUsername = authUsernameObj?.user_name
+
+    if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
