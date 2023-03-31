@@ -16,13 +16,33 @@ import * as upvoteMessageController from './upvoteMessage/upvoteMessage.controll
 import * as projectTypesController from './projectTypes/projectTypes.controller';
 import * as authController from './auth/auth.controller';
 import cors from 'cors';
+import aws from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 const server: Express = express();
 const csrfProtection = csurf({ cookie: { httpOnly: true } });
 //to add for csrf protection to specific routes
 
-
 //server.use(cors({ origin: true, allowedHeaders: 'Accept,Accept-Language,Content-Language,Content-Type,Authorization,Cookie,X-Requested-With,Origin,Host', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
+
+const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
+
+// Change bucket property to your Space name
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'https://niidl.sgp1.digitaloceanspaces.com',
+    acl: 'public-read',
+    key: function (request, file, cb) {
+      console.log(file);
+      cb(null, file.originalname);
+    },
+  }),
+}).array('upload', 1);
 
 server.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -38,11 +58,8 @@ server.use(function (req, res, next) {
   next();
 });
 
-
 server.use(cookieParser());
 server.use(express.json());
-
-
 
 const serverEndpoints = () => {
   server.get('/users', userController.index); //
@@ -141,7 +158,7 @@ const serverEndpoints = () => {
 
   server.get('/tagNames', tagNamesController.index);
   server.get('/tagNames/tagOnly', tagNamesController.tagIndex);
-  server.get('/tagNames/langOnly', tagNamesController.langIndex)
+  server.get('/tagNames/langOnly', tagNamesController.langIndex);
 
   server.get('/threadTagNames', threadTagNamesController.index);
 
