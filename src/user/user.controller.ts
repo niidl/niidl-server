@@ -179,9 +179,8 @@ export async function logout(req: Request, res: Response) {
     const cookie: string = cookieObj.sessionToken;
     try {
       const logoutCookie: string = cookie.substring(2);
-      const sessionEndId = await userModel.endSession(cookie, logoutCookie);
+      await userModel.endSession(cookie, logoutCookie);
       res.clearCookie('sessionToken');
-      res.clearCookie('userName');
       res.status(200).send('');
     } catch (error: any) {
       res.status(500).send(error.message);

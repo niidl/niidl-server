@@ -67,6 +67,13 @@ type upvoteMessage = {
   user_name: string;
 };
 
+type messageLibrary = {
+  tag_name: string;
+  is_language: boolean;
+  is_github: boolean;
+}
+
+
 async function seed() {
   await db.contributors.deleteMany({});
   await db.messages.deleteMany({});
@@ -121,7 +128,9 @@ async function seed() {
     getTagNames().map((tagName) => {
       return db.taglibrary.create({
         data: {
-          tag_name: tagName,
+          tag_name: tagName.tag_name,
+          is_language: tagName.is_language,
+          is_github: tagName.is_github,
         },
       });
     })
@@ -702,23 +711,113 @@ function getUpvotesMessage(): Array<upvoteMessage> {
   ];
 }
 
-function getTagNames(): Array<string> {
+function getTagNames(): Array<messageLibrary> {
   return [
-    'Beginner-friendly',
-    'Education',
-    'Environment',
-    'Health',
-    'Fitness',
-    'Food',
-    'Entertainment',
-    'Travel',
-    'Science',
-    'Business',
-    'JavaScript',
-    'Python',
-    'Ruby',
-    'C#',
-    'Based on Github',
+    {
+      tag_name: 'Beginner-friendly',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Education',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Environment',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Health',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Fitness',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Food',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Entertainment',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Travel',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Science',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'Business',
+      is_language: false,
+      is_github: false,
+    },
+    {
+      tag_name: 'JavaScript',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Python',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Ruby',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'C#',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Java',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'PHP',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Go',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Rust',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'C++',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'TypeScript',
+      is_language: true,
+      is_github: false,
+    },
+    {
+      tag_name: 'Based on Github',
+      is_language: true,
+      is_github: false,
+    },
   ];
 }
 

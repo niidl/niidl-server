@@ -102,6 +102,8 @@ model thread_tags {
 model taglibrary {
   id       Int    @id @default(autoincrement())
   tag_name String @unique @db.VarChar(64)
+  is_language Boolean 
+  is_github Boolean
   tags     tags[]
 }
 

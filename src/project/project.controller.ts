@@ -87,18 +87,28 @@ export async function view(req: Request, res: Response) {
 }
 
 export async function save(req: Request, res: Response) {
-  console.log(req.body);
   try {
-    const owner = req.body.owner;
-    const ghuid = await userModel.getIdWithUsername(owner);
-    // const cookieObj: { sessionToken: string } = req.cookies;
-    // const sessionId: string = cookieObj.sessionToken;
-    // const ghuid = await authModel.validateUser(sessionId);
-
-    if (!ghuid) {
-      return res.status(404).send('Invalid Access Token');
+    const owner_url:string = req.body.github_url;
+    const url_split = owner_url.split('/')
+    const owner = url_split[3]
+    
+    const cookieObj: { sessionToken: string } = req.cookies;
+    const sessionId: string = cookieObj.sessionToken;
+    const dbUser = await projectModel.getIdWithToken(sessionId);
+    const user = dbUser?.user_name
+    //const ghuid = await authModel.validateUser(sessionId);
+    const ownerId = dbUser?.id
+    let ownerFixed: string
+    
+    if (user !== owner){
+      res.status(401).send("Github user and URL do not match")
+      return
     }
-    const id = ghuid.id;
+    if (ownerId === undefined){
+      res.status(401).send("?")
+    }
+    
+
     try {
       const {
         project_name,
@@ -111,10 +121,12 @@ export async function save(req: Request, res: Response) {
         project_name,
         description,
         github_url,
-        owner: id,
+        owner: ownerId,
         project_image,
         project_type,
       };
+
+      console.log(payload)
 
       await projectModel.create(payload);
       res.status(201).send('');

@@ -5,7 +5,7 @@ type Project = {
   project_name: string;
   description: string;
   github_url: string;
-  owner: string;
+  owner: any;
   project_image: string;
   project_type: string;
 };
@@ -94,4 +94,16 @@ export async function deleteById(id: number): Promise<Project> {
       id: id,
     },
   });
+}
+
+export async function getIdWithToken(sessionId: string): Promise<{user_name:string, id: string} | null>{
+  return db.user_account.findUnique({
+    where: {
+      session_id: sessionId
+    },
+    select: {
+      user_name: true,
+      id: true
+    }
+  })
 }
