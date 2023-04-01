@@ -71,8 +71,7 @@ type messageLibrary = {
   tag_name: string;
   is_language: boolean;
   is_github: boolean;
-}
-
+};
 
 async function seed() {
   await db.contributors.deleteMany({});
@@ -381,7 +380,8 @@ function getThreads(): Array<Thread> {
     {
       id: -1,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: 'qwe',
       thread_tag: 'general-discussion',
       isPinned: true,
@@ -392,7 +392,8 @@ function getThreads(): Array<Thread> {
     {
       id: -2,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
       user_id: '456',
       thread_tag: 'general-discussion',
       isPinned: true,
@@ -402,7 +403,8 @@ function getThreads(): Array<Thread> {
     {
       id: -3,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: '6154722',
       thread_tag: 'general-discussion',
       isPinned: false,
@@ -412,7 +414,8 @@ function getThreads(): Array<Thread> {
     {
       id: -4,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: '119411466',
       thread_tag: 'general-discussion',
       isPinned: false,
@@ -422,7 +425,8 @@ function getThreads(): Array<Thread> {
     {
       id: -5,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
       user_id: '114232631',
       thread_tag: 'general-discussion',
       isPinned: false,
@@ -432,7 +436,8 @@ function getThreads(): Array<Thread> {
     {
       id: -6,
       project_id: -2,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
       user_id: 'zxc',
       thread_tag: 'general-discussion',
       isPinned: false,
@@ -443,7 +448,8 @@ function getThreads(): Array<Thread> {
     {
       id: -7,
       project_id: -2,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: 'zxc',
       thread_tag: 'new-ideas',
       isPinned: false,
@@ -454,7 +460,8 @@ function getThreads(): Array<Thread> {
     {
       id: -8,
       project_id: -2,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.',
       user_id: 'zxc',
       thread_tag: 'new-ideas',
       isPinned: false,
@@ -464,7 +471,8 @@ function getThreads(): Array<Thread> {
     {
       id: -9,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: 'zxc',
       thread_tag: 'new-ideas',
       isPinned: false,
@@ -474,7 +482,8 @@ function getThreads(): Array<Thread> {
     {
       id: -10,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: 'zxc',
       thread_tag: 'new-ideas',
       isPinned: false,
@@ -484,7 +493,8 @@ function getThreads(): Array<Thread> {
     {
       id: -11,
       project_id: -1,
-      content: 'Once upon a time...',
+      content:
+        'Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.',
       user_id: 'zxc',
       thread_tag: 'new-ideas',
       isPinned: false,
@@ -810,11 +820,6 @@ function getTagNames(): Array<messageLibrary> {
     },
     {
       tag_name: 'TypeScript',
-      is_language: true,
-      is_github: false,
-    },
-    {
-      tag_name: 'Based on Github',
       is_language: true,
       is_github: false,
     },
