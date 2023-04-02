@@ -58,6 +58,7 @@ export async function view(req: Request, res: Response) {
       data_contributors.push({
         contributor_id: elem.id,
         username: elem.login,
+        image: elem.avatar_url
       });
     });
 
