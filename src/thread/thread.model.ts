@@ -27,6 +27,7 @@ export async function getThreadsByProjectId(id: number): Promise<Thread[]> {
       user: {
         select: {
           user_name: true,
+          github_profile_picture: true,
         },
       },
       creation_time: true,

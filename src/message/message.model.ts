@@ -43,6 +43,7 @@ export async function getMessagesByThreadId(id: number): Promise<any> {
       user: {
         select: {
           user_name: true,
+          github_profile_picture: true,
         },
       },
       upvotes: true,
