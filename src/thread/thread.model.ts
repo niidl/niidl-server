@@ -53,6 +53,7 @@ export async function getSpecificThread(id: number): Promise<Thread | null> {
       user: {
         select: {
           user_name: true,
+          github_profile_picture: true,
         },
       },
       creation_time: true,
