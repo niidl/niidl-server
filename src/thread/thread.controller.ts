@@ -22,6 +22,8 @@ export async function view(req: Request, res: Response) {
   try {
     const threadId = parseInt(req.params.threadId);
     const specificThread = await threadModel.getSpecificThread(threadId);
+    specificThread.upvotes_threads = specificThread.upvotes_threads.length;
+
     res.status(200).send(specificThread);
   } catch (error: any) {
     res.status(500).send(error.message);
@@ -70,10 +72,10 @@ export async function edit(req: Request, res: Response) {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    const userNameCookie: string = userNameObj.userName;
 
     const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name
+    const authUsername = authUsernameObj?.user_name;
 
     if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
@@ -97,11 +99,11 @@ export async function remove(req: Request, res: Response) {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    const userNameCookie: string = userNameObj.userName;
 
     const authObj = await authModel.getIdWithToken(sessionId);
-    const ghuid = authObj?.id
-    const authUsername = authObj?.user_name
+    const ghuid = authObj?.id;
+    const authUsername = authObj?.user_name;
 
     if (!ghuid) {
       return res.status(404).send('Invalid Access Token');

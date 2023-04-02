@@ -43,7 +43,7 @@ export async function getThreadsByProjectId(id: number): Promise<Thread[]> {
   });
 }
 
-export async function getSpecificThread(id: number): Promise<Thread | null> {
+export async function getSpecificThread(id: number): Promise<Thread | any> {
   return db.threads.findUnique({
     select: {
       id: true,
@@ -60,7 +60,7 @@ export async function getSpecificThread(id: number): Promise<Thread | null> {
       title: true,
       thread_tag: true,
       isPinned: true,
-      upvotes: true,
+      upvotes_threads: true,
     },
     where: {
       id: id,
