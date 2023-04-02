@@ -34,7 +34,7 @@ const s3 = new aws.S3({
 // Change bucket property to your Space name
 const upload = multer({
   storage: multerS3({
-    s3: s3,
+    s3: s3 as any,
     bucket: 'niidl',
     acl: 'public-read',
     key: function (request, file, cb) {
