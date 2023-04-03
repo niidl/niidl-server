@@ -26,24 +26,6 @@ const csrfProtection = csurf({ cookie: { httpOnly: true } });
 
 //server.use(cors({ origin: true, allowedHeaders: 'Accept,Accept-Language,Content-Language,Content-Type,Authorization,Cookie,X-Requested-With,Origin,Host', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' }));
 
-const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-});
-
-// Change bucket property to your Space name
-const upload = multer({
-  storage: multerS3({
-    s3: s3 as any,
-    bucket: 'niidl',
-    acl: 'public-read',
-    key: function (request, file, cb) {
-      console.log(file);
-      cb(null, file.originalname);
-    },
-  }),
-}).array('upload', 1);
-
 server.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader(
@@ -80,6 +62,7 @@ const serverEndpoints = () => {
   server.post('/projects/newProject', projectController.save);
   server.patch('/projects/:projectId', projectController.edit);
   server.delete('/projects/:projectId', projectController.remove);
+  server.post('/projects/upload', projectController.uploadImage)
 
   server.get('/projects/:projectId/tags', tagController.index);
   server.get('/filterProjects/:filterTag', tagController.filter);
