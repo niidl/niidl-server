@@ -3,6 +3,12 @@ import * as authModel from '../auth/auth.model';
 import * as userModel from '../user/user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
+import multer from 'multer';
+import aws from 'aws-sdk';
+import multerS3 from 'multer-s3';
+
+// const AWS_SHARED_CREDENTIALS_FILE = '../../../../../../../.aws/credentials';
+// aws.config.loadFromPath(AWS_SHARED_CREDENTIALS_FILE);
 
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
@@ -58,7 +64,7 @@ export async function view(req: Request, res: Response) {
       data_contributors.push({
         contributor_id: elem.id,
         username: elem.login,
-        image: elem.avatar_url
+        image: elem.avatar_url,
       });
     });
 
@@ -89,26 +95,25 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const owner_url:string = req.body.github_url;
-    const url_split = owner_url.split('/')
-    const owner = url_split[3]
-    
+    const owner_url: string = req.body.github_url;
+    const url_split = owner_url.split('/');
+    const owner = url_split[3];
+
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const dbUser = await authModel.getIdWithToken(sessionId);
-    const user = dbUser?.user_name
-    
-    const ownerId = dbUser?.id
-    let ownerFixed: string
+    const user = dbUser?.user_name;
+
+    const ownerId = dbUser?.id;
+    let ownerFixed: string;
     //const ghuid = await authModel.validateUser(sessionId);
-    if (user !== owner){
-      res.status(401).send("Github user and URL do not match")
-      return
+    if (user !== owner) {
+      res.status(401).send('Github user and URL do not match');
+      return;
     }
-    if (ownerId === undefined){
-      res.status(401).send("?")
+    if (ownerId === undefined) {
+      res.status(401).send('?');
     }
-    
 
     try {
       const {
@@ -127,7 +132,7 @@ export async function save(req: Request, res: Response) {
         project_type,
       };
 
-      console.log(payload)
+      console.log(payload);
 
       await projectModel.create(payload);
       res.status(201).send('');
@@ -144,10 +149,10 @@ export async function edit(req: Request, res: Response) {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    const userNameCookie: string = userNameObj.userName;
 
     const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name
+    const authUsername = authUsernameObj?.user_name;
 
     if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
@@ -178,10 +183,10 @@ export async function remove(req: Request, res: Response) {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    const userNameCookie: string = userNameObj.userName;
 
     const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name
+    const authUsername = authUsernameObj?.user_name;
 
     if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
@@ -196,5 +201,46 @@ export async function remove(req: Request, res: Response) {
     }
   } catch (error: any) {
     res.status(404).send(error.message);
+  }
+}
+
+export async function uploadImage(req: Request, res: Response) {
+  try {
+    const newName = req.query.newName;
+
+    aws.config.update({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    });
+
+    const spacesEndpoint = new aws.Endpoint('sgp1.digitaloceanspaces.com');
+    const s3 = new aws.S3({
+      endpoint: spacesEndpoint,
+    });
+
+    // Change bucket property to your Space name
+    const upload = multer({
+      storage: multerS3({
+        s3: s3 as any,
+        bucket: 'niidl',
+        acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        key: function (request, file, cb) {
+          console.log(file);
+          cb(null, `/${newName}/${newName}_image.jpg`);
+        },
+        contentDisposition: 'inline',
+      }),
+    }).array('upload', 2);
+
+    upload(req, res, (error) => {
+      if (error) {
+        console.log(error);
+        return res.sendStatus(401);
+      }
+      res.sendStatus(201);
+    });
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 }
