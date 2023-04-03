@@ -3,6 +3,9 @@ import * as authModel from '../auth/auth.model';
 import * as userModel from '../user/user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
+import aws from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
@@ -108,9 +111,9 @@ export async function save(req: Request, res: Response) {
     if (ownerId === undefined){
       res.status(401).send("?")
     }
-    
 
     try {
+      console.log(req.body, ownerId)
       const {
         project_name,
         description,
@@ -127,15 +130,25 @@ export async function save(req: Request, res: Response) {
         project_type,
       };
 
-      console.log(payload)
-
       await projectModel.create(payload);
-      res.status(201).send('');
+      res.status(200).send();
     } catch (error: any) {
       res.status(500).send(error.message);
     }
   } catch (error: any) {
     res.status(404).send(error.message);
+  }
+}
+
+export async function saveFollowUp(req: Request, res: Response){
+  try{
+    const url:any = req.query.projectGithubRepo
+    console.log(url)
+    const projectId = await projectModel.idWithURL(url)
+    console.log(projectId)
+    res.status(200).send(projectId?.id)
+  } catch(error:any) {
+    res.status(500).send(error.message)
   }
 }
 
@@ -196,5 +209,33 @@ export async function remove(req: Request, res: Response) {
     }
   } catch (error: any) {
     res.status(404).send(error.message);
+  }
+}
+
+export async function uploadImage (req: Request, res: Response) {
+  
+  try{
+    const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
+const s3 = new aws.S3({
+  endpoint: spacesEndpoint,
+});
+
+// Change bucket property to your Space name
+const upload = multer({
+  storage: multerS3({
+    s3: s3 as any,
+    bucket: 'niidl',
+    acl: 'public-read',
+    key: function (request, file, cb) {
+      console.log(file);
+      cb(null, file.originalname);
+    },
+  }),
+}).array('upload', 1);
+
+
+  res.status(201).send('done')
+  } catch (error: any){
+    res.status(500).send(error.message)
   }
 }

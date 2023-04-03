@@ -96,3 +96,13 @@ export async function deleteById(id: number): Promise<Project> {
   });
 }
 
+export async function idWithURL(url:string): Promise<{id:number} | null>{
+  return db.projects.findUnique({
+    where: {
+      github_url: url
+    },
+    select: {
+      id: true
+    }
+  })
+}
