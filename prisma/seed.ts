@@ -281,13 +281,13 @@ function getProjects(): Array<Project> {
   return [
     {
       id: -1,
-      project_name: 'Cutscene Manager',
+      project_name: 'Where was i?',
       description:
-        'Cutscene Manager was created to help integrate production team with designers making it easy for project management.',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
-      owner: '119411466',
+        'Where was I?! is an progress tracker application to help you never forget which episode was the last one you watched.',
+      github_url: 'https://github.com/radish-team/where-was-i',
+      owner: '125343439',
       project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+        'https://raw.githubusercontent.com/cc29-greenfield/where-was-i/main/front-end/src/images/rsz_background.png',
       project_type: 'Web Full Stack',
     },
     {
@@ -297,8 +297,7 @@ function getProjects(): Array<Project> {
         'Application for Pokémon lovers!! All information of 1st generation pokemon can be found here!!.',
       github_url: 'https://github.com/MrBCendales/PokeDex',
       owner: '114232631',
-      project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+      project_image: 'https://unsplash.com/photos/KtTF68ZjBak',
       project_type: 'Web Full Stack',
     },
     {
@@ -309,8 +308,7 @@ function getProjects(): Array<Project> {
       github_url:
         'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
       owner: '68039033',
-      project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+      project_image: 'https://unsplash.com/photos/L7POzOAoaQY',
       project_type: 'Mobile',
     },
     {
@@ -320,8 +318,7 @@ function getProjects(): Array<Project> {
         'Semantic Kernel (SK) is a lightweight SDK enabling integration of AI Large Language Models (LLMs) with conventional programming languages. The SK extensible programming model combines natural language semantic functions, traditional code native functions, and embeddings-based memory unlocking new potential and adding value to applications with AI.',
       github_url: 'https://github.com/microsoft/semantic-kernel',
       owner: '6154722',
-      project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+      project_image: 'https://unsplash.com/photos/KtTF68ZjBak',
       project_type: 'Mobile',
     },
   ];
