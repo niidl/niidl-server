@@ -39,6 +39,8 @@ export async function getAllMessagesByUser(
       thread: {
         select: {
           title: true,
+          id: true,
+          project_id: true,
         },
       },
     },
