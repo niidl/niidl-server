@@ -57,8 +57,6 @@ const serverEndpoints = () => {
   server.get('/githubProjectsDemo', projectGHController.demo);
   server.get('/githubProjectsDemo/:id', projectGHController.demoView);
 
-  // server.get('/projects/:projectURL', projectController.saveFollowUp);
-
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
   server.post('/projects/newProject', projectController.save);
