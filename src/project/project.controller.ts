@@ -61,7 +61,7 @@ export async function view(req: Request, res: Response) {
       data_contributors.push({
         contributor_id: elem.id,
         username: elem.login,
-        image: elem.avatar_url
+        image: elem.avatar_url,
       });
     });
 
@@ -139,15 +139,15 @@ export async function save(req: Request, res: Response) {
   }
 }
 
-export async function saveFollowUp(req: Request, res: Response){
-  try{
-    const url:any = req.query.projectGithubRepo
-    console.log(url)
-    const projectId = await projectModel.idWithURL(url)
-    console.log(projectId)
-    res.status(200).send(projectId?.id)
-  } catch(error:any) {
-    res.status(500).send(error.message)
+export async function saveFollowUp(req: Request, res: Response) {
+  try {
+    const url: any = req.query.projectGithubRepo;
+    console.log(url);
+    const projectId = await projectModel.idWithURL(url);
+    console.log(projectId);
+    res.status(200).send(projectId?.id);
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 }
 
@@ -156,10 +156,10 @@ export async function edit(req: Request, res: Response) {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    const userNameCookie: string = userNameObj.userName;
 
     const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name
+    const authUsername = authUsernameObj?.user_name;
 
     if (authUsername !== userNameCookie) {
       return res.status(404).send('Invalid Access Token');
@@ -187,17 +187,17 @@ export async function edit(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    const cookieObj: { sessionToken: string } = req.cookies;
-    const sessionId: string = cookieObj.sessionToken;
-    const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName
+    // const cookieObj: { sessionToken: string } = req.cookies;
+    // const sessionId: string = cookieObj.sessionToken;
+    // const userNameObj: { userName: string } = req.cookies;
+    // const userNameCookie: string = userNameObj.userName
 
-    const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name
+    // const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    // const authUsername = authUsernameObj?.user_name
 
-    if (authUsername !== userNameCookie) {
-      return res.status(404).send('Invalid Access Token');
-    }
+    // if (authUsername !== userNameCookie) {
+    //   return res.status(404).send('Invalid Access Token');
+    // }
     try {
       const projectId = parseInt(req.params.projectId);
       await projectModel.deleteById(projectId);
@@ -211,30 +211,28 @@ export async function remove(req: Request, res: Response) {
   }
 }
 
-export async function uploadImage (req: Request, res: Response) {
-  
-  try{
+export async function uploadImage(req: Request, res: Response) {
+  try {
     const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
-const s3 = new aws.S3({
-  endpoint: spacesEndpoint,
-});
+    const s3 = new aws.S3({
+      endpoint: spacesEndpoint,
+    });
 
-// Change bucket property to your Space name
-const upload = multer({
-  storage: multerS3({
-    s3: s3 as any,
-    bucket: 'niidl',
-    acl: 'public-read',
-    key: function (request, file, cb) {
-      console.log(file);
-      cb(null, file.originalname);
-    },
-  }),
-}).array('upload', 1);
+    // Change bucket property to your Space name
+    const upload = multer({
+      storage: multerS3({
+        s3: s3 as any,
+        bucket: 'niidl',
+        acl: 'public-read',
+        key: function (request, file, cb) {
+          console.log(file);
+          cb(null, file.originalname);
+        },
+      }),
+    }).array('upload', 1);
 
-
-  res.status(201).send('done')
-  } catch (error: any){
-    res.status(500).send(error.message)
+    res.status(201).send('done');
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 }
