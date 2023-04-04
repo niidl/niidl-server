@@ -281,13 +281,13 @@ function getProjects(): Array<Project> {
   return [
     {
       id: -1,
-      project_name: 'Cutscene Manager',
+      project_name: 'Where was i?',
       description:
-        'Cutscene Manager was created to help integrate production team with designers making it easy for project management.',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
-      owner: '119411466',
+        'Where was I?! is an progress tracker application to help you never forget which episode was the last one you watched.',
+      github_url: 'https://github.com/radish-team/where-was-i',
+      owner: '56119907',
       project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+        'https://raw.githubusercontent.com/cc29-greenfield/where-was-i/main/front-end/src/images/rsz_background.png',
       project_type: 'Web Full Stack',
     },
     {
@@ -298,7 +298,7 @@ function getProjects(): Array<Project> {
       github_url: 'https://github.com/MrBCendales/PokeDex',
       owner: '114232631',
       project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+        'https://images.unsplash.com/photo-1628968434441-d9c1c66dcde7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
       project_type: 'Web Full Stack',
     },
     {
@@ -310,7 +310,7 @@ function getProjects(): Array<Project> {
         'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
       owner: '68039033',
       project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+        'https://images.unsplash.com/photo-1633352615955-f0c99e8b7e5a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80',
       project_type: 'Mobile',
     },
     {
@@ -321,7 +321,7 @@ function getProjects(): Array<Project> {
       github_url: 'https://github.com/microsoft/semantic-kernel',
       owner: '6154722',
       project_image:
-        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
+        'https://images.unsplash.com/photo-1655720031554-a929595ffad7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80',
       project_type: 'Mobile',
     },
   ];
@@ -583,7 +583,7 @@ function getTags(): Array<Tag> {
     {
       id: -1,
       tag_name: 'JavaScript',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
     {
       id: -2,
@@ -630,12 +630,12 @@ function getTags(): Array<Tag> {
     {
       id: -10,
       tag_name: 'Travel',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
     {
       id: -11,
       tag_name: 'Python',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
   ];
 }
