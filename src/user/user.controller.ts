@@ -135,13 +135,13 @@ export async function save(req: Request, res: Response) {
       session_id: sessionId,
       github_profile_picture: userInfo.data.avatar_url,
     };
-    console.log('from GH API',userInfo)
-    console.log('expected payload', payload)
-  
+    console.log('from GH API', userInfo);
+    console.log('expected payload', payload);
+
     if (user) {
       await userModel.updateUser(payload.id, {
         user_name: payload.user_name,
-        github_profile_picture: userInfo.data.avatar_url
+        github_profile_picture: userInfo.data.avatar_url,
       });
     }
 
@@ -155,10 +155,11 @@ export async function save(req: Request, res: Response) {
         sameSite: 'none',
         secure: true,
       });
-      // res.cookie('userName', payload.user_name, {
-      //   sameSite: 'none',
-      //   secure: true,
-      // });
+      res.cookie('user_name', payload.user_name, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
       res.send(payload.user_name);
       return;
     } else {

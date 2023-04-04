@@ -71,8 +71,8 @@ export async function edit(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName;
+    const userNameObj: { user_name: string } = req.cookies;
+    const userNameCookie: string = userNameObj.user_name;
 
     const authUsernameObj = await authModel.getIdWithToken(sessionId);
     const authUsername = authUsernameObj?.user_name;
@@ -98,8 +98,8 @@ export async function remove(req: Request, res: Response) {
   try {
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
-    const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName;
+    const userNameObj: { user_name: string } = req.cookies;
+    const userNameCookie: string = userNameObj.user_name;
 
     const authObj = await authModel.getIdWithToken(sessionId);
     const ghuid = authObj?.id;
