@@ -54,9 +54,10 @@ export async function save(req: Request, res: Response) {
         isPinned: false,
         upvotes: 0,
       };
-      console.log(payload);
-      await threadModel.create(payload);
-      res.status(201).send();
+
+      const id = await threadModel.create(payload);
+
+      res.status(201).send(id);
       return;
     } catch (error: any) {
       res.status(401).send(error.message);
