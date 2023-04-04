@@ -135,8 +135,6 @@ export async function save(req: Request, res: Response) {
       session_id: sessionId,
       github_profile_picture: userInfo.data.avatar_url,
     };
-    console.log('from GH API',userInfo)
-    console.log('expected payload', payload)
   
     if (user) {
       await userModel.updateUser(payload.id, {
@@ -148,7 +146,7 @@ export async function save(req: Request, res: Response) {
     if (!user) {
       await userModel.create(payload);
     }
-
+    
     if (process.env.PRODUCTION) {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
@@ -159,14 +157,14 @@ export async function save(req: Request, res: Response) {
       //   sameSite: 'none',
       //   secure: true,
       // });
-      res.send(payload.user_name);
+      res.send(payload);
       return;
     } else {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
       });
       res.cookie('userName', payload.user_name, {});
-      res.send(payload.user_name);
+      res.send(payload);
     }
   } catch (error: any) {
     res.status(500).send(error.message);
