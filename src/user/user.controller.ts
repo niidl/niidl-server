@@ -163,7 +163,8 @@ export async function save(req: Request, res: Response) {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
       });
-      res.cookie('userName', payload.user_name, {});
+      res.cookie('user_name', payload.user_name, {
+      });
       res.send(payload);
     }
   } catch (error: any) {
