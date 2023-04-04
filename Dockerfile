@@ -8,8 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install --production
-RUN mkdir -p ../.aws COPY credentials /root/.aws
+RUN npm install
 
 # Copy the rest of the application files to the container
 COPY . .
