@@ -23,6 +23,10 @@ export async function view(req: Request, res: Response) {
     const projectId = parseInt(req.params.projectId);
     const specificProject = await projectModel.getProjectById(projectId);
 
+    specificProject.threads.forEach(
+      (thread: any) => (thread.upvotes_threads = thread.upvotes_threads.length)
+    );
+
     const gitAccount = specificProject.github_url;
     const GitAPI = {
       root: 'https://api.github.com/repos/',
