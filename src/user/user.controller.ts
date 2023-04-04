@@ -158,7 +158,7 @@ export async function save(req: Request, res: Response) {
         sameSite: 'none',
         secure: true,
       });
-      res.send(payload.user_name);
+      res.send(payload);
       return;
     } else {
       res.cookie('sessionToken', sessionId, {
