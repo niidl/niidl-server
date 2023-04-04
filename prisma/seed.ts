@@ -318,7 +318,7 @@ function getProjects(): Array<Project> {
         'Semantic Kernel (SK) is a lightweight SDK enabling integration of AI Large Language Models (LLMs) with conventional programming languages. The SK extensible programming model combines natural language semantic functions, traditional code native functions, and embeddings-based memory unlocking new potential and adding value to applications with AI.',
       github_url: 'https://github.com/microsoft/semantic-kernel',
       owner: '6154722',
-      project_image: 'https://unsplash.com/photos/KtTF68ZjBak',
+      project_image: 'https://unsplash.com/photos/kUmcSBJcFPg',
       project_type: 'Mobile',
     },
   ];
