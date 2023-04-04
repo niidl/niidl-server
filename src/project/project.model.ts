@@ -55,17 +55,11 @@ export async function getByFilterTag(
   });
 }
 
-export async function create(payload: Omit<Project, 'id'>): Promise<Project> {
+export async function create(payload: Omit<Project, 'id'>): Promise<any> {
   return db.projects.create({
     data: payload,
     select: {
       id: true,
-      project_name: true,
-      description: true,
-      github_url: true,
-      owner: true,
-      project_image: true,
-      project_type: true,
     },
   });
 }
@@ -96,13 +90,13 @@ export async function deleteById(id: number): Promise<Project> {
   });
 }
 
-export async function idWithURL(url:string): Promise<{id:number} | null>{
+export async function idWithURL(url: string): Promise<{ id: number } | null> {
   return db.projects.findUnique({
     where: {
-      github_url: url
+      github_url: url,
     },
     select: {
-      id: true
-    }
-  })
+      id: true,
+    },
+  });
 }

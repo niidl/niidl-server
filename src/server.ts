@@ -56,8 +56,8 @@ const serverEndpoints = () => {
   server.get('/githubProjects/:projectId', projectGHController.view);
   server.get('/githubProjectsDemo', projectGHController.demo);
   server.get('/githubProjectsDemo/:id', projectGHController.demoView);
-  
-  server.get('/projects/:projectURL', projectController.saveFollowUp)
+
+  // server.get('/projects/:projectURL', projectController.saveFollowUp);
 
   server.get('/projects', projectController.index);
   server.get('/projects/:projectId', projectController.view);
@@ -65,7 +65,6 @@ const serverEndpoints = () => {
   server.post('/projects/upload', projectController.uploadImage);
   server.patch('/projects/:projectId', projectController.edit);
   server.delete('/projects/:projectId', projectController.remove);
-  server.post('/projects/upload', projectController.uploadImage)
 
   server.get('/projects/:projectId/tags', tagController.index);
   server.get('/filterProjects/:filterTag', tagController.filter);
