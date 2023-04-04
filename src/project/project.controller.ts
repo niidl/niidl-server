@@ -92,28 +92,27 @@ export async function view(req: Request, res: Response) {
 
 export async function save(req: Request, res: Response) {
   try {
-    const owner_url:string = req.body.github_url;
-    const url_split = owner_url.split('/')
-    const owner = url_split[3]
-    
+    const owner_url: string = req.body.github_url;
+    const url_split = owner_url.split('/');
+    const owner = url_split[3];
+
     const cookieObj: { sessionToken: string } = req.cookies;
     const sessionId: string = cookieObj.sessionToken;
     const dbUser = await authModel.getIdWithToken(sessionId);
-    const user = dbUser?.user_name
-    
-    const ownerId = dbUser?.id
-    let ownerFixed: string
+    const user = dbUser?.user_name;
+
+    const ownerId = dbUser?.id;
+    let ownerFixed: string;
     //const ghuid = await authModel.validateUser(sessionId);
-    if (user !== owner){
-      res.status(401).send("Github user and URL do not match")
-      return
+    if (user !== owner) {
+      res.status(401).send('Github user and URL do not match');
+      return;
     }
-    if (ownerId === undefined){
-      res.status(401).send("?")
+    if (ownerId === undefined) {
+      res.status(401).send('?');
     }
 
     try {
-      console.log(req.body, ownerId)
       const {
         project_name,
         description,
@@ -131,7 +130,7 @@ export async function save(req: Request, res: Response) {
       };
 
       await projectModel.create(payload);
-      res.status(200).send();
+      res.status(201).send(payload);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
