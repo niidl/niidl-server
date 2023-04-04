@@ -15,6 +15,7 @@ export async function getAll(): Promise<object[]> {
     select: {
       id: true,
       project_name: true,
+      project_image: true,
       tags: true,
     },
   });

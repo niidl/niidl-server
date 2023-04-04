@@ -10,6 +10,13 @@ type Project = {
   project_type: string;
 };
 
+type Link = {
+  id: number;
+  name: string;
+  url: string;
+  user_id: string;
+};
+
 type User = {
   id: string;
   first_name: string;
@@ -117,6 +124,19 @@ async function seed() {
           user_name: user.user_name,
           session_id: user.session_id,
           github_profile_picture: user.github_profile_picture,
+        },
+      });
+    })
+  );
+
+  await Promise.all(
+    getLinks().map((link) => {
+      return db.links.create({
+        data: {
+          id: link.id,
+          name: link.name,
+          url: link.url,
+          user_id: link.user_id,
         },
       });
     })
@@ -234,16 +254,40 @@ async function seed() {
 
 seed();
 
+function getLinks(): Array<Link> {
+  return [
+    {
+      id: -1,
+      name: 'Twitter',
+      url: 'https://twitter.com',
+      user_id: '84596103',
+    },
+    {
+      id: -2,
+      name: 'LinkedIn',
+      url: 'https://www.linkedin.com',
+      user_id: '84596103',
+    },
+    {
+      id: -3,
+      name: 'Medium',
+      url: 'https://medium.com',
+      user_id: '84596103',
+    },
+  ];
+}
+
 function getProjects(): Array<Project> {
   return [
     {
       id: -1,
-      project_name: 'Hikeable',
+      project_name: 'Cutscene Manager',
       description:
-        'Hikeable is an English web app built to enhance the hiking experience for new and experienced hikers in Japan. Users can search for trails by prefecture, see photos uploaded by previous visitors, and keep track of their completion data via their dashboard. After launching the interactive map, users can leave geolocated messages, allowing them to interact with others on the trail.',
-      github_url: 'https://github.com/hikeable/hikeable-frontend',
+        'Cutscene Manager was created to help integrate production team with designers making it easy for project management.',
+      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
       owner: '119411466',
-      project_image: 'image1',
+      project_image:
+        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
       project_type: 'Web Full Stack',
     },
     {
@@ -253,7 +297,8 @@ function getProjects(): Array<Project> {
         'Application for Pokémon lovers!! All information of 1st generation pokemon can be found here!!.',
       github_url: 'https://github.com/MrBCendales/PokeDex',
       owner: '114232631',
-      project_image: '',
+      project_image:
+        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
       project_type: 'Web Full Stack',
     },
     {
@@ -264,7 +309,8 @@ function getProjects(): Array<Project> {
       github_url:
         'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
       owner: '68039033',
-      project_image: '',
+      project_image:
+        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
       project_type: 'Mobile',
     },
     {
@@ -274,7 +320,8 @@ function getProjects(): Array<Project> {
         'Semantic Kernel (SK) is a lightweight SDK enabling integration of AI Large Language Models (LLMs) with conventional programming languages. The SK extensible programming model combines natural language semantic functions, traditional code native functions, and embeddings-based memory unlocking new potential and adding value to applications with AI.',
       github_url: 'https://github.com/microsoft/semantic-kernel',
       owner: '6154722',
-      project_image: '',
+      project_image:
+        'https://niidl.sgp1.digitaloceanspaces.com/%2Fwhaterver%2Fwhaterver_image.jpeg',
       project_type: 'Mobile',
     },
   ];
@@ -536,7 +583,7 @@ function getTags(): Array<Tag> {
     {
       id: -1,
       tag_name: 'JavaScript',
-      github_url: 'https://github.com/hikeable/hikeable-frontend',
+      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
     },
     {
       id: -2,
@@ -583,12 +630,12 @@ function getTags(): Array<Tag> {
     {
       id: -10,
       tag_name: 'Travel',
-      github_url: 'https://github.com/hikeable/hikeable-frontend',
+      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
     },
     {
       id: -11,
       tag_name: 'Python',
-      github_url: 'https://github.com/hikeable/hikeable-frontend',
+      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
     },
   ];
 }

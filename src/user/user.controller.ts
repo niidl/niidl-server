@@ -41,7 +41,6 @@ export async function view(req: Request, res: Response) {
   //     return res.status(404).send('Invalid Access Token');
 
   //   }
-  // console.log('ghuid',ghuid)
   try {
     const username = req.params.username;
     const ghuid = await userModel.getIdWithUsername(username);
