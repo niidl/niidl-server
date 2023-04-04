@@ -164,6 +164,7 @@ export async function save(req: Request, res: Response) {
         httpOnly: true,
       });
       res.cookie('user_name', payload.user_name, {
+        httpOnly: true,
       });
       res.send(payload);
     }
