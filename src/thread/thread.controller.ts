@@ -56,7 +56,7 @@ export async function save(req: Request, res: Response) {
       };
 
       const id = await threadModel.create(payload);
-      console.log(id);
+
       res.status(201).send(id);
       return;
     } catch (error: any) {
