@@ -38,7 +38,20 @@ export async function getProjectById(id: number): Promise<any> {
         },
       },
       contributor: true,
-      threads: true,
+      threads: {
+        select: {
+          id: true,
+          content: true,
+          upvotes_threads: true,
+          project_id: true,
+          user_id: true,
+          creation_time: true,
+          title: true,
+          thread_tag: true,
+          isPinned: true,
+          upvotes: true,
+        },
+      },
     },
     where: {
       id: id,
