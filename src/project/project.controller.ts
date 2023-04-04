@@ -3,12 +3,9 @@ import * as authModel from '../auth/auth.model';
 import * as userModel from '../user/user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
-import multer from 'multer';
 import aws from 'aws-sdk';
+import multer from 'multer';
 import multerS3 from 'multer-s3';
-
-// const AWS_SHARED_CREDENTIALS_FILE = '../../../../../../../.aws/credentials';
-// aws.config.loadFromPath(AWS_SHARED_CREDENTIALS_FILE);
 
 const gitApiAuth = process.env.GITHUB_ACCESS_TOKEN;
 
@@ -132,15 +129,25 @@ export async function save(req: Request, res: Response) {
         project_type,
       };
 
-      console.log(payload);
-
       await projectModel.create(payload);
-      res.status(201).send('');
+      res.status(201).send(payload);
     } catch (error: any) {
       res.status(500).send(error.message);
     }
   } catch (error: any) {
     res.status(404).send(error.message);
+  }
+}
+
+export async function saveFollowUp(req: Request, res: Response) {
+  try {
+    const url: any = req.query.projectGithubRepo;
+    console.log(url);
+    const projectId = await projectModel.idWithURL(url);
+    console.log(projectId);
+    res.status(200).send(projectId?.id);
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 }
 
@@ -180,17 +187,17 @@ export async function edit(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    const cookieObj: { sessionToken: string } = req.cookies;
-    const sessionId: string = cookieObj.sessionToken;
-    const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName;
+    // const cookieObj: { sessionToken: string } = req.cookies;
+    // const sessionId: string = cookieObj.sessionToken;
+    // const userNameObj: { userName: string } = req.cookies;
+    // const userNameCookie: string = userNameObj.userName
 
-    const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name;
+    // const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    // const authUsername = authUsernameObj?.user_name
 
-    if (authUsername !== userNameCookie) {
-      return res.status(404).send('Invalid Access Token');
-    }
+    // if (authUsername !== userNameCookie) {
+    //   return res.status(404).send('Invalid Access Token');
+    // }
     try {
       const projectId = parseInt(req.params.projectId);
       await projectModel.deleteById(projectId);
