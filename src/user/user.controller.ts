@@ -135,29 +135,30 @@ export async function save(req: Request, res: Response) {
       session_id: sessionId,
       github_profile_picture: userInfo.data.avatar_url,
     };
-  
+
     if (user) {
       await userModel.updateUser(payload.id, {
         user_name: payload.user_name,
-        github_profile_picture: userInfo.data.avatar_url
+        github_profile_picture: userInfo.data.avatar_url,
       });
     }
 
     if (!user) {
       await userModel.create(payload);
     }
-    
+
     if (process.env.PRODUCTION) {
       res.cookie('sessionToken', sessionId, {
         httpOnly: true,
         sameSite: 'none',
         secure: true,
       });
-      // res.cookie('userName', payload.user_name, {
-      //   sameSite: 'none',
-      //   secure: true,
-      // });
-      res.send(payload);
+      res.cookie('user_name', payload.user_name, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      res.send(payload.user_name);
       return;
     } else {
       res.cookie('sessionToken', sessionId, {
