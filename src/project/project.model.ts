@@ -50,6 +50,11 @@ export async function getProjectById(id: number): Promise<any> {
           thread_tag: true,
           isPinned: true,
           upvotes: true,
+          user: {
+            select: {
+              user_name: true,
+            },
+          },
         },
       },
     },
