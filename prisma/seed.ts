@@ -297,7 +297,8 @@ function getProjects(): Array<Project> {
         'Application for Pokémon lovers!! All information of 1st generation pokemon can be found here!!.',
       github_url: 'https://github.com/MrBCendales/PokeDex',
       owner: '114232631',
-      project_image: 'https://unsplash.com/photos/KtTF68ZjBak',
+      project_image:
+        'https://images.unsplash.com/photo-1628968434441-d9c1c66dcde7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
       project_type: 'Web Full Stack',
     },
     {
@@ -308,7 +309,8 @@ function getProjects(): Array<Project> {
       github_url:
         'https://github.com/fabiohidekihirose/the-super-noodle-recipe',
       owner: '68039033',
-      project_image: 'https://unsplash.com/photos/L7POzOAoaQY',
+      project_image:
+        'https://images.unsplash.com/photo-1633352615955-f0c99e8b7e5a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80',
       project_type: 'Mobile',
     },
     {
@@ -318,7 +320,8 @@ function getProjects(): Array<Project> {
         'Semantic Kernel (SK) is a lightweight SDK enabling integration of AI Large Language Models (LLMs) with conventional programming languages. The SK extensible programming model combines natural language semantic functions, traditional code native functions, and embeddings-based memory unlocking new potential and adding value to applications with AI.',
       github_url: 'https://github.com/microsoft/semantic-kernel',
       owner: '6154722',
-      project_image: 'https://unsplash.com/photos/kUmcSBJcFPg',
+      project_image:
+        'https://images.unsplash.com/photo-1655720031554-a929595ffad7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1780&q=80',
       project_type: 'Mobile',
     },
   ];
