@@ -20,6 +20,7 @@ interface allInfo {
   id: number;
   project_name: string;
   tags: Array<object>;
+  project_image: string;
 }
 
 async function fetchTagData(tag: string) {
@@ -96,7 +97,8 @@ async function getAllData() {
       description: rawGithubProjectsData[i].description,
       github_url: rawGithubProjectsData[i].html_url,
       owner: rawGithubProjectsData[i].owner.login,
-      project_image: rawGithubProjectsData[i].owner.avatar_url,
+      project_image:
+        'https://niidl.sgp1.digitaloceanspaces.com/%2FgithubProject_image.png',
       project_type: 'Web Full Stack',
       tags: tagsArr,
       issues: data_issues,
@@ -115,6 +117,8 @@ export async function index(req: Request, res: Response) {
         id: fetchedData[i].id,
         project_name: fetchedData[i].project_name,
         tags: fetchedData[i].tags,
+        project_image:
+          'https://niidl.sgp1.digitaloceanspaces.com/%2FgithubProject_image.png',
       });
     }
     res.status(200).send(dataToMainPage);
@@ -148,6 +152,8 @@ export async function demo(req: Request, res: Response) {
         id: fetchedData[i].id,
         project_name: fetchedData[i].project_name,
         tags: fetchedData[i].tags,
+        project_image:
+          'https://niidl.sgp1.digitaloceanspaces.com/%2FgithubProject_image.png',
       });
     }
     res.status(200).send(dataToMainPage);
