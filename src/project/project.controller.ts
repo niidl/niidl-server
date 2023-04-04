@@ -130,11 +130,6 @@ export async function save(req: Request, res: Response) {
       };
 
       const id = await projectModel.create(payload);
-      const project = await axios.get(
-        `http://localhost:8080/projects/${id.id}`
-      );
-
-      project.data.id = id.id;
       res.status(201).send(id);
     } catch (error: any) {
       res.status(500).send(error.message);
@@ -192,17 +187,17 @@ export async function edit(req: Request, res: Response) {
 
 export async function remove(req: Request, res: Response) {
   try {
-    const cookieObj: { sessionToken: string } = req.cookies;
-    const sessionId: string = cookieObj.sessionToken;
-    const userNameObj: { userName: string } = req.cookies;
-    const userNameCookie: string = userNameObj.userName;
+    // const cookieObj: { sessionToken: string } = req.cookies;
+    // const sessionId: string = cookieObj.sessionToken;
+    // const userNameObj: { userName: string } = req.cookies;
+    // const userNameCookie: string = userNameObj.userName;
 
-    const authUsernameObj = await authModel.getIdWithToken(sessionId);
-    const authUsername = authUsernameObj?.user_name;
+    // const authUsernameObj = await authModel.getIdWithToken(sessionId);
+    // const authUsername = authUsernameObj?.user_name;
 
-    if (authUsername !== userNameCookie) {
-      return res.status(404).send('Invalid Access Token');
-    }
+    // if (authUsername !== userNameCookie) {
+    //   return res.status(404).send('Invalid Access Token');
+    // }
     try {
       const projectId = parseInt(req.params.projectId);
       await projectModel.deleteById(projectId);
