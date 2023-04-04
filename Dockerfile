@@ -8,8 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install --production
-RUN mkdir -p ../.aws COPY credentials /root/.aws
+RUN npm install
 
 # Copy the rest of the application files to the container
 COPY . .
@@ -22,6 +21,8 @@ ENV POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 ENV POSTGRES_DB: ${POSTGRES_DB}
 ENV POSTGRES_USER: ${POSTGRES_USER}
 ENV PRODUCTION: TRUE
+ENV AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
 
 # Run the Knex database migrations
 
