@@ -285,7 +285,7 @@ function getProjects(): Array<Project> {
       description:
         'Where was I?! is an progress tracker application to help you never forget which episode was the last one you watched.',
       github_url: 'https://github.com/radish-team/where-was-i',
-      owner: '125343439',
+      owner: '56119907',
       project_image:
         'https://raw.githubusercontent.com/cc29-greenfield/where-was-i/main/front-end/src/images/rsz_background.png',
       project_type: 'Web Full Stack',
@@ -580,7 +580,7 @@ function getTags(): Array<Tag> {
     {
       id: -1,
       tag_name: 'JavaScript',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
     {
       id: -2,
@@ -627,12 +627,12 @@ function getTags(): Array<Tag> {
     {
       id: -10,
       tag_name: 'Travel',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
     {
       id: -11,
       tag_name: 'Python',
-      github_url: 'https://github.com/Kai-Animator/cutscene-manager-client',
+      github_url: 'https://github.com/radish-team/where-was-i',
     },
   ];
 }
