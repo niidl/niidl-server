@@ -377,7 +377,7 @@ function getUsers(): Array<User> {
       first_name: 'Kaire',
       last_name: 'Montenegro',
       email: 'KaireMontenegro@gmail.com',
-      github_url: 'https://github.com/users/Kai-Animator',
+      github_url: 'https://github.com/Kai-Animator',
       user_name: 'Kai-Animator',
       session_id: 'a6fae06fn98f2bc3',
       github_profile_picture:
@@ -399,7 +399,7 @@ function getUsers(): Array<User> {
       first_name: 'Harry',
       last_name: 'Cleveland',
       email: 'harryCleveland@gmail.com',
-      github_url: 'https://github.com/users/hccleveland',
+      github_url: 'https://github.com/hccleveland',
       user_name: 'hccleveland',
       session_id: '14ciolka935bd885',
       github_profile_picture:
