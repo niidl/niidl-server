@@ -213,7 +213,14 @@ export async function remove(req: Request, res: Response) {
 
 export async function uploadImage(req: Request, res: Response) {
   try {
-    const spacesEndpoint = new aws.Endpoint('nyc3.digitaloceanspaces.com');
+    const newName = req.query.newName;
+
+    aws.config.update({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    });
+
+    const spacesEndpoint = new aws.Endpoint('sgp1.digitaloceanspaces.com');
     const s3 = new aws.S3({
       endpoint: spacesEndpoint,
     });
@@ -224,14 +231,28 @@ export async function uploadImage(req: Request, res: Response) {
         s3: s3 as any,
         bucket: 'niidl',
         acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
         key: function (request, file, cb) {
           console.log(file);
-          cb(null, file.originalname);
+          if (file.mimetype === 'image/jpeg') {
+            cb(null, `/${newName}/${newName}_image.jpeg`);
+          } else if (file.mimetype === 'image/jpg') {
+            cb(null, `/${newName}/${newName}_image.jpg`);
+          } else if (file.mimetype === 'image/png') {
+            cb(null, `/${newName}/${newName}_image.pgn`);
+          }
         },
+        contentDisposition: 'inline',
       }),
-    }).array('upload', 1);
+    }).array('upload', 2);
 
-    res.status(201).send('done');
+    upload(req, res, (error) => {
+      if (error) {
+        console.log(error);
+        return res.sendStatus(401);
+      }
+      res.sendStatus(201);
+    });
   } catch (error: any) {
     res.status(500).send(error.message);
   }
