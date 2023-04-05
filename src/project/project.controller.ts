@@ -108,13 +108,13 @@ export async function save(req: Request, res: Response) {
     const ownerId = dbUser?.id;
     let ownerFixed: string;
     //const ghuid = await authModel.validateUser(sessionId);
-    if (user !== owner) {
-      res.status(401).send('Github user and URL do not match');
-      return;
-    }
-    if (ownerId === undefined) {
-      res.status(401).send('?');
-    }
+    // if (user !== owner) {
+    //   res.status(401).send('Github user and URL do not match');
+    //   return;
+    // }
+    // if (ownerId === undefined) {
+    //   res.status(401).send('?');
+    // }
 
     try {
       const {

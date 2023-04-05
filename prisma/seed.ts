@@ -274,6 +274,24 @@ function getLinks(): Array<Link> {
       url: 'https://medium.com',
       user_id: '84596103',
     },
+    {
+      id: -4,
+      name: 'Twitter',
+      url: 'https://twitter.com',
+      user_id: '129869291',
+    },
+    {
+      id: -5,
+      name: 'LinkedIn',
+      url: 'https://www.linkedin.com',
+      user_id: '129869291',
+    },
+    {
+      id: -6,
+      name: 'Medium',
+      url: 'https://medium.com',
+      user_id: '129869291',
+    },
   ];
 }
 
@@ -426,6 +444,17 @@ function getUsers(): Array<User> {
       session_id: '5d3e44e357892f86',
       github_profile_picture:
         'https://i.ibb.co/Lr2rmR1/IMG-20220717-100628.jpg',
+    },
+    {
+      id: '129869291',
+      first_name: 'Jordan',
+      last_name: 'Demo',
+      email: 'jordan.demo@gmail.com',
+      github_url: 'https://github.com/JordanDemo',
+      user_name: 'JordanDemo',
+      session_id: '5d3e44e357892f96',
+      github_profile_picture:
+        'https://avatars.githubusercontent.com/u/129869291?v=4',
     },
   ];
 }
