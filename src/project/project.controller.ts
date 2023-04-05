@@ -237,13 +237,12 @@ export async function uploadImage(req: Request, res: Response) {
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key: function (request, file, cb) {
-          console.log(file);
           if (file.mimetype === 'image/jpeg') {
             cb(null, `/${newName}/${newName}_image.jpeg`);
           } else if (file.mimetype === 'image/jpg') {
             cb(null, `/${newName}/${newName}_image.jpg`);
           } else if (file.mimetype === 'image/png') {
-            cb(null, `/${newName}/${newName}_image.pgn`);
+            cb(null, `/${newName}/${newName}_image.png`);
           }
         },
         contentDisposition: 'inline',
