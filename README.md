@@ -4,7 +4,7 @@
   <h3 align="center">niidl</h3>
 
   <p align="center">
-    Backend of niidl.co, an App created for intermediate coders as a place to search for and colaborate on code.
+    Backend of niidl.co, an App created for intermediate coders as a place to search for and collaborate on code.
     <br />
     <a href="https://github.com/niidl/niidl-client"><strong>Check out our org on GitHub</strong></a>
     <br />
@@ -104,7 +104,7 @@ For PostgreSQL, it will be a 2 step process, first to see if you have it install
   psql
   ```
 
-  If Postgres is not installed you will recieve an error.
+  If Postgres is not installed you will receive an error.
   Otherwise, input the following to check your current version.
 
 - Postgres Version
@@ -113,12 +113,12 @@ For PostgreSQL, it will be a 2 step process, first to see if you have it install
   ```
   You will also need to create a [![Firebase][firebase.js]][firebase-url] account for the authentication process, if you do not have one already.
   Our App's backend has been deployed using [![DigitalOcean][digitalocean]][digitalocean-url], which while pricy was our best option when taking into account potential growth, as well as the volume of data needed stored.
-  If you wish to deploy the App for free, we currently reccomend [![Render][render.com]][render-url] as it is one of the few free deployment platform on the market, but please be aware that it can be quite slow.
+  If you wish to deploy the App for free, we currently recommend [![Render][render.com]][render-url] as it is one of the few free deployment platform on the market, but please be aware that it can be quite slow.
 
 ### Installation
 
 _Below you will find the basics on installation and set up._
-_Please note you will need to follow the steps found on [niidl-client](https://github.com/niidl/niidl-client)before any deployment can be done._
+_Please note you will need to follow the steps found on [niidl-client](https://github.com/niidl/niidl-client) before any deployment can be done._
 
 1. Clone the repo
    ```sh
@@ -188,7 +188,7 @@ The documentation for [GitHub's API](https://docs.github.com/en/rest?apiVersion=
 
 ## Usage
 
-The usage for this resource as stated above is to create an place for coders to collaborate on projects with a more robust search function and better filtering. As GitHub primarily filters off languages and keywords, this tends to leave much to be desired when looking for a project that resonates with engineers looking to help others. We also wanted a place where reletivly inexperienced coders would have the opportunity to offer their skills without feeling judged. We know how high the perceived barrier to entry can be for working on "major projects" and wanted to make that feel more accessable.
+The usage for this resource as stated above is to create an place for coders to collaborate on projects with a more robust search function and better filtering. As GitHub primarily filters off languages and keywords, this tends to leave much to be desired when looking for a project that resonates with engineers looking to help others. We also wanted a place where relatively inexperienced coders would have the opportunity to offer their skills without feeling judged. We know how high the perceived barrier to entry can be for working on "major projects" and wanted to make that feel more accessible.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -211,13 +211,13 @@ The usage for this resource as stated above is to create an place for coders to 
   - [x] All comments/threads have markdown capability
 - [x] UI/UX
   - [x] Redirect to Thread/Project on creation
-  - [x] Cover messege box with login/signup display if not logged in
+  - [x] Cover message box with login/signup display if not logged in
   - [x] Search bar with past history
 
 #### V 1.1
 
 - [x] Cookie Modal on first login
-- [x] Split tags into categories (language/discriptors)
+- [x] Split tags into categories (language/descriptors)
 - [x] Validate GitHub owner so users can only upload their own projects
 - [x] Add profile pictures to messages
 - [x] Loading animation for transitions
