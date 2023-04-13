@@ -1,6 +1,5 @@
 import * as projectModel from './project.model';
 import * as authModel from '../auth/auth.model';
-import * as userModel from '../user/user.model';
 import { Request, Response } from 'express';
 import axios from 'axios';
 import aws from 'aws-sdk';
@@ -20,7 +19,7 @@ export async function index(req: Request, res: Response) {
 
 export async function view(req: Request, res: Response) {
   try {
-    const projectId = parseInt(req.params.projectId);
+    const projectId: number = parseInt(req.params.projectId);
     const specificProject = await projectModel.getProjectById(projectId);
 
     specificProject.threads.forEach(
@@ -146,9 +145,7 @@ export async function save(req: Request, res: Response) {
 export async function saveFollowUp(req: Request, res: Response) {
   try {
     const url: any = req.query.projectGithubRepo;
-    console.log(url);
     const projectId = await projectModel.idWithURL(url);
-    console.log(projectId);
     res.status(200).send(projectId?.id);
   } catch (error: any) {
     res.status(500).send(error.message);
