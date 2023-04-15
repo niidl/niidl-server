@@ -1,5 +1,24 @@
 import { db } from '../utils/db.server';
 
+type Tag = {
+  id: number;
+  tag_name: string;
+};
+
+type Thread = {
+  id: number;
+  content: string;
+  upvotes_threads: object[];
+  project_id: number;
+  user_id: string;
+  creation_time: Date;
+  title: string;
+  thread_tag: string;
+  isPinned: boolean;
+  upvotes: number;
+  user: object;
+};
+
 type Project = {
   id: number;
   project_name: string;
@@ -8,6 +27,9 @@ type Project = {
   owner: any;
   project_image: string;
   project_type: string;
+  tags: Tag[];
+  contributor: object[];
+  threads: Thread[];
 };
 
 export async function getAll(): Promise<object[]> {
@@ -21,7 +43,7 @@ export async function getAll(): Promise<object[]> {
   });
 }
 
-export async function getProjectById(id: number): Promise<any> {
+export async function getProjectById(id: number): Promise<Project | null> {
   return db.projects.findUnique({
     select: {
       id: true,
@@ -66,7 +88,7 @@ export async function getProjectById(id: number): Promise<any> {
 
 export async function getByFilterTag(
   filterTag: number
-): Promise<Project[] | null> {
+): Promise<Omit<Project, 'tags' | 'contributor' | 'threads'>[] | null> {
   return db.projects.findMany({
     where: {
       id: filterTag,
@@ -74,7 +96,9 @@ export async function getByFilterTag(
   });
 }
 
-export async function create(payload: Omit<Project, 'id'>): Promise<any> {
+export async function create(
+  payload: Omit<Project, 'tags' | 'contributor' | 'threads' | 'id'>
+): Promise<{ id: number }> {
   return db.projects.create({
     data: payload,
     select: {
@@ -83,7 +107,10 @@ export async function create(payload: Omit<Project, 'id'>): Promise<any> {
   });
 }
 
-export async function update(payload: object, id: number): Promise<Project> {
+export async function update(
+  payload: object,
+  id: number
+): Promise<Omit<Project, 'tags' | 'contributor' | 'threads'>> {
   return db.projects.update({
     data: payload,
     select: {
@@ -101,7 +128,9 @@ export async function update(payload: object, id: number): Promise<Project> {
   });
 }
 
-export async function deleteById(id: number): Promise<Project> {
+export async function deleteById(
+  id: number
+): Promise<Omit<Project, 'tags' | 'contributor' | 'threads'>> {
   return db.projects.delete({
     where: {
       id: id,

@@ -22,72 +22,75 @@ export async function view(req: Request, res: Response) {
     const projectId: number = parseInt(req.params.projectId);
     const specificProject = await projectModel.getProjectById(projectId);
 
-    specificProject.threads.forEach(
-      (thread: any) => (thread.upvotes_threads = thread.upvotes_threads.length)
-    );
+    if (specificProject) {
+      specificProject.threads.forEach(
+        (thread: any) =>
+          (thread.upvotes_threads = thread.upvotes_threads.length)
+      );
 
-    const gitAccount = specificProject.github_url;
-    const GitAPI = {
-      root: 'https://api.github.com/repos/',
-      projectName: '',
-      user: '',
-    };
-    const temp = gitAccount.split('/');
-    GitAPI.projectName = temp[temp.length - 1];
-    GitAPI.user = temp[temp.length - 2];
+      const gitAccount = specificProject.github_url;
+      const GitAPI = {
+        root: 'https://api.github.com/repos/',
+        projectName: '',
+        user: '',
+      };
+      const temp = gitAccount.split('/');
+      GitAPI.projectName = temp[temp.length - 1];
+      GitAPI.user = temp[temp.length - 2];
 
-    const apiLink_contributors =
-      GitAPI.root +
-      GitAPI.user +
-      '/' +
-      GitAPI.projectName +
-      '/' +
-      'contributors';
-    const apiLink_directory =
-      GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'contents';
-    const apiLink_issues =
-      GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'issues';
+      const apiLink_contributors =
+        GitAPI.root +
+        GitAPI.user +
+        '/' +
+        GitAPI.projectName +
+        '/' +
+        'contributors';
+      const apiLink_directory =
+        GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'contents';
+      const apiLink_issues =
+        GitAPI.root + GitAPI.user + '/' + GitAPI.projectName + '/' + 'issues';
 
-    const res_contributor = await axios.get(apiLink_contributors, {
-      headers: {
-        Authorization: 'token ' + gitApiAuth,
-      },
-    });
-    const res_issues = await axios.get(apiLink_issues, {
-      headers: {
-        Authorization: 'token ' + gitApiAuth,
-      },
-    });
-
-    const data_contributors: any = [];
-    res_contributor.data.map((elem: any) => {
-      data_contributors.push({
-        contributor_id: elem.id,
-        username: elem.login,
-        image: elem.avatar_url,
+      const res_contributor = await axios.get(apiLink_contributors, {
+        headers: {
+          Authorization: 'token ' + gitApiAuth,
+        },
       });
-    });
-
-    const data_issues: any = [];
-    res_issues.data.map((elem: any) => {
-      data_issues.push({
-        issue_id: elem.id,
-        html_url: elem.html_url,
-        title: elem.title,
-        created_at: elem.created_at,
-        issue_author: elem.user.login,
-        author_id: elem.user.id,
+      const res_issues = await axios.get(apiLink_issues, {
+        headers: {
+          Authorization: 'token ' + gitApiAuth,
+        },
       });
-    });
 
-    const allProjectInfo = {
-      issues: data_issues,
-      contributors: data_contributors,
-      directory: apiLink_directory,
-      ...specificProject,
-    };
+      const data_contributors: any = [];
+      res_contributor.data.map((elem: any) => {
+        data_contributors.push({
+          contributor_id: elem.id,
+          username: elem.login,
+          image: elem.avatar_url,
+        });
+      });
 
-    res.status(200).send(allProjectInfo);
+      const data_issues: any = [];
+      res_issues.data.map((elem: any) => {
+        data_issues.push({
+          issue_id: elem.id,
+          html_url: elem.html_url,
+          title: elem.title,
+          created_at: elem.created_at,
+          issue_author: elem.user.login,
+          author_id: elem.user.id,
+        });
+      });
+
+      const allProjectInfo = {
+        issues: data_issues,
+        contributors: data_contributors,
+        directory: apiLink_directory,
+        ...specificProject,
+      };
+
+      res.status(200).send(allProjectInfo);
+    }
   } catch (error: any) {
     res.status(500).send(error.message);
   }
