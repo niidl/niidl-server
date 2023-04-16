@@ -6,7 +6,9 @@ type Upvote = {
   message_id: number;
 };
 
-export async function getUpvotes(threadId: number): Promise<any> {
+export async function getUpvotes(
+  threadId: number
+): Promise<{ upvotes_messages: Omit<Upvote, 'thread_id'>[] }[]> {
   return db.threads.findMany({
     select: {
       upvotes_messages: {
@@ -22,7 +24,7 @@ export async function getUpvotes(threadId: number): Promise<any> {
   });
 }
 
-export async function create(payload: Upvote): Promise<any> {
+export async function create(payload: Upvote): Promise<Upvote> {
   return db.upvotes_messages.create({
     data: payload,
     select: {

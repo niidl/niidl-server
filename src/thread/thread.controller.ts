@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export async function index(req: Request, res: Response) {
   try {
-    const projectId = parseInt(req.params.projectId);
+    const projectId: number = parseInt(req.params.projectId);
     const allThreadsByProjectId = await threadModel.getThreadsByProjectId(
       projectId
     );
@@ -20,7 +20,7 @@ export async function index(req: Request, res: Response) {
 
 export async function view(req: Request, res: Response) {
   try {
-    const threadId = parseInt(req.params.threadId);
+    const threadId: number = parseInt(req.params.threadId);
     const specificThread = await threadModel.getSpecificThread(threadId);
     specificThread.upvotes_threads = specificThread.upvotes_threads.length;
 
