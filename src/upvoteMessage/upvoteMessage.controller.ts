@@ -2,15 +2,20 @@ import * as upvoteMessageModel from './upvoteMessage.model';
 import * as authModel from '../auth/auth.model';
 import { Request, Response } from 'express';
 
+type Upvote = {
+  user_name: string;
+  message_id: number;
+};
+
 export async function index(req: Request, res: Response) {
   try {
-    const username = req.params.username;
-    const threadId = parseInt(req.params.threadId);
+    const username: string = req.params.username;
+    const threadId: number = parseInt(req.params.threadId);
     const allUpvotes = await upvoteMessageModel.getUpvotes(threadId);
 
     if (allUpvotes[0]) {
       const userUpvotes = allUpvotes[0].upvotes_messages.filter(
-        (upvote: any) => upvote.user_name === username
+        (upvote: Upvote) => upvote.user_name === username
       );
       res.status(200).send(userUpvotes);
     } else {
@@ -31,9 +36,9 @@ export async function upvote(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const username = req.params.username;
-      const messageId = parseInt(req.params.messageId);
-      const threadId = parseInt(req.params.threadId);
+      const username: string = req.params.username;
+      const messageId: number = parseInt(req.params.messageId);
+      const threadId: number = parseInt(req.params.threadId);
       const payload = {
         user_name: username,
         message_id: messageId,
@@ -60,8 +65,8 @@ export async function remove(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const username = req.params.username;
-      const messageId = parseInt(req.params.messageId);
+      const username: string = req.params.username;
+      const messageId: number = parseInt(req.params.messageId);
       await upvoteMessageModel.deleteById(username, messageId);
 
       res.status(200).send('');

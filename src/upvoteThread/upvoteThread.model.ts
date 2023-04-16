@@ -6,7 +6,9 @@ type Upvote = {
   project_id: number;
 };
 
-export async function getUpvotes(projectId: number): Promise<any> {
+export async function getUpvotes(
+  projectId: number
+): Promise<{ upvotes_threads: Omit<Upvote, 'project_id'>[] }[]> {
   return db.projects.findMany({
     select: {
       upvotes_threads: {

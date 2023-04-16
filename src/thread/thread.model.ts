@@ -68,7 +68,9 @@ export async function getSpecificThread(id: number): Promise<Thread | any> {
   });
 }
 
-export async function create(payload: Omit<Thread, 'id'>): Promise<any> {
+export async function create(
+  payload: Omit<Thread, 'id'>
+): Promise<{ id: number }> {
   return db.threads.create({
     data: payload,
     select: {

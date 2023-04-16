@@ -65,7 +65,6 @@ export async function remove(req: Request, res: Response) {
     }
     try {
       const allTagIds = req.body.allTagIds;
-      console.log(allTagIds);
       await tagModel.deleteById(allTagIds);
 
       res.status(201).send('');

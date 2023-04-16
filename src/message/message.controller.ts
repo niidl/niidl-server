@@ -2,13 +2,29 @@ import * as messageModel from './message.model';
 import * as authModel from '../auth/auth.model';
 import { Request, Response } from 'express';
 
+interface User {
+  user_name: string;
+  github_profile_picture: string;
+}
+
+interface Message {
+  id: number;
+  content: string;
+  user_id: string;
+  thread_id: number;
+  creation_time: Date;
+  user: User;
+  upvotes: number;
+  upvotes_messages: number | any;
+}
+
 export async function index(req: Request, res: Response) {
   try {
-    const threadId = parseInt(req.params.threadId);
-    const allMessagesByThreadId = await messageModel.getMessagesByThreadId(
-      threadId
-    );
-    allMessagesByThreadId.forEach((message: any) => {
+    const threadId: number = parseInt(req.params.threadId);
+    const allMessagesByThreadId: Message[] =
+      await messageModel.getMessagesByThreadId(threadId);
+
+    allMessagesByThreadId.forEach((message: Message) => {
       message.upvotes_messages = message.upvotes_messages.length;
     });
 

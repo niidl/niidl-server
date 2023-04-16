@@ -2,15 +2,20 @@ import * as upvoteModel from './upvoteThread.model';
 import * as authModel from '../auth/auth.model';
 import { Request, Response } from 'express';
 
+type Upvote = {
+  user_name: string;
+  thread_id: number;
+};
+
 export async function index(req: Request, res: Response) {
   try {
-    const username = req.params.username;
-    const projectId = parseInt(req.params.projectId);
+    const username: string = req.params.username;
+    const projectId: number = parseInt(req.params.projectId);
     const allUpvotes = await upvoteModel.getUpvotes(projectId);
 
     if (allUpvotes[0]) {
       const userUpvotes = allUpvotes[0].upvotes_threads.filter(
-        (upvote: any) => upvote.user_name === username
+        (upvote: Upvote) => upvote.user_name === username
       );
       res.status(200).send(userUpvotes);
     } else {
@@ -31,9 +36,9 @@ export async function upvote(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const username = req.params.username;
-      const projectId = parseInt(req.params.projectId);
-      const threadId = parseInt(req.params.threadId);
+      const username: string = req.params.username;
+      const projectId: number = parseInt(req.params.projectId);
+      const threadId: number = parseInt(req.params.threadId);
       const payload = {
         user_name: username,
         project_id: projectId,
@@ -60,8 +65,8 @@ export async function remove(req: Request, res: Response) {
       return res.status(404).send('Invalid Access Token');
     }
     try {
-      const username = req.params.username;
-      const threadId = parseInt(req.params.threadId);
+      const username: string = req.params.username;
+      const threadId: number = parseInt(req.params.threadId);
       await upvoteModel.deleteById(username, threadId);
 
       res.status(200).send('');
